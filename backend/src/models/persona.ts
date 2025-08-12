@@ -6,9 +6,9 @@ interface IPersona extends Document {
 }
 
 const personaSchema: Schema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     createdAt: { type: Date, default: Date.now }
 });
 
-const User = mongoose.model<IPersona>('Persona', personaSchema); 
-export default User;
+const Persona = mongoose.model<IPersona>('Persona', personaSchema); 
+export default Persona;
