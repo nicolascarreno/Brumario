@@ -5,7 +5,7 @@ import Partido, { GolEnContra, GolFavor } from './models/partido';
 import mongoose from 'mongoose';
 import connectDB from './db';
 
-import { FilaJugador, FilaPartido2 } from './db/utils_db';
+import { FilaJugador, FilaPartido } from './db/utils_db';
 
 //type FilaPartido = (string | number | null)[];
 
@@ -41,7 +41,7 @@ export async function cargar_jugadores() {
 
 export async function cargar_partidos() {
   // Leer el archivo (puede ser desde un buffer, archivo local o base64)
-    const workbook = XLSX.readFile('./src/db/Once_Historico2.xlsx'); // para Node.js, archivo local
+    const workbook = XLSX.readFile('./src/db/Once_Historico.xlsx'); // para Node.js, archivo local
 
     // Obtener el nombre de la hoja que querés recorrer
     const nombreHoja = workbook.SheetNames[0]; // por ejemplo la primera hoja
@@ -50,7 +50,7 @@ export async function cargar_partidos() {
     const hoja = workbook.Sheets[nombreHoja];
 
     // Convertir la hoja a JSON (array de objetos)
-    const datos = XLSX.utils.sheet_to_json<FilaPartido2>(hoja);
+    const datos = XLSX.utils.sheet_to_json<FilaPartido>(hoja);
 
     for (const fila of datos) {
       

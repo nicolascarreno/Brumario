@@ -2,7 +2,7 @@ export interface FilaJugador {
     Nombre: string;  // nombre exacto de la columna
 }
 
-export interface FilaPartido2 {
+export interface FilaPartido {
     [key: string]: any;
     'Partido': number;  // nombre exacto de la columna
     'Fecha': number;
