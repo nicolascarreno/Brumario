@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+  background-color: #fffffff5;
+}
+
+.encabezado {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  padding: 24px 0;
+  text-align: center;
+  box-sizing: border-box;
+}
