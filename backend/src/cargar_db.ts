@@ -3,7 +3,7 @@ import Persona from './models/persona';
 import Partido, { GolEnContra, GolFavor } from './models/partido';
 
 import mongoose from 'mongoose';
-import connectDB from './db';
+import connectDB from './db/db';
 
 import { FilaJugador, FilaPartido } from './db/utils_db';
 

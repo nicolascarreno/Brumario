@@ -1,0 +1,51 @@
+.tablaPosiciones {
+    width: 100%;
+    border-collapse: collapse;
+    border-start-start-radius: 8px;
+    background-color: rgb(235, 235, 235);
+    border-spacing: 15px 15px;
+    text-align: left;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+  
+.th, .td {
+    text-align: left;
+    border: 0px solid #dddddd;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+  
+.th {
+    background-color: #10437a;
+    color: rgba(255, 255, 255, 0.971);
+    padding: 10px;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.th_black {
+    background-color: #000000;
+    color: white;
+    padding: 10px;
+    user-select: none;
+    -webkit-user-drag: none; 
+}
+
+.tr {
+    border-bottom: 1px solid grey;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+  
+.tr:nth-child(even) {
+    background-color: #d7d7d7;
+}
+
+.td {
+    padding: 10px;
+    font-weight: bold;
+    color: #434343;
+    user-select: none;
+    -webkit-user-drag: none;
+}
