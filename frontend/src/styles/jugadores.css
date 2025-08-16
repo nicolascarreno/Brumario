@@ -14,6 +14,8 @@
 
 .boton_cambiar_pagina:hover{
     border-color: red;
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(255,0,0,0.2);
 }
 
 .boton_cambiar_pagina{
