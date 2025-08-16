@@ -1,23 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/App.css';
 import '../styles/inicio.css';
 import '../styles/jugadores.css';
 import { getJugadores, Jugador } from "../services/jugadoresService";
-//import brumario from '../../public/brumario.png';
 
 export function Jugadores() {
   const navigate = useNavigate();
-  const [jugadores, setJugadores] = useState<{ nombre: string }[]>([]);
+  const [jugadores, setJugadores] = useState<Jugador[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [pagina, setPagina] = useState<number>(1);
+  const jugadoresPorPagina = 8;
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log("Fetching jugadores...");
         const data = await getJugadores();
         setJugadores(data);
       } catch (err: any) {
@@ -29,52 +28,104 @@ export function Jugadores() {
 
     fetchData();
   }, []);
-  
 
+  const totalPaginas = Math.ceil(jugadores.length / jugadoresPorPagina);
+
+  const jugadoresMostrados = jugadores.slice(
+    (pagina - 1) * jugadoresPorPagina,
+    pagina * jugadoresPorPagina
+  );
+
+  const handleAnterior = () => {
+    if (pagina > 1) setPagina(pagina - 1);
+  };
+
+  const handleSiguiente = () => {
+    if (pagina < totalPaginas) setPagina(pagina + 1);
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="App">
-      <div className="encabezado">     
-        <img src={'/brumario.png'} alt="brumario" height={90} width={380} style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }} />
+      <div className="encabezado">
+        <img
+          src={'/brumario.png'}
+          alt="brumario"
+          height={90}
+          width={380}
+          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
+        />
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>
-     {/* Tabla de favoritos */}
-        <table className="tablaPosiciones" style={{ width: 500 }}>
-          <thead>
-            <tr>
-              <th
-                className="th_black"
-                style={{ width: '80px', borderBottom: '1px solid black', borderTopLeftRadius: '8px', borderTopRightRadius: '8px', textAlign: 'center' }}
-              >
-                JUGADORES
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td className="td" style={{ textAlign: 'center' }}>
-                  Cargando...
-                </td>
-              </tr>
-            ) : (
-              jugadores.map((jugador) => (
-                <tr className="tr" key={jugador.nombre}>
-                  <td className="td">
-                    <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
-                      <div style={{ width: 300, display: 'flex', alignItems: 'center' }}>
-                        <img src={'/brumario_escudo.jpeg'} alt="App Logo" width="40" height="40" style={{ marginRight: 30 }} />
-                        <span>{jugador.nombre}</span>
-                      </div>
-                    </div>
-                  </td>
+
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
+        {loading ? (
+          <p>Cargando...</p>
+        ) : (
+          <>
+            <table className="tablaPosiciones" style={{ width: 500, marginBottom: 20 }}>
+              <thead>
+                <tr>
+                  <th
+                    className="th_black"
+                    style={{
+                      width: '80px',
+                      borderBottom: '1px solid black',
+                      borderTopLeftRadius: '8px',
+                      borderTopRightRadius: '8px',
+                      textAlign: 'center'
+                    }}
+                  >
+                    {jugadores.length} JUGADORES
+                  </th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-        </div>
+              </thead>
+              <tbody>
+                {jugadoresMostrados.map(jugador => (
+                  <tr key={jugador.name} className="tr">
+                    <td className="td">
+                      <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
+                        <div style={{ width: 300, height: 0, display: 'flex', alignItems: 'center' }}>
+                          <img
+                            src={'/brumario_escudo.jpeg'}
+                            alt="App Logo"
+                            width="20"
+                            height="20"
+                            style={{ marginRight: 30 }}
+                          />
+                          <span className='nombres'>{jugador.name}</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Paginación */}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+  {/* Botón anterior solo si no estamos en la primera página */}
+  {pagina > 1 && (
+    <button className='boton_cambiar_pagina' onClick={handleAnterior} style={{ padding: '5px 10px' }}>
+      {'<'}
+    </button>
+  )}
+
+  <span className='nro_pagina'>Página {pagina} de {totalPaginas}</span>
+
+  {/* Botón siguiente solo si no estamos en la última página */}
+  {pagina < totalPaginas && (
+    <button className='boton_cambiar_pagina' onClick={handleSiguiente} style={{ padding: '5px 10px' }}>
+      {'>'}
+    </button>
+  )}
+</div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

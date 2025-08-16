@@ -1,5 +1,5 @@
 export interface Jugador {
-  nombre: string;
+  name: string;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {
@@ -15,5 +15,6 @@ export async function getJugadores(): Promise<Jugador[]> {
   }
 
   const data = await response.json();
+  console.log(data)
   return data.jugadores;
 }
