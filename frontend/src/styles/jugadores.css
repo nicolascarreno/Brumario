@@ -21,8 +21,10 @@
 .boton_cambiar_pagina{
     border-width: 3px;
     border-radius: 8px;
-    font-size: 22px;
-    color: black
+    font-size: 28px;
+    color: black;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .tablaPosiciones {

@@ -105,23 +105,36 @@ export function Jugadores() {
               </tbody>
             </table>
 
-            {/* Paginación */}
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-  {/* Botón anterior solo si no estamos en la primera página */}
-  {pagina > 1 && (
-    <button className='boton_cambiar_pagina' onClick={handleAnterior} style={{ padding: '5px 10px' }}>
-      {'<'}
-    </button>
-  )}
+  {/* Paginación */}
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+  {/* Columna izquierda */}
+  <div style={{ width: '50px', textAlign: 'center' }}>
+    {pagina > 1 && (
+      <button
+        className='boton_cambiar_pagina'
+        onClick={handleAnterior}
+      >
+        {'<'}
+      </button>
+    )}
+  </div>
 
-  <span className='nro_pagina'>Página {pagina} de {totalPaginas}</span>
+  {/* Columna central */}
+  <div style={{ flex: 1, textAlign: 'center' }}>
+    <span className='nro_pagina'>Página {pagina} de {totalPaginas}</span>
+  </div>
 
-  {/* Botón siguiente solo si no estamos en la última página */}
-  {pagina < totalPaginas && (
-    <button className='boton_cambiar_pagina' onClick={handleSiguiente} style={{ padding: '5px 10px' }}>
-      {'>'}
-    </button>
-  )}
+  {/* Columna derecha */}
+  <div style={{ width: '50px', textAlign: 'center' }}>
+    {pagina < totalPaginas && (
+      <button
+        className='boton_cambiar_pagina'
+        onClick={handleSiguiente}
+      >
+        {'>'}
+      </button>
+    )}
+  </div>
 </div>
           </>
         )}
