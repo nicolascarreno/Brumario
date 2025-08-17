@@ -26,7 +26,7 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ nombre: nombrePersona });
+          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0 });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -107,6 +107,8 @@ export async function cargar_partidos() {
         }
       }
 
+      await actualizar_partidos_jugados(titulares.concat(suplentes))
+
       try {
         const nuevoPartido = new Partido({ nro: fila['Partido'], categoria: fila['Categoria'], tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
@@ -119,6 +121,26 @@ export async function cargar_partidos() {
         }
       }
     }
+}
+
+async function actualizar_partidos_jugados(formacion: Array<String>) {
+  for (let nombreJugador of formacion) {
+    try {
+    const jugadorActualizado = await Persona.findOneAndUpdate(
+      { nombre: nombreJugador },      // criterio de búsqueda
+      { $inc: { partidos: 1 } },      // incrementa en 1 el campo partidos
+      { new: true }                   // devuelve el documento actualizado
+    );
+
+    if (jugadorActualizado) {
+      //console.log(`Partidos de ${jugadorActualizado.nombre}: ${jugadorActualizado.partidos}`);
+    } else {
+      console.log(`Jugador ${nombreJugador} no encontrado`);
+    }
+    } catch (err) {
+      console.error("Error actualizando jugador:", err);
+    }
+  }
 }
 
 async function main() {
