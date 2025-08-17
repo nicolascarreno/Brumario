@@ -85,7 +85,7 @@ export function Jugadores() {
               </thead>
               <tbody>
                 {jugadoresMostrados.map(jugador => (
-                  <tr key={jugador.name} className="tr">
+                  <tr key={jugador.nombre} className="tr">
                     <td className="td">
                       <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
                         <div style={{ width: 300, height: 0, display: 'flex', alignItems: 'center' }}>
@@ -96,7 +96,7 @@ export function Jugadores() {
                             height="20"
                             style={{ marginRight: 30 }}
                           />
-                          <span className='nombres'>{jugador.name}</span>
+                          <span className='nombres'>{jugador.nombre}</span>
                         </div>
                       </div>
                     </td>

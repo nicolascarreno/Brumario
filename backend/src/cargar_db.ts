@@ -26,7 +26,7 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ name: nombrePersona });
+          const nuevaPersona = new Persona({ nombre: nombrePersona });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
