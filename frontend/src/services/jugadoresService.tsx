@@ -1,5 +1,6 @@
 export interface Jugador {
   nombre: string;
+  partidos: number;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {

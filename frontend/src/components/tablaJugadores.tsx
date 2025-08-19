@@ -2,6 +2,7 @@ import React from 'react';
 
 interface Jugador {
   nombre: string;
+  partidos: number;
 }
 
 interface TablaJugadoresProps {
@@ -51,9 +52,9 @@ export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
                 <tr key={jugador.nombre} className="tr">
                   <td className="td">
                     <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
-                      <div style={{ width: 300, height: 0, display: 'flex', alignItems: 'center' }}>
+                      <div style={{ width: 300, display: 'flex', alignItems: 'center' }}>
                         <img
-                          src={'/brumario_escudo.jpeg'}
+                          src={'/brumario_escudo_sin_fondo.png'}
                           alt="App Logo"
                           width="20"
                           height="20"

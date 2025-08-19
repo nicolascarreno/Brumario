@@ -6,6 +6,8 @@ import '../styles/jugadores.css';
 import '../styles/jugadores_barra_opciones.css';
 import { getJugadores, Jugador } from "../services/jugadoresService";
 import { TablaJugadores } from '../components/tablaJugadores';
+import { TablaPresencias } from '../components/tablaPresencias';
+import { BarraOpciones } from "../components/barraOpciones";
 
 export function Jugadores() {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ export function Jugadores() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [pagina, setPagina] = useState<number>(1);
+  const [opcion, setOpcion] = useState("plantilla");
   const jugadoresPorPagina = 8;
 
   useEffect(() => {
@@ -50,6 +53,46 @@ export function Jugadores() {
     return <div>Error: {error}</div>;
   }
 
+  const renderContenido = () => {
+    switch (opcion) {
+      case "plantilla":
+        return (
+          <TablaJugadores
+            jugadores={jugadores}
+            jugadoresMostrados={jugadoresMostrados}
+            loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
+          />
+        );
+      case "presencias":
+        return (
+          <TablaPresencias
+            jugadores={jugadores}
+            loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
+          />
+        );
+      default:
+        return (
+          <TablaJugadores
+            jugadores={jugadores}
+            jugadoresMostrados={jugadoresMostrados}
+            loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
+          />
+        );
+    }
+  };
+
   return (
     <div className="App">
       <div className="encabezado">
@@ -64,22 +107,10 @@ export function Jugadores() {
       </div>
 
       <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
-        <div className='contenedor_barra_opciones'>
-          <button className='boton_barra_opciones'>
-            <img src="/brumario_escudo.jpeg" alt="icono" style={{ width: '30px', height: '30px'}}></img>
-            <span>Plantilla</span>
-          </button>
-        </div>     
-          <TablaJugadores
-            jugadores={jugadores}
-            jugadoresMostrados={jugadoresMostrados}
-            loading={loading}
-            pagina={pagina}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
-          />
-        </div>
+        {/* Columna izquierda → contenedor de botones */}
+        <BarraOpciones onSelect={setOpcion} />  
+        {renderContenido()}
+      </div>
 
   </div>
   );

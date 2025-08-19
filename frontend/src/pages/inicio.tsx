@@ -20,7 +20,7 @@ export function Inicio() {
           <span>Jugadores</span>
         </button>
         <button className="boton-cuadrado">
-          <img src={'/brumario_escudo.jpeg'} alt="Escudo Brumario" className="boton-imagen" width={195} height={195} />
+          <img src={'/brumario_escudo_sin_fondo.png'} alt="Escudo Brumario" className="boton-imagen" width={195} height={195} />
           <span>Partidos</span>
         </button>
       </div>  
