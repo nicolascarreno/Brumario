@@ -7,6 +7,7 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores, Jugador } from "../services/jugadoresService";
 import { TablaJugadores } from '../components/tablaJugadores';
 import { TablaPresencias } from '../components/tablaPresencias';
+import { TablaGoleadores } from '../components/tablaGoleadores';
 import { BarraOpciones } from "../components/barraOpciones";
 
 export function Jugadores() {
@@ -76,6 +77,13 @@ export function Jugadores() {
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}
+          />
+        );
+      case "goleadores":
+        return (
+          <TablaGoleadores
+            jugadores={jugadores}
+            loading={loading}
           />
         );
       default:

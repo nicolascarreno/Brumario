@@ -6,22 +6,14 @@ interface Jugador {
   goles: number;
 }
 
-interface TablaJugadoresProps {
+interface TablaGoleadoresProps {
   jugadores: Jugador[];
   loading: boolean;
-  pagina: number;
-  totalPaginas: number;
-  handleAnterior: () => void;
-  handleSiguiente: () => void;
 }
 
-export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
+export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
   jugadores,
   loading,
-  pagina,
-  totalPaginas,
-  handleAnterior,
-  handleSiguiente
 }) => {
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
@@ -42,14 +34,14 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAYORES PRESENCIAS
+                MAXIMOS GOLEADORES
               </th>
             </tr>
           </thead>
           <tbody>
             {jugadores
               .slice() // copiamos para no mutar
-              .sort((a, b) => b.partidos - a.partidos) // orden descendente
+              .sort((a, b) => b.goles - a.goles) // orden descendente
               .slice(0, 8) // solo los 8 primeros
               .map(jugador => (
                 <tr key={jugador.nombre} className="tr">
@@ -67,7 +59,7 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
                           <span className='nombres'>{jugador.nombre}</span>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.partidos}</span>
+                          <span className='nombres'>{jugador.goles}</span>
                         </div>                        
                       </div>
                     </div>

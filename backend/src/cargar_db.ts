@@ -26,7 +26,7 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0 });
+          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0, goles: 0 });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -107,7 +107,8 @@ export async function cargar_partidos() {
         }
       }
 
-      await actualizar_partidos_jugados(titulares.concat(suplentes))
+      //await actualizar_partidos_jugados(titulares.concat(suplentes))
+      contar_estadisticas(titulares.concat(suplentes), golesFavor);
 
       try {
         const nuevoPartido = new Partido({ nro: fila['Partido'], categoria: fila['Categoria'], tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
@@ -121,27 +122,43 @@ export async function cargar_partidos() {
         }
       }
     }
+    for (const [nombre, { partidos, goles }] of Object.entries(estadisticas)) {
+      try {
+        await Persona.findOneAndUpdate(
+          { nombre },
+          { $inc: { partidos, goles } },
+          { new: true }
+        );
+      } catch (err) {
+        console.error("Error actualizando jugador:", err);
+      }
+    }
 }
 
-async function actualizar_partidos_jugados(formacion: Array<String>) {
-  for (let nombreJugador of formacion) {
-    try {
-    const jugadorActualizado = await Persona.findOneAndUpdate(
-      { nombre: nombreJugador },      // criterio de búsqueda
-      { $inc: { partidos: 1 } },      // incrementa en 1 el campo partidos
-      { new: true }                   // devuelve el documento actualizado
-    );
+const estadisticas: Record<string, { partidos: number; goles: number }> = {};
 
-    if (jugadorActualizado) {
-      //console.log(`Partidos de ${jugadorActualizado.nombre}: ${jugadorActualizado.partidos}`);
-    } else {
-      console.log(`Jugador ${nombreJugador} no encontrado`);
+function contar_estadisticas(
+  formacion: Array<string>,
+  golesFavor: GolFavor[]
+) {
+  // contar partidos jugados
+  for (let nombreJugador of formacion) {
+    if (!estadisticas[nombreJugador]) {
+      estadisticas[nombreJugador] = { partidos: 0, goles: 0 };
     }
-    } catch (err) {
-      console.error("Error actualizando jugador:", err);
+    estadisticas[nombreJugador].partidos += 1;
+  }
+
+  // contar goles
+  for (const gol of golesFavor) {
+    const nombreGoleador = gol.gol; // en tu JSON el campo `gol` es el jugador
+    if (!estadisticas[nombreGoleador]) {
+      estadisticas[nombreGoleador] = { partidos: 0, goles: 0 };
     }
+    estadisticas[nombreGoleador].goles += 1;
   }
 }
+
 
 async function main() {
   try {
