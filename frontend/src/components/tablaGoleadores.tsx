@@ -4,6 +4,7 @@ interface Jugador {
   nombre: string;
   partidos: number;
   goles: number;
+  asistencias: number;
 }
 
 interface TablaGoleadoresProps {

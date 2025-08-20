@@ -16,9 +16,13 @@ export const BarraOpciones: React.FC<BarraOpciones> = ({ onSelect }) => {
         <img src={'/jugador_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
         <span>Mas Presencias</span>
       </button>
-      <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("goleadores")}>
+      <button className="boton_barra_opciones" onClick={() => onSelect("goleadores")}>
         <img src={'/goleadors_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
         <span>Goleadores</span>
+      </button>
+      <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("asistidores")}>
+        <img src={'/asistencia6.png'} alt="App Logo" width="30" height="30"/>
+        <span>Asistidores</span>
       </button>
     </div>
   );

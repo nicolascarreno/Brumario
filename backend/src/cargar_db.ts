@@ -26,7 +26,7 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0, goles: 0 });
+          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0, goles: 0, asistencias: 0 });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -122,11 +122,11 @@ export async function cargar_partidos() {
         }
       }
     }
-    for (const [nombre, { partidos, goles }] of Object.entries(estadisticas)) {
+    for (const [nombre, { partidos, goles, asistencias }] of Object.entries(estadisticas)) {
       try {
         await Persona.findOneAndUpdate(
           { nombre },
-          { $inc: { partidos, goles } },
+          { $inc: { partidos, goles, asistencias } },
           { new: true }
         );
       } catch (err) {
@@ -135,16 +135,16 @@ export async function cargar_partidos() {
     }
 }
 
-const estadisticas: Record<string, { partidos: number; goles: number }> = {};
+const estadisticas: Record<string, { partidos: number; goles: number, asistencias: number }> = {};
 
 function contar_estadisticas(
   formacion: Array<string>,
-  golesFavor: GolFavor[]
+  golesFavor: GolFavor[],
 ) {
   // contar partidos jugados
   for (let nombreJugador of formacion) {
     if (!estadisticas[nombreJugador]) {
-      estadisticas[nombreJugador] = { partidos: 0, goles: 0 };
+      estadisticas[nombreJugador] = { partidos: 0, goles: 0, asistencias: 0 };
     }
     estadisticas[nombreJugador].partidos += 1;
   }
@@ -152,10 +152,16 @@ function contar_estadisticas(
   // contar goles
   for (const gol of golesFavor) {
     const nombreGoleador = gol.gol; // en tu JSON el campo `gol` es el jugador
+    const nombreAsistidor = gol.asistencia; 
     if (!estadisticas[nombreGoleador]) {
-      estadisticas[nombreGoleador] = { partidos: 0, goles: 0 };
+      estadisticas[nombreGoleador] = { partidos: 0, goles: 0, asistencias: 0};
     }
     estadisticas[nombreGoleador].goles += 1;
+
+    if (!estadisticas[nombreAsistidor]) {
+      estadisticas[nombreAsistidor] = { partidos: 0, goles: 0, asistencias: 0};
+    }
+    estadisticas[nombreAsistidor].asistencias += 1;
   }
 }
 

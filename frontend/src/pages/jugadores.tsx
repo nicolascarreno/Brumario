@@ -8,6 +8,7 @@ import { getJugadores, Jugador } from "../services/jugadoresService";
 import { TablaJugadores } from '../components/tablaJugadores';
 import { TablaPresencias } from '../components/tablaPresencias';
 import { TablaGoleadores } from '../components/tablaGoleadores';
+import { TablaAsistidores } from '../components/tablaAsistidores';
 import { BarraOpciones } from "../components/barraOpciones";
 
 export function Jugadores() {
@@ -82,6 +83,13 @@ export function Jugadores() {
       case "goleadores":
         return (
           <TablaGoleadores
+            jugadores={jugadores}
+            loading={loading}
+          />
+        );
+      case "asistidores":
+        return (
+          <TablaAsistidores
             jugadores={jugadores}
             loading={loading}
           />
