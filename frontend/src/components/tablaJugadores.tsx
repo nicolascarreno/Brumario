@@ -2,10 +2,6 @@ import React from 'react';
 
 interface Jugador {
   nombre: string;
-  partidos: number;
-  goles: number;
-  asistencias: number;
-  amarillas: number;
 }
 
 interface TablaJugadoresProps {

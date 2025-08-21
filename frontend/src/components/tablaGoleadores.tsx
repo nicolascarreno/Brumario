@@ -2,10 +2,7 @@ import React from 'react';
 
 interface Jugador {
   nombre: string;
-  partidos: number;
   goles: number;
-  asistencias: number;
-  amarillas: number;
 }
 
 interface TablaGoleadoresProps {
@@ -45,18 +42,19 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
               .slice() // copiamos para no mutar
               .sort((a, b) => b.goles - a.goles) // orden descendente
               .slice(0, 8) // solo los 8 primeros
-              .map(jugador => (
+              .map((jugador, index) => (
                 <tr key={jugador.nombre} className="tr">
                   <td className="td">
                     <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
                       <div style={{ width: 450, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span className='nombres' style={{marginRight: 45}}>{index + 1}</span>
                           <img
                             src={'/brumario_escudo_sin_fondo.png'}
                             alt="App Logo"
                             width="20"
                             height="20"
-                            style={{ marginRight: 30 }}
+                            style={{ marginRight: 20 }}
                           />
                           <span className='nombres'>{jugador.nombre}</span>
                         </div>
