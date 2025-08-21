@@ -8,12 +8,12 @@ interface Jugador {
   amarillas: number;
 }
 
-interface TablaGoleadoresProps {
+interface TablaAmarillasProps {
   jugadores: Jugador[];
   loading: boolean;
 }
 
-export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
+export const TablaAmarillas: React.FC<TablaAmarillasProps> = ({
   jugadores,
   loading,
 }) => {
@@ -36,14 +36,14 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAXIMOS GOLEADORES
+                MAS TARJETAS AMARILLAS
               </th>
             </tr>
           </thead>
           <tbody>
             {jugadores
               .slice() // copiamos para no mutar
-              .sort((a, b) => b.goles - a.goles) // orden descendente
+              .sort((a, b) => b.amarillas - a.amarillas) // orden descendente
               .slice(0, 8) // solo los 8 primeros
               .map(jugador => (
                 <tr key={jugador.nombre} className="tr">
@@ -61,7 +61,7 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
                           <span className='nombres'>{jugador.nombre}</span>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.goles}</span>
+                          <span className='nombres'>{jugador.amarillas}</span>
                         </div>                        
                       </div>
                     </div>

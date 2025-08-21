@@ -3,6 +3,7 @@ export interface Jugador {
   partidos: number;
   goles: number;
   asistencias: number;
+  amarillas: number;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {

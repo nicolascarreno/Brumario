@@ -5,6 +5,7 @@ interface Jugador {
   partidos: number;
   goles: number;
   asistencias: number;
+  amarillas: number;
 }
 
 interface TablaJugadoresProps {
