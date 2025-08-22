@@ -11,6 +11,7 @@ import { TablaGoleadores } from '../components/tablaGoleadores';
 import { TablaAsistidores } from '../components/tablaAsistidores';
 import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
+import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
 import { BarraOpciones } from "../components/barraOpciones";
 
 export function Jugadores() {
@@ -106,6 +107,13 @@ export function Jugadores() {
       case "rojas":
         return (
           <TablaRojas
+            jugadores={jugadores}
+            loading={loading}
+          />
+        );
+      case "presencias sin jugar":
+        return (
+          <TablaPresenciasSinJugar
             jugadores={jugadores}
             loading={loading}
           />

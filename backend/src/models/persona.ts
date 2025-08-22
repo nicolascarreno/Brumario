@@ -7,6 +7,7 @@ interface IPersona extends Document {
     asistencias: number;
     amarillas: number;
     rojas: number;
+    presencias_sin_jugar: number;
     createdAt: Date;
 }
 
@@ -17,6 +18,7 @@ const personaSchema: Schema = new Schema({
     asistencias: { type: Number, required: true },
     amarillas: { type: Number, required: true },
     rojas: { type: Number, required: true },
+    presencias_sin_jugar: { type: Number, required: true },
     createdAt: { type: Date, default: Date.now }
 });
 
