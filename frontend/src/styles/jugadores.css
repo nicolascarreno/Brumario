@@ -6,6 +6,17 @@
     text-decoration: underline;
 }
 
+.link {
+    text-decoration: none;
+    font-size: 14px;
+    color: #434343;
+}
+
+
+.link:hover{
+    text-decoration: underline;
+}
+
 .nro_pagina{
     font-weight: bold;
     text-decoration: underline red 4px;

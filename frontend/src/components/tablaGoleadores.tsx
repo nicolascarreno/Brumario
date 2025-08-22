@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import '../styles/jugadores.css'
 
 interface Jugador {
   nombre: string;
@@ -56,7 +58,9 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
                             height="20"
                             style={{ marginRight: 20 }}
                           />
-                          <span className='nombres'>{jugador.nombre}</span>
+                          <Link to={`/jugador/${encodeURIComponent(jugador.nombre)}`} className="link">
+                            {jugador.nombre}
+                          </Link>
                         </div>
                         <div>
                           <span className='nombres'>{jugador.goles}</span>

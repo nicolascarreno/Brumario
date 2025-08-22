@@ -4,6 +4,7 @@ import './styles/App.css';
 import './styles/inicio.css';
 import { Inicio } from './pages/inicio';
 import { Jugadores } from './pages/jugadores';
+import { DetallesJugador } from "./pages/detallesJugador";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/jugadores" element={<Jugadores />} />
+        <Route path="/jugador/:nombre" element={<DetallesJugador />} />
       </Routes>
     </Router>
   );
