@@ -1,0 +1,42 @@
+.nombre{
+    font-size: 32px;
+    font-family: 'Arial black', sans-serif;
+}
+
+.nombre_estadistica{
+    font-size: 21px;
+    font-family: 'Arial black', sans-serif;
+}
+
+.estadistica{
+    font-weight: bold;
+    color: #434343;
+}
+
+.contenedor_nombre{
+    background-color: #d7d7d7;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.contenedor_estadistica{
+    background-color: #d7d7d7;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.contenedor_estadistica_nombre{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: none;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}

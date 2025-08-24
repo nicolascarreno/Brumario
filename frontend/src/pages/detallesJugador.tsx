@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import '../styles/App.css';
+import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
+import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 
 interface Jugador {
   nombre: string;
-  edad: number;
-  posicion: string;
-  equipo: string;
-  // lo que quieras
+  goles: number;
+  asistencias: number;
+  partidos: number;
+  amarillas: number;
+  rojas: number;
+  presencias_sin_jugar: number;
 }
 
 export const DetallesJugador: React.FC = () => {
   const { nombre } = useParams<{ nombre: string }>();
   const [jugador, setJugador] = useState<Jugador | null>(null);
   const [loading, setLoading] = useState(true);
+  const [opcion, setOpcion] = useState("plantilla");
 
-  {/*useEffect(() => {
+  useEffect(() => {
     const fetchJugador = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/jugadores/${nombre}`);
+        console.log()
+        const res = await fetch(`http://localhost:4000/jugadores/${nombre}`);
         const data = await res.json();
-        setJugador(data);
+        console.log(data)
+        setJugador(data.jugador);
       } catch (err) {
         console.error("Error cargando jugador", err);
       } finally {
@@ -30,11 +38,45 @@ export const DetallesJugador: React.FC = () => {
   }, [nombre]);
 
   if (loading) return <p>Cargando...</p>;
-  if (!jugador) return <p>No se encontró el jugador</p>;*/}
+  if (!jugador) return <p>No se encontró el jugador</p>;
+
+  const renderContenido = () => {
+      switch (opcion) {
+        case "plantilla":
+          return (
+            <DetallesGeneralJugador
+              jugador={jugador}
+              loading={loading}
+            />
+          );
+        default:
+          return (
+            <DetallesGeneralJugador
+              jugador={jugador}
+              loading={loading}
+            />
+          );
+      }
+    };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>{nombre}</h2>
+    <div className="app">
+      <div className="encabezado">
+        <img
+          src={'/brumario.png'}
+          alt="brumario"
+          height={90}
+          width={380}
+          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
+        />
+        <span className='sitio_web'>Sitio Web Oficial</span>
+      </div>
+      <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
+        {/* Columna izquierda → contenedor de botones */}
+        <BarraOpcionesJugador onSelect={setOpcion}/>  
+        {renderContenido()}
+      </div>
     </div>
+
   );
 };
