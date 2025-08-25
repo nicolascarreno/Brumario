@@ -16,7 +16,7 @@ export function Inicio() {
       </div>
       <div className="botones-container">
         <button className="boton-cuadrado" onClick={() => navigate('/jugadores')}>
-          <img src={'/diego.png'} alt="Diego" className="boton-imagen" width={160} height={190} />
+          <img src={'/diego_sin_fondo.png'} alt="Diego" className="boton-imagen" width={160} height={190} />
           <span>Jugadores</span>
         </button>
         <button className="boton-cuadrado">
