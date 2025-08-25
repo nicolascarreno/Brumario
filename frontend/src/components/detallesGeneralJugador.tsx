@@ -5,7 +5,8 @@ import '../styles/detalles_jugador.css'
 
 interface Jugador {
   nombre: string;
-  partidos: number;
+  titular: number;
+  suplente: number;
   goles: number;
   asistencias: number;
   amarillas: number;
@@ -22,6 +23,15 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   jugador,
   loading,
 }) => {
+  const partidos_jugados = jugador.titular + jugador.suplente;
+  const porcentajeTitular =
+      partidos_jugados > 0? 
+        ((jugador.titular / partidos_jugados)).toFixed(2) // 0 decimales
+        : 0;
+  const porcentajeSuplente =
+      partidos_jugados > 0? 
+        ((jugador.suplente / partidos_jugados)).toFixed(2) // 0 decimales
+        : 0;
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -54,9 +64,25 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                         Partidos Jugados
                     </span>   
                 </div>
-                <div style={{display: 'flex', padding: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                    <span className='estadistica'>Partidos Totales</span>
-                    <span className='estadistica'>{jugador.partidos}</span>
+                <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <span className='estadistica'>De Titular</span>
+                    <span className='estadistica'>{jugador.titular}</span>
+                </div>
+                <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <span className='estadistica'>De Titular (%)</span>
+                    <span className='estadistica'>{porcentajeTitular}</span>
+                </div>
+                <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <span className='estadistica'>De Suplente</span>
+                    <span className='estadistica'>{jugador.suplente}</span>
+                </div>
+                <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <span className='estadistica'>De Suplente (%)</span>
+                    <span className='estadistica'>{porcentajeSuplente}</span>
+                </div>
+                <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <span className='estadistica_clave'>Partidos Totales</span>
+                    <span className='estadistica_clave'>{jugador.titular + jugador.suplente}</span>
                 </div>
             </div>
         </div>

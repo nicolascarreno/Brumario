@@ -8,10 +8,11 @@ interface Jugador {
   nombre: string;
   goles: number;
   asistencias: number;
-  partidos: number;
   amarillas: number;
   rojas: number;
   presencias_sin_jugar: number;
+  titular: number;
+  suplente: number
 }
 
 export const DetallesJugador: React.FC = () => {

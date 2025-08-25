@@ -4,7 +4,8 @@ import '../styles/jugadores.css'
 
 interface Jugador {
   nombre: string;
-  partidos: number;
+  titular: number;
+  suplente: number;
 }
 
 interface TablaJugadoresProps {
@@ -50,7 +51,7 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
           <tbody>
             {jugadores
               .slice() // copiamos para no mutar
-              .sort((a, b) => b.partidos - a.partidos) // orden descendente
+              .sort((a, b) => (b.titular + b.suplente) - (a.titular + a.suplente)) // orden descendente
               .slice(0, 8) // solo los 8 primeros
               .map((jugador, index) => (
                 <tr key={jugador.nombre} className="tr">
@@ -71,7 +72,7 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.partidos}</span>
+                          <span className='nombres'>{jugador.titular + jugador.suplente}</span>
                         </div>                        
                       </div>
                     </div>

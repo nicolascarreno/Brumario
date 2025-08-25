@@ -26,7 +26,7 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ nombre: nombrePersona, partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0 });
+          const nuevaPersona = new Persona({ nombre: nombrePersona, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -108,7 +108,7 @@ export async function cargar_partidos() {
       }
 
       //await actualizar_partidos_jugados(titulares.concat(suplentes))
-      contar_estadisticas(titulares.concat(suplentes), golesFavor, amarillas, rojas, presencia_sin_jugar);
+      contar_estadisticas(titulares.concat(suplentes), golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes);
 
       try {
         const nuevoPartido = new Partido({ nro: fila['Partido'], categoria: fila['Categoria'], tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
@@ -122,11 +122,11 @@ export async function cargar_partidos() {
         }
       }
     }
-    for (const [nombre, { partidos, goles, asistencias, amarillas, rojas, presencias_sin_jugar }] of Object.entries(estadisticas)) {
+    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente }] of Object.entries(estadisticas)) {
       try {
         await Persona.findOneAndUpdate(
           { nombre },
-          { $inc: { partidos, goles, asistencias, amarillas, rojas,  presencias_sin_jugar } },
+          { $inc: { goles, asistencias, amarillas, rojas,  presencias_sin_jugar, titular, suplente } },
           { new: true }
         );
       } catch (err) {
@@ -135,8 +135,9 @@ export async function cargar_partidos() {
     }
 }
 
-const estadisticas: Record<string, { partidos: number; goles: number, asistencias: number, 
-                                    amarillas: number, rojas: number, presencias_sin_jugar: number }> = {};
+const estadisticas: Record<string, { goles: number, asistencias: number, 
+                                    amarillas: number, rojas: number, presencias_sin_jugar: number,
+                                    titular: number, suplente: number }> = {};
 
 function contar_estadisticas(
   formacion: Array<string>,
@@ -144,13 +145,22 @@ function contar_estadisticas(
   amarillas: Array<string>,
   rojas: Array<string>,
   presenciasSinJugar: Array<string>,
+  titulares: Array<string>,
+  suplentes: Array<string>,
 ) {
   // contar partidos jugados
-  for (let nombreJugador of formacion) {
+  for (let nombreJugador of titulares) {
     if (!estadisticas[nombreJugador]) {
-      estadisticas[nombreJugador] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0 };
+      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
     }
-    estadisticas[nombreJugador].partidos += 1;
+    estadisticas[nombreJugador].titular += 1;
+  }
+
+  for (let nombreJugador of suplentes) {
+    if (!estadisticas[nombreJugador]) {
+      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+    }
+    estadisticas[nombreJugador].suplente += 1;
   }
 
   // contar goles
@@ -158,33 +168,33 @@ function contar_estadisticas(
     const nombreGoleador = gol.gol; // en tu JSON el campo `gol` es el jugador
     const nombreAsistidor = gol.asistencia; 
     if (!estadisticas[nombreGoleador]) {
-      estadisticas[nombreGoleador] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0};
+      estadisticas[nombreGoleador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0};
     }
     estadisticas[nombreGoleador].goles += 1;
 
     if (!estadisticas[nombreAsistidor]) {
-      estadisticas[nombreAsistidor] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0};
+      estadisticas[nombreAsistidor] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0};
     }
     estadisticas[nombreAsistidor].asistencias += 1;
   }
 
   for (const jugadorAmarilla of amarillas) {
     if (!estadisticas[jugadorAmarilla]) {
-      estadisticas[jugadorAmarilla] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0 };
+      estadisticas[jugadorAmarilla] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
     }
     estadisticas[jugadorAmarilla].amarillas += 1;
   }
 
   for (const jugadorRoja of rojas) {
     if (!estadisticas[jugadorRoja]) {
-      estadisticas[jugadorRoja] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0 };
+      estadisticas[jugadorRoja] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
     }
     estadisticas[jugadorRoja].rojas += 1;
   }
 
   for (const jugadorSinJugar of presenciasSinJugar) {
     if (!estadisticas[jugadorSinJugar]) {
-      estadisticas[jugadorSinJugar] = { partidos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0 };
+      estadisticas[jugadorSinJugar] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
     }
     estadisticas[jugadorSinJugar].presencias_sin_jugar += 1;
   }

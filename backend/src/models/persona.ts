@@ -2,7 +2,8 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface IPersona extends Document {
     nombre: string;
-    partidos: number;
+    titular: number;
+    suplente: number;
     goles: number;
     asistencias: number;
     amarillas: number;
@@ -13,7 +14,8 @@ interface IPersona extends Document {
 
 const personaSchema: Schema = new Schema({
     nombre: { type: String, required: true, unique: true },
-    partidos: { type: Number, required: true },
+    titular: { type: Number, required: true },
+    suplente: { type: Number, required: true },
     goles: { type: Number, required: true },
     asistencias: { type: Number, required: true },
     amarillas: { type: Number, required: true },

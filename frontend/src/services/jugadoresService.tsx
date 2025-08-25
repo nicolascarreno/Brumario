@@ -1,11 +1,12 @@
 export interface Jugador {
   nombre: string;
-  partidos: number;
   goles: number;
   asistencias: number;
   amarillas: number;
   rojas: number;
   presencias_sin_jugar: number;
+  titular: number;
+  suplente: number;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {
