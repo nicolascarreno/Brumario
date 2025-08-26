@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
+import { TiposGol } from "../services/jugadoresService";
 
 interface Jugador {
   nombre: string;
@@ -12,7 +13,8 @@ interface Jugador {
   rojas: number;
   presencias_sin_jugar: number;
   titular: number;
-  suplente: number
+  suplente: number;
+  tipos_gol: TiposGol;
 }
 
 export const DetallesJugador: React.FC = () => {

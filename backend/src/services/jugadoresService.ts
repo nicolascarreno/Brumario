@@ -15,7 +15,7 @@ export const getJugadoresDetalles = async (nombre: string) => {
   try {
     const jugador = await Jugador.findOne(
       { nombre },
-      { _id: 0, partidos: 0 },
+      { _id: 0 },
     );
 
     if (!jugador) {

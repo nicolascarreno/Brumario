@@ -1,3 +1,11 @@
+export interface TiposGol {
+  cabeza: number;
+  pie_jugada: number;
+  penal: number;
+  tiro_libre: number;
+  otros: number;
+}
+
 export interface Jugador {
   nombre: string;
   goles: number;
@@ -7,6 +15,7 @@ export interface Jugador {
   presencias_sin_jugar: number;
   titular: number;
   suplente: number;
+  tipos_gol: TiposGol;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {

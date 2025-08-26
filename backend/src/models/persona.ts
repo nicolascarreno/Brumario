@@ -1,10 +1,27 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+export interface TiposGol {
+  cabeza: number;
+  pie_jugada: number;
+  penal: number;
+  tiro_libre: number;
+  otros: number;
+}
+
+const tiposGolSchema = new Schema({
+  cabeza: Number,
+  pie_jugada: Number,
+  penal: Number,
+  tiro_libre: Number,
+  otros: Number,
+}, { _id: false });
+
 interface IPersona extends Document {
     nombre: string;
     titular: number;
     suplente: number;
     goles: number;
+    tipos_gol: TiposGol;
     asistencias: number;
     amarillas: number;
     rojas: number;
@@ -17,6 +34,7 @@ const personaSchema: Schema = new Schema({
     titular: { type: Number, required: true },
     suplente: { type: Number, required: true },
     goles: { type: Number, required: true },
+    tipos_gol: tiposGolSchema,
     asistencias: { type: Number, required: true },
     amarillas: { type: Number, required: true },
     rojas: { type: Number, required: true },

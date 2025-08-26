@@ -26,7 +26,10 @@ export async function cargar_jugadores() {
       console.log(fila);
       const nombrePersona = fila['Nombre'];
         try {
-          const nuevaPersona = new Persona({ nombre: nombrePersona, goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 });
+          const tipos_gol = { "cabeza": 0, "pie_jugada": 0, "penal": 0, "tiro_libre": 0, 'otros': 0 }
+          const nuevaPersona = new Persona({ nombre: nombrePersona, goles: 0, tipos_gol: tipos_gol, asistencias: 0, 
+                                            amarillas: 0, rojas: 0, presencias_sin_jugar: 0, 
+                                            titular: 0, suplente: 0 });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -122,11 +125,16 @@ export async function cargar_partidos() {
         }
       }
     }
-    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente }] of Object.entries(estadisticas)) {
+
+    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol }] of Object.entries(estadisticas)) {
       try {
         await Persona.findOneAndUpdate(
           { nombre },
-          { $inc: { goles, asistencias, amarillas, rojas,  presencias_sin_jugar, titular, suplente } },
+          { $inc: { goles, asistencias, amarillas, rojas,  presencias_sin_jugar, titular, suplente, "tipos_gol.cabeza": tipos_gol.cabeza,
+      "tipos_gol.pie_jugada": tipos_gol.pie_jugada,
+      "tipos_gol.penal": tipos_gol.penal,
+      "tipos_gol.tiro_libre": tipos_gol.tiro_libre,
+      "tipos_gol.otros": tipos_gol.otros } },
           { new: true }
         );
       } catch (err) {
@@ -135,9 +143,23 @@ export async function cargar_partidos() {
     }
 }
 
+interface TiposGol {
+  cabeza: number;
+  pie_jugada: number;
+  penal: number;
+  tiro_libre: number;
+  otros: number;
+}
+const tipoGolMap: Record<string, keyof TiposGol> = {
+  "Pie (jugada)": "pie_jugada",
+  "Penal": "penal",
+  "Tiro Libre": "tiro_libre",
+  "Cabeza": "cabeza",
+  "Otros": "otros"
+};
 const estadisticas: Record<string, { goles: number, asistencias: number, 
                                     amarillas: number, rojas: number, presencias_sin_jugar: number,
-                                    titular: number, suplente: number }> = {};
+                                    titular: number, suplente: number, tipos_gol: TiposGol }> = {};
 
 function contar_estadisticas(
   formacion: Array<string>,
@@ -150,15 +172,17 @@ function contar_estadisticas(
 ) {
   // contar partidos jugados
   for (let nombreJugador of titulares) {
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[nombreJugador]) {
-      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[nombreJugador].titular += 1;
   }
 
   for (let nombreJugador of suplentes) {
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[nombreJugador]) {
-      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+      estadisticas[nombreJugador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[nombreJugador].suplente += 1;
   }
@@ -167,34 +191,42 @@ function contar_estadisticas(
   for (const gol of golesFavor) {
     const nombreGoleador = gol.gol; // en tu JSON el campo `gol` es el jugador
     const nombreAsistidor = gol.asistencia; 
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[nombreGoleador]) {
-      estadisticas[nombreGoleador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0};
+      estadisticas[nombreGoleador] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[nombreGoleador].goles += 1;
 
+    const clave = tipoGolMap[gol.tipo] ?? "otros"; // si no existe, va a "otros"
+    estadisticas[nombreGoleador].tipos_gol[clave] += 1;
+
     if (!estadisticas[nombreAsistidor]) {
-      estadisticas[nombreAsistidor] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0};
+      const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
+      estadisticas[nombreAsistidor] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[nombreAsistidor].asistencias += 1;
   }
 
   for (const jugadorAmarilla of amarillas) {
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[jugadorAmarilla]) {
-      estadisticas[jugadorAmarilla] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+      estadisticas[jugadorAmarilla] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[jugadorAmarilla].amarillas += 1;
   }
 
   for (const jugadorRoja of rojas) {
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[jugadorRoja]) {
-      estadisticas[jugadorRoja] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+      estadisticas[jugadorRoja] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[jugadorRoja].rojas += 1;
   }
 
   for (const jugadorSinJugar of presenciasSinJugar) {
+    const tiposGolInicial: TiposGol = { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 };
     if (!estadisticas[jugadorSinJugar]) {
-      estadisticas[jugadorSinJugar] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0 };
+      estadisticas[jugadorSinJugar] = { goles: 0, asistencias: 0, amarillas: 0, rojas: 0, presencias_sin_jugar: 0, titular: 0, suplente: 0, tipos_gol: tiposGolInicial };
     }
     estadisticas[jugadorSinJugar].presencias_sin_jugar += 1;
   }
