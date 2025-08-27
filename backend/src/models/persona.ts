@@ -16,6 +16,22 @@ const tiposGolSchema = new Schema({
   otros: Number,
 }, { _id: false });
 
+export interface TiposAsistencia {
+  cabeza: number;
+  pie_jugada: number;
+  corner: number;
+  tiro_libre: number;
+  otros: number;
+}
+
+const tiposAsistenciaSchema = new Schema({
+  cabeza: Number,
+  pie_jugada: Number,
+  corner: Number,
+  tiro_libre: Number,
+  otros: Number,
+}, { _id: false });
+
 interface IPersona extends Document {
     nombre: string;
     titular: number;
@@ -23,6 +39,7 @@ interface IPersona extends Document {
     goles: number;
     tipos_gol: TiposGol;
     asistencias: number;
+    tipos_asistencia: TiposAsistencia;
     amarillas: number;
     rojas: number;
     presencias_sin_jugar: number;
@@ -36,6 +53,7 @@ const personaSchema: Schema = new Schema({
     goles: { type: Number, required: true },
     tipos_gol: tiposGolSchema,
     asistencias: { type: Number, required: true },
+    tipos_asistencia: tiposAsistenciaSchema,
     amarillas: { type: Number, required: true },
     rojas: { type: Number, required: true },
     presencias_sin_jugar: { type: Number, required: true },

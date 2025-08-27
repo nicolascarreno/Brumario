@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { TiposGol } from '../services/jugadoresService';
+import { TiposAsistencia, TiposGol } from '../services/jugadoresService';
 
 interface Jugador {
   nombre: string;
@@ -14,6 +14,7 @@ interface Jugador {
   rojas: number;
   presencias_sin_jugar: number;
   tipos_gol: TiposGol;
+  tipos_asistencia: TiposAsistencia;
 }
 
 interface DetallesGeneralJugadorProp {
@@ -54,6 +55,26 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
       jugador.goles > 0? 
         ((jugador.goles / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
+  const porcentajeAsistenciaJugada =
+      jugador.asistencias > 0? 
+        ((jugador.tipos_asistencia.pie_jugada / jugador.asistencias)).toFixed(2) // 0 decimales
+        : 0;
+  const porcentajeAsistenciaCabeza =
+      jugador.asistencias > 0? 
+        ((jugador.tipos_asistencia.cabeza / jugador.asistencias)).toFixed(2) // 0 decimales
+        : 0;
+  const porcentajeAsistenciaTiroLibre = 
+      jugador.asistencias > 0? 
+        ((jugador.tipos_asistencia.tiro_libre / jugador.asistencias)).toFixed(2) // 0 decimales
+        : 0;
+  const porcentajeAsistenciaCorner =
+      jugador.asistencias > 0? 
+        ((jugador.tipos_asistencia.corner / jugador.asistencias)).toFixed(2) // 0 decimales
+        : 0;
+  const promedioAsistencias =
+      jugador.asistencias > 0? 
+        ((jugador.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
+        : 0;
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -73,7 +94,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     {jugador.nombre}
                 </span>
             </div>
-            <div style={{display: 'flex'}}></div>
             <div className='contenedor_estadistica'>
               <div style={{display: 'flex'}}>
                 <div>
@@ -156,6 +176,90 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Goles x Partido</span>
                       <span className='estadistica_clave'>{promedioGol}</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{display: 'flex'}}>
+                <div>
+                  <div className='contenedor_estadistica_nombre'>
+                      <img
+                          src={'/cerveza_sin_fondo.png'}
+                          alt="App Logo"
+                          width="35"
+                          height="35"
+                          style={{ marginLeft: 10, marginRight: 5 }}
+                      />
+                      <span className='nombre_estadistica'>
+                          Presen. Sin Jugar
+                      </span>   
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Titular</span>
+                      <span className='estadistica'>{jugador.titular}</span>
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Titular (%)</span>
+                      <span className='estadistica'>{porcentajeTitular}</span>
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Suplente</span>
+                      <span className='estadistica'>{jugador.suplente}</span>
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Suplente (%)</span>
+                      <span className='estadistica'>{porcentajeSuplente}</span>
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica_clave'>Presencias Totales</span>
+                      <span className='estadistica_clave'>{jugador.presencias_sin_jugar}</span>
+                  </div>
+                </div>
+                  <div style={{paddingLeft: 50}}>
+                    <div className='contenedor_estadistica_nombre'>
+                      <img src={'/asistencia6.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
+                      <span className='nombre_estadistica'>Asistencias</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Pie (jugada)</span>
+                      <span className='estadistica'>{jugador.tipos_asistencia.pie_jugada}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Cabeza</span>
+                      <span className='estadistica'>{jugador.tipos_asistencia.cabeza}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Tiro Libre</span>
+                      <span className='estadistica'>{jugador.tipos_asistencia.tiro_libre}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Corner</span>
+                      <span className='estadistica'>{jugador.tipos_asistencia.corner}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica_clave'>Asistencias Totales</span>
+                      <span className='estadistica_clave'>{jugador.asistencias}</span>
+                  </div>
+                </div>
+                <div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '65px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Pie (jugada) (%)</span>
+                      <span className='estadistica'>{porcentajeAsistenciaJugada}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Cabeza (%)</span>
+                      <span className='estadistica'>{porcentajeAsistenciaCabeza}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Tiro Libre (%)</span>
+                      <span className='estadistica'>{porcentajeAsistenciaTiroLibre}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>De Corner (%)</span>
+                      <span className='estadistica'>{porcentajeAsistenciaCorner}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica_clave'>Asistencias x Partido</span>
+                      <span className='estadistica_clave'>{promedioAsistencias}</span>
                   </div>
                 </div>
               </div>
