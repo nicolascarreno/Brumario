@@ -17,6 +17,7 @@ export interface FilaPartido {
     'Rival': string;
     'Goles Brumario': string;
     'Goles Recibidos': string;
+    'Estado': string;
     'Esquema Tactico': string;
     'Director Tecnico': string;
 

@@ -32,6 +32,18 @@ const tiposAsistenciaSchema = new Schema({
   otros: Number,
 }, { _id: false });
 
+export interface TiposPresenciasSinJugar {
+  ganados: number;
+  empatados: number;
+  perdidos: number;
+}
+
+const tiposPresenciaSinJugarSchema = new Schema({
+  ganados: Number,
+  empatados: Number,
+  perdidos: Number,
+}, { _id: false });
+
 interface IPersona extends Document {
     nombre: string;
     titular: number;
@@ -43,6 +55,7 @@ interface IPersona extends Document {
     amarillas: number;
     rojas: number;
     presencias_sin_jugar: number;
+    tipos_presencias_sin_jugar: TiposPresenciasSinJugar
     createdAt: Date;
 }
 
@@ -57,6 +70,7 @@ const personaSchema: Schema = new Schema({
     amarillas: { type: Number, required: true },
     rojas: { type: Number, required: true },
     presencias_sin_jugar: { type: Number, required: true },
+    tipos_presencias_sin_jugar: tiposPresenciaSinJugarSchema,
     createdAt: { type: Date, default: Date.now }
 });
 

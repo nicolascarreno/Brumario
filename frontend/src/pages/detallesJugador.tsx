@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
-import { TiposAsistencia, TiposGol } from "../services/jugadoresService";
+import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
 
 interface Jugador {
   nombre: string;
@@ -16,6 +16,7 @@ interface Jugador {
   suplente: number;
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
+  tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
 }
 
 export const DetallesJugador: React.FC = () => {

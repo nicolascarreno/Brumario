@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { TiposAsistencia, TiposGol } from '../services/jugadoresService';
+import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from '../services/jugadoresService';
 
 interface Jugador {
   nombre: string;
@@ -15,6 +15,7 @@ interface Jugador {
   presencias_sin_jugar: number;
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
+  tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
 }
 
 interface DetallesGeneralJugadorProp {
@@ -75,6 +76,10 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
       jugador.asistencias > 0? 
         ((jugador.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
+  const efectividadPresenciasSinJugar =
+      jugador.presencias_sin_jugar > 0? 
+        (((jugador.tipos_presencias_sin_jugar.empatados + 3*jugador.tipos_presencias_sin_jugar.ganados) / (3*jugador.presencias_sin_jugar))).toFixed(2) // 0 decimales
+        : 0;
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -96,7 +101,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
             </div>
             <div className='contenedor_estadistica'>
               <div style={{display: 'flex'}}>
-                <div>
+                <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
                           src={'/jugador_sin_fondo.png'}
@@ -194,20 +199,20 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                       </span>   
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Titular</span>
-                      <span className='estadistica'>{jugador.titular}</span>
+                      <span className='estadistica'>Ganados</span>
+                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.ganados}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Titular (%)</span>
-                      <span className='estadistica'>{porcentajeTitular}</span>
+                      <span className='estadistica'>Empatados</span>
+                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.empatados}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Suplente</span>
-                      <span className='estadistica'>{jugador.suplente}</span>
+                      <span className='estadistica'>Perdidos</span>
+                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.perdidos}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Suplente (%)</span>
-                      <span className='estadistica'>{porcentajeSuplente}</span>
+                      <span className='estadistica'>Efectividad (%)</span>
+                      <span className='estadistica'>{efectividadPresenciasSinJugar}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Presencias Totales</span>
