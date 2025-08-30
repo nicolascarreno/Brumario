@@ -13,6 +13,7 @@ import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
 import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
 import { BarraOpciones } from "../components/barraOpciones";
+import { BarraBusqueda } from "../components/barra_busqueda";
 
 export function Jugadores() {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ export function Jugadores() {
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpciones onSelect={setOpcion} />  
         {renderContenido()}
+        <BarraBusqueda jugadores={jugadores} onSelect={(jugador) => navigate(`/jugador/${jugador.nombre}`)}/>
       </div>
 
   </div>

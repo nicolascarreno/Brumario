@@ -1,0 +1,43 @@
+.contenedor_busqueda{
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    width: 300px;
+    margin-top: 40px;
+}
+
+.contenedor_jugadores{
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 0px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: #dddddd;
+    position: relative;
+    overflow: hidden;
+}
+
+.buscar{
+    font-size: 15px;
+    padding: 10px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 4px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nombre_jugador{
+    font-size: 15px;
+    color: #434343;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid grey;
+    margin: 10px;
+}
+
+.nombre_jugador:hover{
+    color: black;
+    border-bottom: 3px solid red
+}
