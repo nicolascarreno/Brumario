@@ -80,6 +80,14 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
       jugador.presencias_sin_jugar > 0? 
         (((jugador.tipos_presencias_sin_jugar.empatados + 3*jugador.tipos_presencias_sin_jugar.ganados) / (3*jugador.presencias_sin_jugar))).toFixed(2) // 0 decimales
         : 0;
+  const promedioAmarillas =
+      jugador.amarillas > 0? 
+        ((jugador.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
+        : 0;
+  const promedioRojas =
+      jugador.rojas > 0? 
+        ((jugador.rojas / partidos_jugados)).toFixed(2) // 0 decimales
+        : 0;
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -198,7 +206,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                           Presen. Sin Jugar
                       </span>   
                   </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>Ganados</span>
                       <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.ganados}</span>
                   </div>
@@ -265,6 +273,36 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Asistencias x Partido</span>
                       <span className='estadistica_clave'>{promedioAsistencias}</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{display: 'flex'}}>
+                <div>
+                  <div className='contenedor_estadistica_nombre'>
+                      <img src={'/amarilla_sin_fondo.png'} alt="App Logo" width="35" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
+                      <span className='nombre_estadistica'>Amarillas</span>   
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>Amarillas x Partido</span>
+                      <span className='estadistica'>{promedioAmarillas}</span>
+                  </div>
+                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica_clave'>Amarillas Totales</span>
+                      <span className='estadistica_clave'>{jugador.amarillas}</span>
+                  </div>
+                </div>
+                  <div style={{paddingLeft: 50}}>
+                    <div className='contenedor_estadistica_nombre'>
+                      <img src={'/roja_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
+                      <span className='nombre_estadistica'>Rojas</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica'>Rojas x Partido</span>
+                      <span className='estadistica'>{promedioRojas}</span>
+                    </div>
+                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                      <span className='estadistica_clave'>Rojas Totales</span>
+                      <span className='estadistica_clave'>{jugador.rojas}</span>
                   </div>
                 </div>
               </div>
