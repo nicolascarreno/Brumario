@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
-import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
+import { DetallesTecnico } from "../components/detallesDirectorTecnico";
+import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
 
 interface Jugador {
   nombre: string;
@@ -17,6 +18,7 @@ interface Jugador {
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
+  director_tecnico: DirectorTecnico;
 }
 
 export const DetallesJugador: React.FC = () => {
@@ -47,9 +49,16 @@ export const DetallesJugador: React.FC = () => {
 
   const renderContenido = () => {
       switch (opcion) {
-        case "plantilla":
+        case "general":
           return (
             <DetallesGeneralJugador
+              jugador={jugador}
+              loading={loading}
+            />
+          );
+        case "tecnico":
+          return (
+            <DetallesTecnico
               jugador={jugador}
               loading={loading}
             />

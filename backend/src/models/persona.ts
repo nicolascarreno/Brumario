@@ -44,6 +44,22 @@ const tiposPresenciaSinJugarSchema = new Schema({
   perdidos: Number,
 }, { _id: false });
 
+export interface DirectorTecnico {
+  ganados: number;
+  empatados: number;
+  perdidos: number;
+  goles_favor: number;
+  goles_contra: number;
+}
+
+const DirectorTecnicoSchema = new Schema({
+  ganados: Number,
+  empatados: Number,
+  perdidos: Number,
+  goles_favor: Number,
+  goles_contra: Number,
+}, { _id: false });
+
 interface IPersona extends Document {
     nombre: string;
     titular: number;
@@ -56,6 +72,7 @@ interface IPersona extends Document {
     rojas: number;
     presencias_sin_jugar: number;
     tipos_presencias_sin_jugar: TiposPresenciasSinJugar
+    director_tecnico: DirectorTecnico;
     createdAt: Date;
 }
 
@@ -71,6 +88,7 @@ const personaSchema: Schema = new Schema({
     rojas: { type: Number, required: true },
     presencias_sin_jugar: { type: Number, required: true },
     tipos_presencias_sin_jugar: tiposPresenciaSinJugarSchema,
+    director_tecnico: DirectorTecnicoSchema,
     createdAt: { type: Date, default: Date.now }
 });
 

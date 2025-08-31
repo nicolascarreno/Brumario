@@ -20,6 +20,14 @@ export interface TiposPresenciasSinJugar {
   perdidos: number;
 }
 
+export interface DirectorTecnico {
+  ganados: number;
+  empatados: number;
+  perdidos: number;
+  goles_favor: number;
+  goles_contra: number;
+}
+
 export interface Jugador {
   nombre: string;
   goles: number;
@@ -32,6 +40,7 @@ export interface Jugador {
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
+  director_tecnico: DirectorTecnico;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {
