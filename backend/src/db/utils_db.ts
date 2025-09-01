@@ -10,7 +10,7 @@ export function crearEstadisticasBase() {
     tipos_gol: { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 },
     tipos_asistencia: { cabeza: 0, pie_jugada: 0, corner: 0, tiro_libre: 0, otros: 0 },
     tipos_presencia_sin_jugar: { ganados: 0, empatados: 0, perdidos: 0 },
-    director_tecnico: { ganados: 0, empatados: 0, perdidos: 0, goles_favor: 0, goles_contra: 0 }
+    director_tecnico: { ganados: 0, empatados: 0, perdidos: 0, goles_favor: 0, goles_contra: 0, esquemas: {} }
   };
 }
 

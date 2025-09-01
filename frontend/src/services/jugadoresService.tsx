@@ -26,6 +26,7 @@ export interface DirectorTecnico {
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
+  esquemas: Record<string, number>;
 }
 
 export interface Jugador {

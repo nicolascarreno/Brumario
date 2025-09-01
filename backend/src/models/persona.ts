@@ -50,6 +50,7 @@ export interface DirectorTecnico {
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
+  esquemas: Record<string, number>;
 }
 
 const DirectorTecnicoSchema = new Schema({
@@ -58,6 +59,11 @@ const DirectorTecnicoSchema = new Schema({
   perdidos: Number,
   goles_favor: Number,
   goles_contra: Number,
+  esquemas: {
+    type: Map,
+    of: Number,
+    default: {} // vacío al inicio
+  },
 }, { _id: false });
 
 interface IPersona extends Document {

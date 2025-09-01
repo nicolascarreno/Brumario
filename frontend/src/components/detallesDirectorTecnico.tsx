@@ -134,6 +134,39 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                   </div>
                 </div>
               </div>
+              <div style={{display: 'flex'}}>
+                <div style={{paddingBottom: 10}}>
+                  <div className='contenedor_estadistica_nombre'>
+                      <img
+                          src={'/esquema4.png'}
+                          alt="App Logo"
+                          width="40"
+                          height="40"
+                          style={{ marginLeft: 10, marginRight: 5 }}
+                      />
+                      <span className='nombre_estadistica'>
+                          Esquemas Usados
+                      </span>   
+                  </div>
+                  <table style={{ width: 220, marginLeft: 15, textAlign: 'center' }}>
+                    <thead>
+                      <tr>
+                        <th>Esquemas</th>
+                        <th>Partidos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(jugador.director_tecnico.esquemas).map(([formacion, cantidad]) => (
+                        <tr key={formacion}>
+                          <td className='estadistica'>{formacion}</td>
+                          <td className='estadistica'>{cantidad}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              
+              </div>
           </div>
         </div>
       </>

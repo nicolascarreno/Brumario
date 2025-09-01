@@ -29,7 +29,7 @@ export async function cargar_jugadores() {
           const tipos_gol = { "cabeza": 0, "pie_jugada": 0, "penal": 0, "tiro_libre": 0, 'otros': 0 };
           const tipos_asistencia = { "cabeza": 0, "pie_jugada": 0, "corner": 0, "tiro_libre": 0, 'otros': 0 };
           const tipos_presencia_sin_jugar = {"ganados": 0, "empatados": 0, "perdidos": 0};
-          const director_tecnico = {"ganados": 0, "empatados": 0, "perdidos": 0};
+          const director_tecnico = {"ganados": 0, "empatados": 0, "perdidos": 0, "esquemas": {}};
           const nuevaPersona = new Persona({ nombre: nombrePersona, goles: 0, tipos_gol: tipos_gol, asistencias: 0, 
                                             amarillas: 0, rojas: 0, presencias_sin_jugar: 0, 
                                             titular: 0, suplente: 0, tipos_asistencia: tipos_asistencia,
@@ -116,8 +116,10 @@ export async function cargar_partidos() {
       const director_tecnico = fila['Director Tecnico']
       const cantidad_goles_anotados = fila['Goles Brumario'];
       const cantidad_goles_recibidos = fila['Goles Recibidos'];
+      const esquema = fila['Esquema Tactico'];
 
-      contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos));
+      contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
+      //console.log(estadisticas);
       try {
         const nuevoPartido = new Partido({ nro: fila['Partido'], categoria: fila['Categoria'], tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
@@ -147,7 +149,8 @@ export async function cargar_partidos() {
               "director_tecnico.perdidos": director_tecnico.perdidos,
               "director_tecnico.empatados": director_tecnico.empatados,
               "director_tecnico.goles_favor": director_tecnico.goles_favor,
-              "director_tecnico.goles_contra": director_tecnico.goles_contra} },
+              "director_tecnico.goles_contra": director_tecnico.goles_contra},
+            $set: { "director_tecnico.esquemas": director_tecnico.esquemas } },     
           { new: true }
         );
       } catch (err) {
@@ -197,6 +200,7 @@ interface DirectorTecnico {
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
+  esquemas: { [formacion: string]: number };
 }
 
 const estadisticas: Record<string, { goles: number, asistencias: number, 
@@ -217,6 +221,7 @@ function contar_estadisticas(
   golesContra: GolEnContra[],
   cantidad_goles_anotados: string,
   cantidad_goles_recibidos: string,
+  esquema: string,
 ) {
   // contar partidos jugados
   for (let nombreJugador of titulares) {
@@ -308,6 +313,10 @@ function contar_estadisticas(
           else {
             estadisticas[tecnico].director_tecnico.empatados +=  1;
           }
+          if (!estadisticas[tecnico].director_tecnico.esquemas[esquema]) {
+              estadisticas[tecnico].director_tecnico.esquemas[esquema] = 0;
+          }
+          estadisticas[tecnico].director_tecnico.esquemas[esquema] += 1;
         }
       }
     }
@@ -328,7 +337,11 @@ function contar_estadisticas(
       }
       else {
         estadisticas[director_tecnico].director_tecnico.perdidos += 1;
-      }  
+      }
+      if (!estadisticas[director_tecnico].director_tecnico.esquemas[esquema]) {
+        estadisticas[director_tecnico].director_tecnico.esquemas[esquema] = 0;
+      }
+      estadisticas[director_tecnico].director_tecnico.esquemas[esquema] += 1;
     }
   }
  
