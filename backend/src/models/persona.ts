@@ -44,14 +44,24 @@ const tiposPresenciaSinJugarSchema = new Schema({
   perdidos: Number,
 }, { _id: false });
 
+export interface EsquemaInfo {
+  partidos: number;
+  puntos: number;
+}
+
 export interface DirectorTecnico {
   ganados: number;
   empatados: number;
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
-  esquemas: Record<string, number>;
+  esquemas: Record<string, EsquemaInfo>;
 }
+
+const EsquemaInfoSchema = new Schema({
+  partidos: { type: Number, default: 0 },
+  puntos: { type: Number, default: 0 },
+}, { _id: false });
 
 const DirectorTecnicoSchema = new Schema({
   ganados: Number,
@@ -61,10 +71,11 @@ const DirectorTecnicoSchema = new Schema({
   goles_contra: Number,
   esquemas: {
     type: Map,
-    of: Number,
-    default: {} // vacío al inicio
+    of: EsquemaInfoSchema, // 👈 cada formación tendrá { partidos, puntos }
+    default: {},
   },
 }, { _id: false });
+
 
 interface IPersona extends Document {
     nombre: string;

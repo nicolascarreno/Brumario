@@ -194,13 +194,18 @@ interface TiposPresenciasSinJugar {
   perdidos: number;
 }
 
+interface EsquemaInfo {
+  partidos: number;
+  puntos: number
+} 
+
 interface DirectorTecnico {
   ganados: number;
   empatados: number;
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
-  esquemas: { [formacion: string]: number };
+  esquemas: { [formacion: string]: EsquemaInfo };
 }
 
 const estadisticas: Record<string, { goles: number, asistencias: number, 
@@ -304,19 +309,21 @@ function contar_estadisticas(
             }
             
           }
+          if (!estadisticas[tecnico].director_tecnico.esquemas[esquema]) {
+              estadisticas[tecnico].director_tecnico.esquemas[esquema] = { partidos: 0, puntos: 0};
+          }
+          estadisticas[tecnico].director_tecnico.esquemas[esquema].partidos += 1;
           if (resultado == 'Ganado') {
             estadisticas[tecnico].director_tecnico.ganados +=  1;  
+            estadisticas[tecnico].director_tecnico.esquemas[esquema].puntos += 3;
           }
           else if (resultado == 'Perdido') {
             estadisticas[tecnico].director_tecnico.perdidos +=  1;
           }
           else {
             estadisticas[tecnico].director_tecnico.empatados +=  1;
+            estadisticas[tecnico].director_tecnico.esquemas[esquema].puntos += 1;
           }
-          if (!estadisticas[tecnico].director_tecnico.esquemas[esquema]) {
-              estadisticas[tecnico].director_tecnico.esquemas[esquema] = 0;
-          }
-          estadisticas[tecnico].director_tecnico.esquemas[esquema] += 1;
         }
       }
     }
@@ -329,19 +336,21 @@ function contar_estadisticas(
         estadisticas[director_tecnico].director_tecnico.goles_favor += parseInt(cantidad_goles_anotados, 10);   
         estadisticas[director_tecnico].director_tecnico.goles_contra += parseInt(cantidad_goles_recibidos, 10);
       }
-        if (resultado == 'Ganado') {
+      if (!estadisticas[director_tecnico].director_tecnico.esquemas[esquema]) {
+        estadisticas[director_tecnico].director_tecnico.esquemas[esquema] = { partidos: 0, puntos: 0};
+      }
+      estadisticas[director_tecnico].director_tecnico.esquemas[esquema].partidos += 1;
+      if (resultado == 'Ganado') {
         estadisticas[director_tecnico].director_tecnico.ganados +=  1;
+        estadisticas[director_tecnico].director_tecnico.esquemas[esquema].puntos += 3;
       }
       else if (resultado == 'Empatado') {
         estadisticas[director_tecnico].director_tecnico.empatados +=  1;
+        estadisticas[director_tecnico].director_tecnico.esquemas[esquema].puntos += 1;
       }
       else {
         estadisticas[director_tecnico].director_tecnico.perdidos += 1;
       }
-      if (!estadisticas[director_tecnico].director_tecnico.esquemas[esquema]) {
-        estadisticas[director_tecnico].director_tecnico.esquemas[esquema] = 0;
-      }
-      estadisticas[director_tecnico].director_tecnico.esquemas[esquema] += 1;
     }
   }
  

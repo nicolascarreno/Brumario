@@ -20,13 +20,18 @@ export interface TiposPresenciasSinJugar {
   perdidos: number;
 }
 
+export interface EsquemaInfo {
+  partidos: number;
+  puntos: number;
+}
+
 export interface DirectorTecnico {
   ganados: number;
   empatados: number;
   perdidos: number;
   goles_favor: number;
   goles_contra: number;
-  esquemas: Record<string, number>;
+  esquemas: Record<string, EsquemaInfo>;
 }
 
 export interface Jugador {

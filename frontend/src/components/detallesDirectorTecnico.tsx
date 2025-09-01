@@ -151,18 +151,20 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                   {Object.keys(jugador.director_tecnico.esquemas).length === 0 ? (
                   <p style={{ marginLeft: 37, fontStyle: 'italic' }}>No dirigió ningún partido</p>
                   ) : (
-                  <table style={{ width: 220, marginLeft: 15, textAlign: 'center' }}>
+                  <table style={{ width: 290, marginLeft: 15, textAlign: 'center' }}>
                     <thead>
                       <tr>
                         <th>Esquemas</th>
                         <th>Partidos</th>
+                        <th>Efectividad</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {Object.entries(jugador.director_tecnico.esquemas).map(([formacion, cantidad]) => (
+                      {Object.entries(jugador.director_tecnico.esquemas).map(([formacion, datos]) => (
                         <tr key={formacion}>
                           <td className='estadistica'>{formacion}</td>
-                          <td className='estadistica'>{cantidad}</td>
+                          <td className='estadistica'>{datos.partidos}</td>
+                          <td className='estadistica'>{(datos.puntos / (3*datos.partidos)).toFixed(2)}</td>
                         </tr>
                       ))}
                     </tbody>
