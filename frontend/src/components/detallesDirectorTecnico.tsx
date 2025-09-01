@@ -148,6 +148,9 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                           Esquemas Usados
                       </span>   
                   </div>
+                  {Object.keys(jugador.director_tecnico.esquemas).length === 0 ? (
+                  <p style={{ marginLeft: 37, fontStyle: 'italic' }}>No dirigió ningún partido</p>
+                  ) : (
                   <table style={{ width: 220, marginLeft: 15, textAlign: 'center' }}>
                     <thead>
                       <tr>
@@ -164,8 +167,8 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                       ))}
                     </tbody>
                   </table>
-                </div>
-              
+                )}
+                </div>              
               </div>
           </div>
         </div>
