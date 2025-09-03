@@ -35,7 +35,7 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAXIMOS GOLEADORES
+                MÁXIMOS GOLEADORES
               </th>
             </tr>
           </thead>

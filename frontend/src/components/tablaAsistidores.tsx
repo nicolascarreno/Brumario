@@ -35,7 +35,7 @@ export const TablaAsistidores: React.FC<TablaAsistidoresProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAXIMOS ASISTIDORES
+                MÁXIMOS ASISTIDORES
               </th>
             </tr>
           </thead>

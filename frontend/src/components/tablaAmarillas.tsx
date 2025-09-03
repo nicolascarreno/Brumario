@@ -35,7 +35,7 @@ export const TablaAmarillas: React.FC<TablaAmarillasProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAS TARJETAS AMARILLAS
+                MÁS TARJETAS AMARILLAS
               </th>
             </tr>
           </thead>

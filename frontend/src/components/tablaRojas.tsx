@@ -35,7 +35,7 @@ export const TablaRojas: React.FC<TablaRojasProps> = ({
                   textAlign: 'center'
                 }}
               >
-                MAS TARJETAS ROJAS
+                MÁS TARJETAS ROJAS
               </th>
             </tr>
           </thead>

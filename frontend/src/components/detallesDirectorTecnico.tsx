@@ -149,7 +149,7 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                       </span>   
                   </div>
                   {Object.keys(jugador.director_tecnico.esquemas).length === 0 ? (
-                  <p style={{ marginLeft: 37, fontStyle: 'italic' }}>No dirigió ningún partido</p>
+                  <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>No dirigió ningún partido</p>
                   ) : (
                   <table style={{ width: 290, marginLeft: 15, textAlign: 'center' }}>
                     <thead>
@@ -185,15 +185,21 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                       </span>   
                   </div>
                   <div style={{ display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 450, marginLeft: 25 }}>
-                    <span className="estadistica">
-                      {jugador.director_tecnico.jugadoresPreferidos
-                        .map(p => {
-                          const [apellido, nombre] = p.nombre.split(',').map(s => s.trim());
-                          return `${nombre} ${apellido}`;
-                        })
-                        .join(', ')
-                      }
-                    </span>
+                    {Object.keys(jugador.director_tecnico.esquemas).length === 0 ? (
+                      <span style={{ fontStyle: 'italic' }}>
+                        No dirigió ningún partido
+                      </span>
+                    ) : (
+                      <span className="estadistica">
+                        {jugador.director_tecnico.jugadoresPreferidos
+                          .map(p => {
+                            const [apellido, nombre] = p.nombre.split(',').map(s => s.trim());
+                            return `${nombre} ${apellido}`;
+                          })
+                          .join(', ')
+                        }
+                      </span>
+                    )}
                   </div>                  
                 </div>              
               </div>

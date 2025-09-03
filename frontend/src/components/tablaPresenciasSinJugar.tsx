@@ -35,7 +35,7 @@ export const TablaPresenciasSinJugar: React.FC<TablaPresenciasSinJugarProp> = ({
                   textAlign: 'center'
                 }}
               >
-                MAS PRESENCIAS SIN JUGAR
+                MÁS PRESENCIAS SIN JUGAR
               </th>
             </tr>
           </thead>

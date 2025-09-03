@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 interface Jugador {
   nombre: string;
@@ -26,9 +28,9 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
   handleSiguiente
 }) => {
   return (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
+  <div style={{ flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
-      <p>Cargando...</p>
+        <p>Cargando...</p>
     ) : (
       <>
         <table className="tablaPosiciones" style={{ width: 500, marginBottom: 20 }}>
