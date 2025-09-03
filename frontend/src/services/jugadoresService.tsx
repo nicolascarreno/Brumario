@@ -65,3 +65,17 @@ export async function getJugadores(): Promise<Jugador[]> {
   console.log(data)
   return data.jugadores;
 }
+
+export async function getJugador(nombre: string): Promise<Jugador | null> {
+  try {
+    const res = await fetch(`http://localhost:4000/jugadores/${nombre}`);
+    if (!res.ok) {
+      throw new Error("Error al traer jugador");
+    }
+    const data = await res.json();
+    return data.jugador as Jugador;
+  } catch (err) {
+    console.error("Error cargando jugador:", err);
+    return null;
+  }
+}

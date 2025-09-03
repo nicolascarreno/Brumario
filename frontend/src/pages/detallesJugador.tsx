@@ -4,7 +4,7 @@ import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
-import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
+import { DirectorTecnico, getJugador, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
 
 interface Jugador {
   nombre: string;
@@ -29,17 +29,9 @@ export const DetallesJugador: React.FC = () => {
 
   useEffect(() => {
     const fetchJugador = async () => {
-      try {
-        console.log()
-        const res = await fetch(`http://localhost:4000/jugadores/${nombre}`);
-        const data = await res.json();
-        console.log(data)
-        setJugador(data.jugador);
-      } catch (err) {
-        console.error("Error cargando jugador", err);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getJugador(nombre!);
+      setJugador(data);
+      setLoading(false);
     };
     fetchJugador();
   }, [nombre]);
