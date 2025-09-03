@@ -36,6 +36,8 @@ export const DetallesJugador: React.FC = () => {
     fetchJugador();
   }, [nombre]);
 
+  console.log(jugador);
+
   if (loading) return <p>Cargando...</p>;
   if (!jugador) return <p>No se encontró el jugador</p>;
 

@@ -32,6 +32,7 @@ export interface DirectorTecnico {
   goles_favor: number;
   goles_contra: number;
   esquemas: Record<string, EsquemaInfo>;
+  jugadoresPreferidos: { nombre: string }[];
 }
 
 export interface Jugador {
@@ -73,6 +74,7 @@ export async function getJugador(nombre: string): Promise<Jugador | null> {
       throw new Error("Error al traer jugador");
     }
     const data = await res.json();
+    console.log(data);
     return data.jugador as Jugador;
   } catch (err) {
     console.error("Error cargando jugador:", err);

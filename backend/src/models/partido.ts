@@ -46,6 +46,7 @@ interface IPartido extends Document {
     amarillas: string[];
     rojas: string[];
     presencia_sin_jugar: string[];
+    director_tecnico: string;
     createdAt: Date;
 }
 
@@ -68,6 +69,7 @@ const partidoSchema: Schema = new Schema({
   amarillas: [{ type: String }],
   rojas: [{ type: String }],
   presencia_sin_jugar: [{ type: String }],
+  director_tecnico: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
 

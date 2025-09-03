@@ -170,6 +170,31 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                     </tbody>
                   </table>
                 )}
+                </div>
+                <div style={{paddingBottom: 10, paddingLeft: 15}}>
+                  <div className='contenedor_estadistica_nombre'>
+                      <img
+                          src={'/estrella.png'}
+                          alt="App Logo"
+                          width="40"
+                          height="40"
+                          style={{ marginLeft: 10, marginRight: 5 }}
+                      />
+                      <span className='nombre_estadistica'>
+                          Jugadores Preferidos
+                      </span>   
+                  </div>
+                  <div style={{ display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 450, marginLeft: 25 }}>
+                    <span className="estadistica">
+                      {jugador.director_tecnico.jugadoresPreferidos
+                        .map(p => {
+                          const [apellido, nombre] = p.nombre.split(',').map(s => s.trim());
+                          return `${nombre} ${apellido}`;
+                        })
+                        .join(', ')
+                      }
+                    </span>
+                  </div>                  
                 </div>              
               </div>
           </div>
