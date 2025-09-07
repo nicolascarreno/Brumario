@@ -41,6 +41,7 @@ export interface HitosPartido {
   tipo_partido: string;
   golesBrumario: string;
   golesRecibidos: string;
+  fecha: Date;
 }
 
 export interface Hitos {

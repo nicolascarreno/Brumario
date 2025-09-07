@@ -5,7 +5,7 @@ import Partido, { GolEnContra, GolFavor } from './models/partido';
 import mongoose from 'mongoose';
 import connectDB from './db/db';
 
-import { crearEstadisticasBase, FilaJugador, FilaPartido } from './db/utils_db';
+import { crearEstadisticasBase, excelDateToJSDate, FilaJugador, FilaPartido, formatDateDDMMYYYY } from './db/utils_db';
 
 //type FilaPartido = (string | number | null)[];
 
@@ -118,10 +118,12 @@ export async function cargar_partidos() {
       const cantidad_goles_recibidos = fila['Goles Recibidos'];
       const esquema = fila['Esquema Tactico'];
 
+      const fecha: Date = excelDateToJSDate(fila['Fecha']);
+
       contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
       //console.log(estadisticas);
       try {
-        const nuevoPartido = new Partido({ nro: fila['Partido'], categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
+        const nuevoPartido = new Partido({ nro: fila['Partido'], fecha: fecha, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
         console.log(`Partido guardado: ${nuevoPartido}`);
       } catch (error: any) {

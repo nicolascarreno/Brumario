@@ -14,6 +14,30 @@ export function crearEstadisticasBase() {
   };
 }
 
+export function excelDateToJSDate(serial: number): Date {
+  // Excel considera 1900 como bisiesto incorrectamente
+  const days = Math.floor(serial);
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+  const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // 30 dic 1899
+  const date = new Date(excelEpoch.getTime() + days * millisecondsPerDay);
+
+  // Si hay fracción de día (hora)
+  const fractionalDay = serial - days;
+  const totalSeconds = Math.round(fractionalDay * 24 * 60 * 60);
+  date.setUTCHours(0, 0, 0, 0); // limpiar hora
+  date.setSeconds(totalSeconds);
+
+  return date;
+}
+
+
+export function formatDateDDMMYYYY(date: Date): string {
+  const dia = String(date.getDate()).padStart(2, '0');
+  const mes = String(date.getMonth() + 1).padStart(2, '0'); // meses empiezan en 0
+  const anio = date.getFullYear();
+  return `${dia}/${mes}/${anio}`;
+}
+
 export interface FilaJugador {
     Nombre: string;  // nombre exacto de la columna
 }

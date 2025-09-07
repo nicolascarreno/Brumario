@@ -4,6 +4,7 @@ export interface HitoPartido {
   tipo_partido: string;
   golesBrumario: string;
   golesRecibidos: string;
+  fecha: Date;
 }
 
 
@@ -14,5 +15,6 @@ export function crearHitoBase() {
     tipo_partido: "",
     golesBrumario: "",
     golesRecibidos: "",
+    fecha: new Date(),
   };
 }

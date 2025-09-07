@@ -95,11 +95,11 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
 
     if (golesPartidoActual > masGoles) {
       masGoles = golesPartidoActual;
-      masGolesPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra};
+      masGolesPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (asistenciasPartidoActual > masAsistencias) {
       masAsistencias = asistenciasPartidoActual;
-      masAsistenciasPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra};
+      masAsistenciasPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
   }
   return {

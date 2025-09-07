@@ -81,24 +81,22 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                   </div>
                   <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
-                      <span style={{ color: 'black' }}>Mas goles en un partido:</span>{" "}
-                      {jugador.hitos.masGoles.cantidad === 0
-                        ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                        : `${jugador.hitos.masGoles.cantidad} (BRUMARIO ${jugador.hitos.masGoles.partido.golesBrumario} - ${jugador.hitos.masGoles.partido.golesRecibidos} ${jugador.hitos.masGoles.partido.rival}, ${jugador.hitos.masGoles.partido.competicion})`
-                      }
-                    </span> 
+                    <span style={{ color: 'black' }}>Mas goles en un partido:</span>{" "}
+                    {jugador.hitos.masGoles.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
+                      : `${jugador.hitos.masGoles.cantidad} (BRUMARIO ${jugador.hitos.masGoles.partido.golesBrumario} - ${jugador.hitos.masGoles.partido.golesRecibidos} ${jugador.hitos.masGoles.partido.rival}, ${jugador.hitos.masGoles.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masGoles.partido.fecha)})`
+                    }
+                  </span> 
                   </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
-                      <span style={{ color: 'black' }}>Mas asistencias en un partido:</span>{" "}
-                      {jugador.hitos.masAsistencias.cantidad === 0
-                        ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
-
-                        : `${jugador.hitos.masAsistencias.cantidad} (BRUMARIO ${jugador.hitos.masAsistencias.partido.golesBrumario} - ${jugador.hitos.masAsistencias.partido.golesRecibidos} ${jugador.hitos.masAsistencias.partido.rival}, ${jugador.hitos.masAsistencias.partido.competicion})`
-                      }
-                    </span> 
+                    <span style={{ color: 'black' }}>Mas asistencias en un partido:</span>{" "}
+                    {jugador.hitos.masAsistencias.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
+                      : `${jugador.hitos.masAsistencias.cantidad} (BRUMARIO ${jugador.hitos.masAsistencias.partido.golesBrumario} - ${jugador.hitos.masAsistencias.partido.golesRecibidos} ${jugador.hitos.masAsistencias.partido.rival}, ${jugador.hitos.masAsistencias.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masAsistencias.partido.fecha)})`
+                    }
+                    </span>
                   </div>
-
                 </div>
               </div>
               <div style={{display: 'flex'}}>
@@ -124,3 +122,11 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
   </div>
 );
 };
+
+function formatDateDDMMYYYY(date: Date | string): string {
+  const d = new Date(date);
+  const dia = String(d.getDate()).padStart(2, "0");
+  const mes = String(d.getMonth() + 1).padStart(2, "0"); // meses empiezan en 0
+  const anio = d.getFullYear();
+  return `${dia}/${mes}/${anio}`;
+}
