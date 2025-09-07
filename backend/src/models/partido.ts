@@ -27,7 +27,7 @@ const golFavorSchema = new Schema({
   tipoAsistencia: String
 }, { _id: false });
 
-interface IPartido extends Document {
+export interface IPartido extends Document {
     nro: string;
     categoria: string;
     tipo_partido: string;

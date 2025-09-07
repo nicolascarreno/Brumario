@@ -30,7 +30,7 @@ export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect 
           <img src={'/scaloni_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
           <span>Director Técnico</span>
         </button>
-        <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("presencias sin jugar")}>
+        <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("hitos")}>
           <img src={'/hitos.png'} alt="App Logo" width="30" height="30"/>
           <span>Hitos</span>
         </button>

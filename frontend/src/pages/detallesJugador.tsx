@@ -4,7 +4,8 @@ import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
-import { DirectorTecnico, getJugador, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
+import { DirectorTecnico, getJugador, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
+import { DetallesHitos } from "../components/detallesHitosJugador";
 
 interface Jugador {
   nombre: string;
@@ -19,6 +20,7 @@ interface Jugador {
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
   director_tecnico: DirectorTecnico;
+  hitos: Hitos;
 }
 
 export const DetallesJugador: React.FC = () => {
@@ -53,6 +55,13 @@ export const DetallesJugador: React.FC = () => {
         case "tecnico":
           return (
             <DetallesTecnico
+              jugador={jugador}
+              loading={loading}
+            />
+          );
+        case "hitos":
+          return (
+            <DetallesHitos
               jugador={jugador}
               loading={loading}
             />

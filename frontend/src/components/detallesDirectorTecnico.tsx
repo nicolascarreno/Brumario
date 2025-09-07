@@ -193,8 +193,14 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                       <span className="estadistica">
                         {jugador.director_tecnico.jugadoresPreferidos
                           .map(p => {
-                            const [apellido, nombre] = p.nombre.split(',').map(s => s.trim());
-                            return `${nombre} ${apellido}`;
+                            const partes = p.nombre.split(',').map(s => s.trim());
+                            if (partes.length === 2) {
+                              const [apellido, nombre] = partes;
+                              return `${nombre} ${apellido}`;
+                            } else {
+                              // Caso en que solo hay un nombre (sin coma ni apellido)
+                              return partes[0];
+                            }
                           })
                           .join(', ')
                         }

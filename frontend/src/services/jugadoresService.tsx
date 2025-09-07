@@ -35,6 +35,19 @@ export interface DirectorTecnico {
   jugadoresPreferidos: { nombre: string }[];
 }
 
+export interface HitosPartido {
+  rival: string;
+  competicion: string;
+  tipo_partido: string;
+  golesBrumario: string;
+  golesRecibidos: string;
+}
+
+export interface Hitos {
+  masGoles: {cantidad: number, partido: HitosPartido};
+  masAsistencias: {cantidad: number, partido: HitosPartido};
+}
+
 export interface Jugador {
   nombre: string;
   goles: number;
@@ -48,6 +61,7 @@ export interface Jugador {
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
   director_tecnico: DirectorTecnico;
+  hitos: Hitos;
 }
 
 export async function getJugadores(): Promise<Jugador[]> {
