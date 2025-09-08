@@ -47,6 +47,11 @@ export interface HitosPartido {
 export interface Hitos {
   masGoles: {cantidad: number, partido: HitosPartido};
   masAsistencias: {cantidad: number, partido: HitosPartido};
+  masGolesAnio: {cantidad: number, anio: number},
+  masAsistenciasAnio: {cantidad: number, anio: number},
+  masAmarillasAnio: {cantidad: number, anio: number},
+  masRojasAnio: {cantidad: number, anio: number},
+  masPresenciasSinJugarAnio: {cantidad: number, anio: number} 
 }
 
 export interface Jugador {

@@ -18,3 +18,23 @@ export function crearHitoBase() {
     fecha: new Date(),
   };
 }
+
+export interface Anio {
+  anio: number;
+  goles: number;
+  asistencias:number;
+  amarillas: number;
+  rojas: number;
+  presencias_sin_jugar: number;
+}
+
+export function crearAnioBase(anio: number) {
+  return {
+    anio: anio,
+    goles: 0,
+    asistencias: 0,
+    amarillas: 0,
+    rojas: 0,
+    presencias_sin_jugar: 0,
+  }
+}

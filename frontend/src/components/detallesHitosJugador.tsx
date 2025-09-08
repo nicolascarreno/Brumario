@@ -97,6 +97,51 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                     }
                     </span>
                   </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas goles en un año calendario:</span>{" "}
+                    {jugador.hitos.masGolesAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
+                      : `${jugador.hitos.masGolesAnio.cantidad} (${jugador.hitos.masGolesAnio.anio})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas asistencias en un año calendario:</span>{" "}
+                    {jugador.hitos.masAsistenciasAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
+                      : `${jugador.hitos.masAsistenciasAnio.cantidad} (${jugador.hitos.masAsistenciasAnio.anio})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas amarillas en un año calendario:</span>{" "}
+                    {jugador.hitos.masAmarillasAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene amarillas</span>
+                      : `${jugador.hitos.masAmarillasAnio.cantidad} (${jugador.hitos.masAmarillasAnio.anio})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas rojas en un año calendario:</span>{" "}
+                    {jugador.hitos.masRojasAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene rojas</span>
+                      : `${jugador.hitos.masRojasAnio.cantidad} (${jugador.hitos.masRojasAnio.anio})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas presencias sin jugar en un año calendario:</span>{" "}
+                    {jugador.hitos.masPresenciasSinJugarAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene presencias sin jugar</span>
+                      : `${jugador.hitos.masPresenciasSinJugarAnio.cantidad} (${jugador.hitos.masPresenciasSinJugarAnio.anio})`
+                    }
+                    </span>
+                  </div>
                 </div>
               </div>
               <div style={{display: 'flex'}}>
