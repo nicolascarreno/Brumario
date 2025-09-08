@@ -15,19 +15,14 @@ export function crearEstadisticasBase() {
 }
 
 export function excelDateToJSDate(serial: number): Date {
-  // Excel considera 1900 como bisiesto incorrectamente
   const days = Math.floor(serial);
-  const millisecondsPerDay = 24 * 60 * 60 * 1000;
   const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // 30 dic 1899
-  const date = new Date(excelEpoch.getTime() + days * millisecondsPerDay);
 
-  // Si hay fracción de día (hora)
-  const fractionalDay = serial - days;
-  const totalSeconds = Math.round(fractionalDay * 24 * 60 * 60);
-  date.setUTCHours(0, 0, 0, 0); // limpiar hora
-  date.setSeconds(totalSeconds);
+  // Sumar los días directamente
+  const utcDate = new Date(excelEpoch.getTime() + days * 24 * 60 * 60 * 1000);
 
-  return date;
+  // Crear un Date "limpio" en tu zona horaria (sin que se corra un día antes)
+  return new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate());
 }
 
 
