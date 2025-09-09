@@ -84,7 +84,7 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
                     <span style={{ color: 'black' }}>Mas presencias en un año calendario:</span>{" "}
-                    {jugador.hitos.masPresenciasSinJugarAnio.cantidad === 0
+                    {jugador.hitos.masPresenciasAnio.cantidad === 0
                       ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene presencias</span>
                       : `${jugador.hitos.masPresenciasAnio.cantidad} (${jugador.hitos.masPresenciasAnio.anio})`
                     }

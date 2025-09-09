@@ -90,6 +90,8 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
       anios.push(crearAnioBase(anio))
     }
     const estadisticas_anio = anios.find(a => a.anio === anio);
+
+    console.log([...partido.titulares, ...partido.suplentes])
     for (const presencia of [...partido.titulares, ...partido.suplentes]) {
       if (presencia == nombreJugador){
         estadisticas_anio!.presencias += 1;  
