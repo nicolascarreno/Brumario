@@ -90,6 +90,12 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
       anios.push(crearAnioBase(anio))
     }
     const estadisticas_anio = anios.find(a => a.anio === anio);
+    for (const presencia of [...partido.titulares, ...partido.suplentes]) {
+      if (presencia == nombreJugador){
+        estadisticas_anio!.presencias += 1;  
+      }
+    }
+    
     //Mas Goles
     for (const goles of partido.golesFavor) {
       if (goles.gol == nombreJugador) {
@@ -133,11 +139,13 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
   let anio_amarillas = 0;
   let anio_rojas = 0;
   let anio_presencias_sin_jugar = 0;
+  let anio_presencias = 0;
   let mas_goles_anio = 0;
   let mas_asistencias_anio = 0;
   let mas_amarillas_anio = 0;
   let mas_rojas_anio = 0;
   let mas_presencias_sin_jugar_anio= 0;
+  let mas_presencias_anio = 0;
   for (const anio of anios) {
     if (anio.goles > mas_goles_anio) {
       mas_goles_anio = anio.goles;
@@ -159,6 +167,10 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
       mas_presencias_sin_jugar_anio = anio.presencias_sin_jugar;
       anio_presencias_sin_jugar = anio.anio;
     }
+    if (anio.presencias > mas_presencias_anio) {
+      mas_presencias_anio = anio.presencias;
+      anio_presencias = anio.anio;
+    }
   }
   return {
     masGoles: { cantidad: masGoles, partido: masGolesPartido },
@@ -168,5 +180,6 @@ function hitos (nombreJugador: string, partidos: IPartido[]) {
     masAmarillasAnio: { anio: anio_amarillas, cantidad: mas_amarillas_anio },
     masRojasAnio: { anio: anio_rojas, cantidad: mas_rojas_anio },
     masPresenciasSinJugarAnio: { anio: anio_presencias_sin_jugar, cantidad: mas_presencias_sin_jugar_anio },
+    masPresenciasAnio: { anio: anio_presencias, cantidad: mas_presencias_anio },
   };  
 }

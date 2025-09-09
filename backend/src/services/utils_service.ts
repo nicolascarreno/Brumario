@@ -26,6 +26,7 @@ export interface Anio {
   amarillas: number;
   rojas: number;
   presencias_sin_jugar: number;
+  presencias: number;
 }
 
 export function crearAnioBase(anio: number) {
@@ -36,5 +37,6 @@ export function crearAnioBase(anio: number) {
     amarillas: 0,
     rojas: 0,
     presencias_sin_jugar: 0,
+    presencias: 0,
   }
 }

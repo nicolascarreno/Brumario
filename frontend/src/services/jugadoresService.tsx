@@ -51,7 +51,8 @@ export interface Hitos {
   masAsistenciasAnio: {cantidad: number, anio: number},
   masAmarillasAnio: {cantidad: number, anio: number},
   masRojasAnio: {cantidad: number, anio: number},
-  masPresenciasSinJugarAnio: {cantidad: number, anio: number} 
+  masPresenciasSinJugarAnio: {cantidad: number, anio: number},
+  masPresenciasAnio: {cantidad: number, anio: number},
 }
 
 export interface Jugador {

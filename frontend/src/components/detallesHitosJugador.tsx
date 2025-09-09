@@ -29,22 +29,6 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
   jugador,
   loading,
 }) => {
-  const partidos_dirgidos = jugador.director_tecnico.ganados + 
-                            jugador.director_tecnico.empatados +
-                            jugador.director_tecnico.perdidos;
-  const Efectividad =
-      partidos_dirgidos > 0? 
-        (((3*jugador.director_tecnico.ganados+jugador.director_tecnico.empatados) / (3*partidos_dirgidos))).toFixed(2) // 0 decimales
-        : 0;
-  const GolesRecibidosXPartido =
-      partidos_dirgidos > 0? 
-        ((jugador.director_tecnico.goles_contra / partidos_dirgidos)).toFixed(2) // 0 decimales
-        : 0;
-  const GolesAnotadosXPartido =
-      partidos_dirgidos > 0? 
-        ((jugador.director_tecnico.goles_favor / partidos_dirgidos)).toFixed(2) // 0 decimales
-        : 0;
-  const DiferenciaDeGol = jugador.director_tecnico.goles_favor - jugador.director_tecnico.goles_contra
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -94,6 +78,15 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                     {jugador.hitos.masAsistencias.cantidad === 0
                       ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
                       : `${jugador.hitos.masAsistencias.cantidad} (BRUMARIO ${jugador.hitos.masAsistencias.partido.golesBrumario} - ${jugador.hitos.masAsistencias.partido.golesRecibidos} ${jugador.hitos.masAsistencias.partido.rival}, ${jugador.hitos.masAsistencias.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masAsistencias.partido.fecha)})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas presencias en un año calendario:</span>{" "}
+                    {jugador.hitos.masPresenciasSinJugarAnio.cantidad === 0
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene presencias</span>
+                      : `${jugador.hitos.masPresenciasAnio.cantidad} (${jugador.hitos.masPresenciasAnio.anio})`
                     }
                     </span>
                   </div>
