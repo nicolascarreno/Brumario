@@ -63,7 +63,7 @@ export const TablaPresenciasSinJugar: React.FC<TablaPresenciasSinJugarProp> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.presencias_sin_jugar}</span>
+                          <span className='estadistica'>{jugador.presencias_sin_jugar}</span>
                         </div>                        
                       </div>
                     </div>

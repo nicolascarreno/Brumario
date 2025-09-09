@@ -74,7 +74,7 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.titular + jugador.suplente}</span>
+                          <span className='estadistica'>{jugador.titular + jugador.suplente}</span>
                         </div>                        
                       </div>
                     </div>

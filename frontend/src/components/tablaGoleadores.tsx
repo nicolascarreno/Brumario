@@ -63,7 +63,7 @@ export const TablaGoleadores: React.FC<TablaGoleadoresProps> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.goles}</span>
+                          <span className='estadistica'>{jugador.goles}</span>
                         </div>                        
                       </div>
                     </div>

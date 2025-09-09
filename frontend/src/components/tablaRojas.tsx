@@ -63,7 +63,7 @@ export const TablaRojas: React.FC<TablaRojasProps> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.rojas}</span>
+                          <span className='estadistica'>{jugador.rojas}</span>
                         </div>                        
                       </div>
                     </div>

@@ -63,7 +63,7 @@ export const TablaAmarillas: React.FC<TablaAmarillasProps> = ({
                           </Link>
                         </div>
                         <div>
-                          <span className='nombres'>{jugador.amarillas}</span>
+                          <span className='estadistica'>{jugador.amarillas}</span>
                         </div>                        
                       </div>
                     </div>
