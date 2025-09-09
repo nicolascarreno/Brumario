@@ -279,7 +279,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
               <div style={{display: 'flex'}}>
                 <div>
                   <div className='contenedor_estadistica_nombre'>
-                      <img src={'/amarilla_sin_fondo.png'} alt="App Logo" width="35" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
+                      <img src={'/amarilla_sin_fondo2.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
                       <span className='nombre_estadistica'>Amarillas</span>   
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
