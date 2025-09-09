@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
@@ -40,10 +41,11 @@ export const DetallesJugador: React.FC = () => {
 
   console.log(jugador);
 
-  if (loading) return <p>Cargando...</p>;
-  if (!jugador) return <p>No se encontró el jugador</p>;
+  if (!jugador && !loading) return <p>No se encontró el jugador</p>;
+
 
   const renderContenido = () => {
+      if (!jugador) return <p>No se encontró el jugador</p>;
       switch (opcion) {
         case "general":
           return (
@@ -77,23 +79,32 @@ export const DetallesJugador: React.FC = () => {
     };
 
   return (
-    <div className="app">
-      <div className="encabezado">
-        <img
-          src={'/brumario.png'}
-          alt="brumario"
-          height={90}
-          width={380}
-          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
-        />
-        <span className='sitio_web'>Sitio Web Oficial</span>
-      </div>
-      <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
-        {/* Columna izquierda → contenedor de botones */}
-        <BarraOpcionesJugador onSelect={setOpcion}/>  
-        {renderContenido()}
-      </div>
+  <div className="app">
+    <div className="encabezado">
+      <img
+        src={'/brumario.png'}
+        alt="brumario"
+        height={90}
+        width={380}
+        style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
+      />
+      <span className='sitio_web'>Sitio Web Oficial</span>
     </div>
+    <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+      {/* Columna izquierda → contenedor de botones */}
+      <BarraOpcionesJugador onSelect={setOpcion}/>  
 
-  );
+      {/* Render del contenido */}
+      {loading ? (
+              <div style={{ width: 500, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 100 }}>
+                <CircularProgress sx={{ color: '#ff0000' }} size={100} />
+                <span style={{ fontWeight: 'bold', marginTop: '10px' }}>Cargando...</span>
+              </div>
+            ) : (
+        renderContenido()
+      )}
+    </div>
+  </div>
+);
+
 };
