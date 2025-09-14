@@ -90,7 +90,7 @@ export async function getJugadores(): Promise<Jugador[]> {
 
 export async function getJugador(nombre: string): Promise<Jugador | null> {
   try {
-    const res = await fetch(`http://localhost:4000/jugadores/${nombre}`);
+    const res = await fetch(`http://localhost:4000/jugadores/${nombre}`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error("Error al traer jugador");
     }

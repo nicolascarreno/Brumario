@@ -1,3 +1,5 @@
+import { IPartido } from "../models/partido";
+
 export interface HitoPartido {
   rival: string;
   competicion: string;
@@ -39,4 +41,85 @@ export function crearAnioBase(anio: number) {
     presencias_sin_jugar: 0,
     presencias: 0,
   }
+}
+
+export function procesarPresencias(
+  nombreJugador: string,
+  partido: IPartido,
+  estadisticas: Anio
+) {
+  for (const presencia of [...partido.titulares, ...partido.suplentes]) {
+    if (presencia === nombreJugador) {
+      estadisticas.presencias += 1;
+    }
+  }
+}
+
+export function procesarGolesYAsistencias(
+  nombreJugador: string,
+  partido: IPartido,
+  estadisticas: Anio
+) {
+  let golesPartidoActual = 0;
+  let asistenciasPartidoActual = 0;
+
+  for (const goles of partido.golesFavor) {
+    if (goles.gol === nombreJugador) {
+      golesPartidoActual += 1;
+      estadisticas.goles += 1;
+    }
+    if (goles.asistencia === nombreJugador) {
+      asistenciasPartidoActual += 1;
+      estadisticas.asistencias += 1;
+    }
+  }
+
+  return { golesPartidoActual, asistenciasPartidoActual };
+}
+
+export function procesarTarjetas(
+  nombreJugador: string,
+  partido: IPartido,
+  estadisticas: Anio
+) {
+  for (const amarilla of partido.amarillas) {
+    if (amarilla === nombreJugador) {
+      estadisticas.amarillas += 1;
+    }
+  }
+
+  for (const roja of partido.rojas) {
+    if (roja === nombreJugador) {
+      estadisticas.rojas += 1;
+    }
+  }
+}
+
+export function procesarPresenciasSinJugar(
+  nombreJugador: string,
+  partido: IPartido,
+  estadisticas: Anio
+) {
+  for (const presencia of partido.presencia_sin_jugar) {
+    if (presencia === nombreJugador) {
+      estadisticas.presencias_sin_jugar += 1;
+    }
+  }
+}
+
+export function encontrarMaximoPorAnio(
+  anios: Anio[],
+  campo: keyof Anio
+): { anio: number; cantidad: number } {
+  let maxCantidad = 0;
+  let anioMax = 0;
+
+  for (const anio of anios) {
+    if (anio[campo] > maxCantidad) {
+      maxCantidad = anio[campo];
+      anioMax = anio.anio;
+    }
+  }
+
+  return { anio: anioMax, cantidad: maxCantidad };
 }
