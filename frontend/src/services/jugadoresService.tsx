@@ -53,6 +53,9 @@ export interface Hitos {
   masRojasAnio: {cantidad: number, anio: number},
   masPresenciasSinJugarAnio: {cantidad: number, anio: number},
   masPresenciasAnio: {cantidad: number, anio: number},
+  tecnicoMayorVictoria: {partido: HitosPartido},
+  tecnicoMayorDerrota: {partido: HitosPartido},
+  tecnicoMasGoles: {partido: HitosPartido}
 }
 
 export interface Jugador {

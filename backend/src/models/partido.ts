@@ -70,7 +70,7 @@ const partidoSchema: Schema = new Schema({
   amarillas: [{ type: String }],
   rojas: [{ type: String }],
   presencia_sin_jugar: [{ type: String }],
-  director_tecnico: { type: String, required: true },
+  director_tecnico: { type: String, required: false },
   fecha: { type: Date, required: true },
   createdAt: { type: Date, default: Date.now }
 });

@@ -113,10 +113,10 @@ export async function cargar_partidos() {
         }
       }
       const resultado = fila[`Estado`];
-      const director_tecnico = fila['Director Tecnico']
+      const director_tecnico = fila["Director Tecnico"] ?? "";
       const cantidad_goles_anotados = fila['Goles Brumario'];
       const cantidad_goles_recibidos = fila['Goles Recibidos'];
-      const esquema = fila['Esquema Tactico'];
+      const esquema = fila['Esquema Tactico']; 
 
       const fecha: Date = excelDateToJSDate(fila['Fecha']);
 
@@ -125,10 +125,10 @@ export async function cargar_partidos() {
       try {
         const nuevoPartido = new Partido({ nro: fila['Partido'], fecha: fecha, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
-        console.log(`Partido guardado: ${nuevoPartido}`);
+        //console.log(`Partido guardado: ${nuevoPartido}`);
       } catch (error: any) {
         if (error.code === 11000) {
-          console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
+          //console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
         } else {
           console.error(`Error guardando ${fila['Partido']}:`, error);
         }
@@ -308,8 +308,7 @@ function contar_estadisticas(
             else {
               estadisticas[tecnico].director_tecnico.goles_favor += parseInt(cantidad_goles_anotados, 10);   
               estadisticas[tecnico].director_tecnico.goles_contra += parseInt(cantidad_goles_recibidos, 10);
-            }
-            
+            }            
           }
           if (!estadisticas[tecnico].director_tecnico.esquemas[esquema]) {
               estadisticas[tecnico].director_tecnico.esquemas[esquema] = { partidos: 0, puntos: 0};

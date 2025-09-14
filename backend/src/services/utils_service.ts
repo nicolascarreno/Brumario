@@ -43,6 +43,15 @@ export function crearAnioBase(anio: number) {
   }
 }
 
+export function parseGoles(goles: string | number): number {
+  if (typeof goles === "number") return goles; // ya es número
+  if (!goles) return 0; // por si viene vacío
+
+  // separar en espacio → ej. "0 (5)" → ["0", "(5)"]
+  const partes = goles.split(" ");
+  return Number(partes[0]); // te quedás con la primera parte
+}
+
 export function procesarPresencias(
   nombreJugador: string,
   partido: IPartido,
