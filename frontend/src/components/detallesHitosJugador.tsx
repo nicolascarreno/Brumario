@@ -184,7 +184,7 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                 <span style={{ textIndent: 20 }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos invicto:</span>{" "}
                 {jugador.hitos.tecnicoRachaInvicta.racha.duracionPartidos === 0
-                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victoriass/empates</span>
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
                   : `${jugador.hitos.tecnicoRachaInvicta.racha.duracionPartidos} (${diasEntre(jugador.hitos.tecnicoRachaInvicta.racha.inicio.fecha, jugador.hitos.tecnicoRachaInvicta.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaInvicta.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaInvicta.racha.fin.fecha)})`
                 }
                 </span>
