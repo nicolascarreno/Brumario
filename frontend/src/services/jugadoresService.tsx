@@ -44,6 +44,12 @@ export interface HitosPartido {
   fecha: Date;
 }
 
+export interface HitoRacha {
+  inicio: HitosPartido;
+  fin: HitosPartido;
+  duracionPartidos: number;
+}
+
 export interface Hitos {
   masGoles: {cantidad: number, partido: HitosPartido};
   masAsistencias: {cantidad: number, partido: HitosPartido};
@@ -55,7 +61,8 @@ export interface Hitos {
   masPresenciasAnio: {cantidad: number, anio: number},
   tecnicoMayorVictoria: {partido: HitosPartido},
   tecnicoMayorDerrota: {partido: HitosPartido},
-  tecnicoMasGoles: {partido: HitosPartido}
+  tecnicoMasGoles: {partido: HitosPartido},
+  tecnicoRachaInvicta: {racha: HitoRacha}
 }
 
 export interface Jugador {

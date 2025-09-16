@@ -180,6 +180,15 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                 }
                 </span>
               </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos invicto:</span>{" "}
+                {jugador.hitos.tecnicoRachaInvicta.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victoriass/empates</span>
+                  : `${jugador.hitos.tecnicoRachaInvicta.racha.duracionPartidos} (${diasEntre(jugador.hitos.tecnicoRachaInvicta.racha.inicio.fecha, jugador.hitos.tecnicoRachaInvicta.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaInvicta.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaInvicta.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
           </div>
         </div>
       </>
@@ -194,4 +203,22 @@ function formatDateDDMMYYYY(date: Date | string): string {
   const mes = String(d.getMonth() + 1).padStart(2, "0"); // meses empiezan en 0
   const anio = d.getFullYear();
   return `${dia}/${mes}/${anio}`;
+}
+
+function diasEntre(f1: Date | string, f2: Date | string): number {
+  const fecha1 = new Date(f1);
+  const fecha2 = new Date(f2);
+
+  if (isNaN(fecha1.getTime()) || isNaN(fecha2.getTime())) {
+    throw new Error("Fechas inválidas");
+  }
+
+  const msPorDia = 1000 * 60 * 60 * 24;
+
+  // Normalizo a medianoche para evitar problemas de huso horario
+  fecha1.setHours(0, 0, 0, 0);
+  fecha2.setHours(0, 0, 0, 0);
+
+  const diff = Math.abs(fecha2.getTime() - fecha1.getTime());
+  return Math.floor(diff / msPorDia);
 }

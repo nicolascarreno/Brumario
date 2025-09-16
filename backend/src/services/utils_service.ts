@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { IPartido } from "../models/partido";
 
 export interface HitoPartido {
@@ -19,6 +20,20 @@ export function crearHitoBase() {
     golesRecibidos: "",
     fecha: new Date(),
   };
+}
+
+export interface HitoRacha {
+  inicio: HitoPartido;
+  fin: HitoPartido;
+  duracionPartidos: number;
+}
+
+export function crearHitoRachaBase() {
+  return {
+    inicio: crearHitoBase(),
+    fin: crearHitoBase(),
+    duracionPartidos: 0,
+  }
 }
 
 export interface Anio {
@@ -131,4 +146,31 @@ export function encontrarMaximoPorAnio(
   }
 
   return { anio: anioMax, cantidad: maxCantidad };
+}
+
+export function crearPartidoBase(): IPartido {
+  return {
+    _id: new mongoose.Types.ObjectId(), // si lo necesitás porque hereda de Document
+    nro: "",
+    categoria: "",
+    tipo_partido: "",
+    competicion: "",
+    jornada: "",
+    cancha: "",
+    predio: "",
+    ubicacion: "",
+    rival: "",
+    goles_favor: "0",
+    goles_contra: "0",
+    titulares: [],
+    suplentes: [],
+    golesFavor: [],
+    golesEnContra: [],
+    amarillas: [],
+    rojas: [],
+    presencia_sin_jugar: [],
+    director_tecnico: "",
+    fecha: new Date(0),     // fecha "vacía" (Epoch)
+    createdAt: new Date(0), // idem
+  } as unknown as IPartido;
 }

@@ -1,7 +1,7 @@
 import Partido from "../models/partido";
 import { IPartido } from "../models/partido";
 import Jugador from "../models/persona"; // tu modelo de Mongoose
-import { Anio, crearAnioBase, crearHitoBase, encontrarMaximoPorAnio, HitoPartido, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
+import { Anio, crearAnioBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 
 export const getJugadores = async () => {
   try {
@@ -85,6 +85,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let mayorVictoriaDirigido: HitoPartido = crearHitoBase();
   let mayorDerrotaDirigido: HitoPartido = crearHitoBase();
   let masGolesDirigido: HitoPartido = crearHitoBase();
+  let rachaInvictaDirigido: HitoRacha = crearHitoRachaBase();
   let anios: Anio[] = [];
   for (const partido of partidos) {
     const anio = partido.fecha.getFullYear()
@@ -108,13 +109,14 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
       masAsistenciasPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
   }
+
+  let rachaInvictaActual: HitoRacha = crearHitoRachaBase();
   for (const partido of partidosDirigidos) {
     const mayor_victoria = parseGoles(mayorVictoriaDirigido.golesBrumario) - parseGoles(mayorVictoriaDirigido.golesRecibidos);
     const mayor_derrota = parseGoles(mayorDerrotaDirigido.golesBrumario) - parseGoles(mayorDerrotaDirigido.golesRecibidos)
     const mas_goles = parseGoles(masGolesDirigido.golesBrumario) + parseGoles(masGolesDirigido.golesRecibidos) 
     const dif_resultado = parseGoles(partido.goles_favor) - parseGoles(partido.goles_contra);
     const goles_partido = parseGoles(partido.goles_contra) + parseGoles(partido.goles_favor);
-    console.log(mayor_victoria, dif_resultado)
     if (mayor_victoria < dif_resultado && dif_resultado > 0) {
       mayorVictoriaDirigido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
@@ -123,6 +125,25 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     }
     if (mas_goles < goles_partido) {
       masGolesDirigido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+    }
+    if (partido.resultado == 'Ganado' || partido.resultado == 'Empatado') {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
     }
   }
   
@@ -138,6 +159,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     masPresenciasAnio: encontrarMaximoPorAnio(anios, "presencias"),
     tecnicoMayorVictoria: {partido: mayorVictoriaDirigido},
     tecnicoMayorDerrota: {partido: mayorDerrotaDirigido},
-    tecnicoMasGoles: {partido: masGolesDirigido}
+    tecnicoMasGoles: {partido: masGolesDirigido},
+    tecnicoRachaInvicta: {racha: rachaInvictaDirigido}
   };  
 }
