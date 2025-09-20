@@ -202,3 +202,84 @@ export function actualizarRachaInvicta(
     }
     return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
   }
+
+export function actualizarRachaGanados(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (partido.resultado == 'Ganado') {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }
+
+  export function actualizarRachaSinGanar(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (partido.resultado == 'Empatado' || partido.resultado == 'Perdido') {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }
+
+    export function actualizarRachaPerdidos(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (partido.resultado == 'Perdido') {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }

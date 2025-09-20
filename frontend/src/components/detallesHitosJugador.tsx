@@ -189,6 +189,33 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                 }
                 </span>
               </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos consecutivos ganados:</span>{" "}
+                {jugador.hitos.tecnicoRachaGanados.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias</span>
+                  : `${jugador.hitos.tecnicoRachaGanados.racha.duracionPartidos} (${diasEntre(jugador.hitos.tecnicoRachaGanados.racha.inicio.fecha, jugador.hitos.tecnicoRachaGanados.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaGanados.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaGanados.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos consecutivos sin ganar:</span>{" "}
+                {jugador.hitos.tecnicoRachaSinGanar.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene derrotas</span>
+                  : `${jugador.hitos.tecnicoRachaSinGanar.racha.duracionPartidos} (${diasEntre(jugador.hitos.tecnicoRachaSinGanar.racha.inicio.fecha, jugador.hitos.tecnicoRachaSinGanar.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaSinGanar.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaSinGanar.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos consecutivos perdidos:</span>{" "}
+                {jugador.hitos.tecnicoRachaPerdidos.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene derrotas</span>
+                  : `${jugador.hitos.tecnicoRachaPerdidos.racha.duracionPartidos} (${diasEntre(jugador.hitos.tecnicoRachaPerdidos.racha.inicio.fecha, jugador.hitos.tecnicoRachaPerdidos.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaPerdidos.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.tecnicoRachaPerdidos.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
           </div>
         </div>
       </>

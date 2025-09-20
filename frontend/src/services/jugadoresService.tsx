@@ -62,7 +62,10 @@ export interface Hitos {
   tecnicoMayorVictoria: {partido: HitosPartido},
   tecnicoMayorDerrota: {partido: HitosPartido},
   tecnicoMasGoles: {partido: HitosPartido},
-  tecnicoRachaInvicta: {racha: HitoRacha}
+  tecnicoRachaInvicta: {racha: HitoRacha},
+  tecnicoRachaGanados: {racha: HitoRacha},
+  tecnicoRachaSinGanar: {racha: HitoRacha},
+  tecnicoRachaPerdidos: {racha: HitoRacha}
 }
 
 export interface Jugador {

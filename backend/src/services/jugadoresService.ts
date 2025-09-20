@@ -1,7 +1,7 @@
 import Partido from "../models/partido";
 import { IPartido } from "../models/partido";
 import Jugador from "../models/persona"; // tu modelo de Mongoose
-import { actualizarRachaInvicta, Anio, crearAnioBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
+import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, Anio, crearAnioBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 
 export const getJugadores = async () => {
   try {
@@ -86,6 +86,9 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let mayorDerrotaDirigido: HitoPartido = crearHitoBase();
   let masGolesDirigido: HitoPartido = crearHitoBase();
   let rachaInvictaDirigido: HitoRacha = crearHitoRachaBase();
+  let rachaGanadosDirigido: HitoRacha = crearHitoRachaBase();
+  let rachaSinGanarDirigido: HitoRacha = crearHitoRachaBase();  
+  let rachaPerdidosDirigido: HitoRacha = crearHitoRachaBase();  
   let anios: Anio[] = [];
   for (const partido of partidos) {
     const anio = partido.fecha.getFullYear()
@@ -111,6 +114,9 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   }
 
   let rachaInvictaActual: HitoRacha = crearHitoRachaBase();
+  let rachaGanadosActual: HitoRacha = crearHitoRachaBase();
+  let rachaSinGanarActual: HitoRacha = crearHitoRachaBase();
+  let rachaPerdidosActual: HitoRacha = crearHitoRachaBase();  
   for (const partido of partidosDirigidos) {
     const mayor_victoria = parseGoles(mayorVictoriaDirigido.golesBrumario) - parseGoles(mayorVictoriaDirigido.golesRecibidos);
     const mayor_derrota = parseGoles(mayorDerrotaDirigido.golesBrumario) - parseGoles(mayorDerrotaDirigido.golesRecibidos)
@@ -134,6 +140,30 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   );
   rachaInvictaActual = resultadoRacha.rachaActual;
   rachaInvictaDirigido = resultadoRacha.rachaMaxima;
+
+  const resultadoRachaGanados = actualizarRachaGanados(
+    { ...rachaGanadosActual },
+    { ...rachaGanadosDirigido },
+    partido
+  );
+  rachaGanadosActual = resultadoRachaGanados.rachaActual;
+  rachaGanadosDirigido = resultadoRachaGanados.rachaMaxima;
+
+  const resultadoRachaSinGanar = actualizarRachaSinGanar(
+    { ...rachaSinGanarActual },
+    { ...rachaSinGanarDirigido },
+    partido
+  );
+  rachaSinGanarActual = resultadoRachaSinGanar.rachaActual;
+  rachaSinGanarDirigido = resultadoRachaSinGanar.rachaMaxima;
+
+  const resultadoRachaPerdidos = actualizarRachaPerdidos(
+    { ...rachaPerdidosActual },
+    { ...rachaPerdidosDirigido },
+    partido
+  );
+  rachaPerdidosActual = resultadoRachaPerdidos.rachaActual;
+  rachaPerdidosDirigido = resultadoRachaPerdidos.rachaMaxima;
   }
   
   //console.log(anios)
@@ -149,6 +179,9 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     tecnicoMayorVictoria: {partido: mayorVictoriaDirigido},
     tecnicoMayorDerrota: {partido: mayorDerrotaDirigido},
     tecnicoMasGoles: {partido: masGolesDirigido},
-    tecnicoRachaInvicta: {racha: rachaInvictaDirigido}
+    tecnicoRachaInvicta: {racha: rachaInvictaDirigido},
+    tecnicoRachaGanados: {racha: rachaGanadosDirigido},
+    tecnicoRachaSinGanar: {racha: rachaSinGanarDirigido},
+    tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido}
   };  
 }
