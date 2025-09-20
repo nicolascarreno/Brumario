@@ -174,3 +174,31 @@ export function crearPartidoBase(): IPartido {
     createdAt: new Date(0), // idem
   } as unknown as IPartido;
 }
+
+// Función modularizada para actualizar la racha invicta
+export function actualizarRachaInvicta(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (partido.resultado == 'Ganado' || partido.resultado == 'Empatado') {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }
