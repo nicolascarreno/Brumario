@@ -19,7 +19,7 @@ export function Inicio() {
           <img src={'/diego_sin_fondo.png'} alt="Diego" className="boton-imagen" width={160} height={190} />
           <span>Jugadores</span>
         </button>
-        <button className="boton-cuadrado">
+        <button className="boton-cuadrado" onClick={() => navigate('/partidos')}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="Escudo Brumario" className="boton-imagen" width={195} height={195} />
           <span>Partidos</span>
         </button>
@@ -27,7 +27,3 @@ export function Inicio() {
     </div>
   );
 }
-
-
-
-{/*Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif*/}
