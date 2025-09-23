@@ -24,11 +24,11 @@ export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect 
       <div className="contenedor_navegar">
         <button className="primer_boton_barra_opciones" onClick={() => onSelect("general")}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Jugador</span>
+          <span>Estad. Jugador</span>
         </button>
         <button className="boton_barra_opciones" onClick={() => onSelect("tecnico")}>
           <img src={'/scaloni_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Director Técnico</span>
+          <span>Estad. Técnico</span>
         </button>
         <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("hitos")}>
           <img src={'/hitos.png'} alt="App Logo" width="30" height="30"/>

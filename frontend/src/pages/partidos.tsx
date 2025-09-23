@@ -7,6 +7,7 @@ import '../styles/jugadores_barra_opciones.css';
 import { getPartidos, Partido } from "../services/partidosService";
 import { PartidosTodos } from '../components/partidosTodos';
 import { BarraOpcionesPartidos } from "../components/barraOpcionesPartidos";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export function Partidos() {
   const navigate = useNavigate();
@@ -73,7 +74,14 @@ export function Partidos() {
       <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpcionesPartidos onSelect={setOpcion} />  
-        {renderContenido()}
+        {loading ? (
+                      <div style={{ width: 500, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 100 }}>
+                        <CircularProgress sx={{ color: '#ff0000' }} size={100} />
+                        <span style={{ fontWeight: 'bold', marginTop: '10px' }}>Cargando...</span>
+                      </div>
+                    ) : (
+                renderContenido()
+              )}
       </div>
   </div>
   );

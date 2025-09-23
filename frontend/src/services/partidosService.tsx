@@ -36,6 +36,7 @@ export interface Partido {
     presencia_sin_jugar: string[];
     director_tecnico: string;
     fecha: Date;
+    hora: string;
     resultado: string;
 }
 

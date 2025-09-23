@@ -48,6 +48,7 @@ export interface IPartido extends Document {
     presencia_sin_jugar: string[];
     director_tecnico: string;
     fecha: Date;
+    hora: string;
     resultado: string;
     createdAt: Date;
 }
@@ -73,6 +74,7 @@ const partidoSchema: Schema = new Schema({
   presencia_sin_jugar: [{ type: String }],
   director_tecnico: { type: String, required: false },
   fecha: { type: Date, required: true },
+  hora: { type: String, required: false },
   resultado: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
