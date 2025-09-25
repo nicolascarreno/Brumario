@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useMemo } from 'react';
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/partido.css'
@@ -14,82 +13,241 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
   partidos,
   loading,
 }) => {
-    console.log(partidos)
-    const iconosEstado = {
-      Ganado: "/victoria2.png",
-      Empatado: "/empate3.png",
-      Perdido: "/derrota2.png"
-    };
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [selectedCategoria, setSelectedCategoria] = useState<string>("");
+  const [selectedDT, setSelectedDT] = useState<string>("");
+  const [selectedRival, setSelectedRival] = useState<string>("");
 
+  const iconosEstado = {
+    Ganado: "/victoria2.png",
+    Empatado: "/empate3.png",
+    Perdido: "/derrota2.png"
+  };
+
+  // 🔹 Años únicos
+  const years = useMemo(() => {
+    const uniqueYears = new Set(
+      partidos.map((p) => new Date(p.fecha).getFullYear().toString())
+    );
+    return Array.from(uniqueYears).sort((a, b) => Number(b) - Number(a));
+  }, [partidos]);
+
+  // 🔹 Categorías únicas
+  const categorias = useMemo(() => {
+    const uniqueCategorias = new Set(partidos.map((p) => p.categoria));
+    return Array.from(uniqueCategorias);
+  }, [partidos]);
+
+  // 🔹 DT únicos
+  const directoresTecnicos = useMemo(() => {
+    const uniqueDTs = new Set(partidos.map((p) => p.director_tecnico));
+    return Array.from(uniqueDTs).filter(Boolean);
+  }, [partidos]);
+
+  // 🔹 Rivales únicos (ordenados alfabéticamente)
+  const rivales = useMemo(() => {
+    const uniqueRivales = new Set(partidos.map((p) => p.rival));
+    return Array.from(uniqueRivales)
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
+  }, [partidos]);
+
+  // 🔹 Filtrado combinado
+  const filteredPartidos = useMemo(() => {
+    return partidos.filter((p) => {
+      const matchYear = selectedYear
+        ? new Date(p.fecha).getFullYear().toString() === selectedYear
+        : true;
+      const matchCategoria = selectedCategoria
+        ? p.categoria === selectedCategoria
+        : true;
+      const matchDT = selectedDT
+        ? p.director_tecnico === selectedDT
+        : true;
+      const matchRival = selectedRival
+        ? p.rival === selectedRival
+        : true;
+      return matchYear && matchCategoria && matchDT && matchRival;
+    });
+  }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival]);
+
+  // 🔹 Función para limpiar filtros
+  const resetFilters = () => {
+    setSelectedYear("");
+    setSelectedCategoria("");
+    setSelectedDT("");
+    setSelectedRival("");
+  };
 
   return (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
-    {loading ? (
-      <p>Cargando...</p>
-    ) : (
-      <>
-        <div style={{ width: 850, gap: 100 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <>
+          <div style={{ width: 850, gap: 100 }}>
             <div className='contenedor_estadistica'>
-                <table className="tabla-partidos">
-                  <tbody>
-                    {Array.isArray(partidos) && partidos.length > 0 ? (
-  // ordenamos por fecha ascendente (de más antiguo a más reciente)
-  [...partidos]
-    .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
-    .map((partido, i) => {
-      const esLocal = i % 2 === 0;
+              {/* 🔹 Filtros */}
+              <div style={{ marginBottom: 10, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>
+                {/* Año */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>Año:</label>
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todos</option>
+                    {years.map((year) => (
+                      <option key={year} value={year}>{year}</option>
+                    ))}
+                  </select>
+                </div>
 
-                        return (
-                          <tr key={i}>
-                            <td style={{paddingBottom: 0, height: 50}}>
-                              <div style={{ display: "flex" }}>
-                                {/* Fecha */}
-                                <span className="partido" style={{ paddingRight: 20, paddingLeft: 10 }}>
-                                  {formatDateDDMMYYYY(partido.fecha)}
-                                </span>
-                                <span className="partido" style={{ paddingRight: 20, paddingLeft: 0, width: 60 }}>
-                                  {partido.hora || "-------"}
-                                </span>
-                                <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}>
-                                  {partido.rival}
-                                </span>
-                                <div style={{width: 100, paddingRight: 20, paddingLeft: 10 }}>
-                                  <img 
-                                    src={iconosEstado[partido.resultado as "Ganado" | "Empatado" | "Perdido"]} 
-                                    alt={partido.resultado} 
-                                    style={{ width: 15, height: 15, marginRight: 10, verticalAlign: 'middle' }} 
-                                  />
-                                  <span className="partido" style={{ paddingRight: 0, paddingLeft: 0, width: 100 }}>
-                                    {partido.goles_favor} - {partido.goles_contra}
-                                  </span>
-                                </div>
-                                <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 250 }}>
-                                  {partido.competicion} ({partido.categoria})
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    ) : (
-                      <tr>
-                        <td colSpan={7}>No hay partidos</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                {/* Categoría */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>Categoría:</label>
+                  <select
+                    value={selectedCategoria}
+                    onChange={(e) => setSelectedCategoria(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todas</option>
+                    {categorias.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Director Técnico */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>DT:</label>
+                  <select
+                    value={selectedDT}
+                    onChange={(e) => setSelectedDT(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todos</option>
+                    {directoresTecnicos.map((dt) => (
+                      <option key={dt} value={dt}>{dt}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Rival */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>Rival:</label>
+                  <select
+                    value={selectedRival}
+                    onChange={(e) => setSelectedRival(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todos</option>
+                    {rivales.map((rival) => (
+                      <option key={rival} value={rival}>{rival}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Botón limpiar */}
+                <div>
+                  <button
+                    onClick={resetFilters}
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "5px",
+                      border: "none",
+                      backgroundColor: "red",
+                      color: "white",
+                      fontWeight: "bold",
+                      cursor: "pointer"
+                    }}
+                  >
+                    Limpiar filtros
+                  </button>
+                </div>
+              </div>
+
+              {/* Tabla */}
+              <table className="tabla-partidos">
+                <tbody>
+                  {Array.isArray(filteredPartidos) && filteredPartidos.length > 0 ? (
+                    [...filteredPartidos]
+                      .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
+                      .map((partido, i) => (
+                        <tr key={i}>
+                          <td style={{ paddingBottom: 0, height: 50 }}>
+                            <div style={{ display: "flex" }}>
+                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10 }}>
+                                {formatDateDDMMYYYY(partido.fecha)}
+                              </span>
+                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 0, width: 60 }}>
+                                {partido.hora || "-------"}
+                              </span>
+                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}>
+                                {partido.rival}
+                              </span>
+                              <div style={{ width: 100, paddingRight: 20, paddingLeft: 10 }}>
+                                <img
+                                  src={iconosEstado[partido.resultado as "Ganado" | "Empatado" | "Perdido"]}
+                                  alt={partido.resultado}
+                                  style={{ width: 15, height: 15, marginRight: 10, verticalAlign: 'middle' }}
+                                />
+                                <span className="partido_tooltip">
+  {partido.goles_favor} - {partido.goles_contra}
+  <span className="tooltip-text">
+    <strong>⚽ GOLES:</strong>
+    <br />
+    {partido.golesFavor && partido.golesFavor.length > 0
+      ? (() => {
+          // contar goles por jugador
+          const contador: Record<string, number> = {};
+          partido.golesFavor.forEach(g => {
+            contador[g.gol] = (contador[g.gol] || 0) + 1;
+          });
+          // mostrar en vertical con cantidad si >1
+          return Object.entries(contador).map(([jugador, cantidad], i) => (
+            <div key={i}>
+              {jugador} {cantidad > 1 ? `(${cantidad})` : ""}
             </div>
-        </div>
-      </>
-    )}
-  </div>
-);
+          ));
+        })()
+      : "Ninguno"}
+  </span>
+</span>
+
+
+
+                              </div>
+                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 250 }}>
+                                {partido.competicion} ({partido.categoria})
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan={7} style={{fontWeight: 'bold', textAlign: 'center', padding: '20px', paddingLeft: 350, width: '100%' }}>
+                        No hay partidos
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 function formatDateDDMMYYYY(date: Date | string): string {
   const d = new Date(date);
   const dia = String(d.getDate()).padStart(2, "0");
-  const mes = String(d.getMonth() + 1).padStart(2, "0"); // meses empiezan en 0
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
   const anio = d.getFullYear();
   return `${dia}/${mes}/${anio}`;
 }
+

@@ -12,11 +12,11 @@ export const BarraOpcionesPartidos: React.FC<BarraOpcionesPartidos> = ({ onSelec
   return (
     <div>
       <div className="contenedor_navegar">
-        <button className="ultimo_boton_navegar" onClick={() => navigate("/")}>
+        <button className="primer_boton_navegar" onClick={() => navigate("/")}>
           <img src={'/volver2.png'} alt="App Logo" width="30" height="30"/>
           <span>Atrás</span>
         </button>
-        <button className="primer_boton_navegar" onClick={() => navigate("/jugadores")}>
+        <button className="ultimo_boton_navegar" onClick={() => navigate("/jugadores")}>
           <img src={'/diego_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
           <span>Ir a Jugadores</span>
         </button>
@@ -24,11 +24,7 @@ export const BarraOpcionesPartidos: React.FC<BarraOpcionesPartidos> = ({ onSelec
       <div className="contenedor_navegar">
         <button className="primer_boton_barra_opciones" onClick={() => onSelect("general")}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Jugador</span>
-        </button>
-        <button className="boton_barra_opciones" onClick={() => onSelect("general")}>
-          <img src={'/scaloni_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Director Técnico</span>
+          <span>Resultados</span>
         </button>
         <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("general")}>
           <img src={'/hitos.png'} alt="App Logo" width="30" height="30"/>

@@ -9,3 +9,38 @@
     font-weight: bold;
     color: #434343;
 }
+
+.partido_tooltip {
+    font-weight: bold;
+    color: #434343;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.partido_tooltip .tooltip-text {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  white-space: pre-line; /* permite saltos de línea */
+  text-align: left;      /* lista en vertical */
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;          /* encima del resultado */
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s;
+  width: 200px;
+}
+
+.partido_tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
