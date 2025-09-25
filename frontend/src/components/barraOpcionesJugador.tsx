@@ -13,10 +13,10 @@ export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect 
     <div>
       <div className="contenedor_navegar">
         <button className="primer_boton_navegar" onClick={() => navigate("/jugadores")}>
-          <img src={'/diego_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Ir a Jugadores</span>
+          <img src={'/volver2.png'} alt="App Logo" width="30" height="30"/>
+          <span>Atrás</span>
         </button>
-        <button className="ultimo_boton_navegar" onClick={() => navigate("/")}>
+        <button className="ultimo_boton_navegar" onClick={() => navigate("/partidos")}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
           <span>Ir a Partidos</span>
         </button>

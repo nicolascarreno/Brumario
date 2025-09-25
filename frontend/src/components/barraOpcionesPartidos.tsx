@@ -13,8 +13,8 @@ export const BarraOpcionesPartidos: React.FC<BarraOpcionesPartidos> = ({ onSelec
     <div>
       <div className="contenedor_navegar">
         <button className="ultimo_boton_navegar" onClick={() => navigate("/")}>
-          <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
-          <span>Ir a Inicio</span>
+          <img src={'/volver2.png'} alt="App Logo" width="30" height="30"/>
+          <span>Atrás</span>
         </button>
         <button className="primer_boton_navegar" onClick={() => navigate("/jugadores")}>
           <img src={'/diego_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
