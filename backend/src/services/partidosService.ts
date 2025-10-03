@@ -9,3 +9,20 @@ export const getPartidos = async () => {
     throw new Error("Error al obtener jugadores: " + error);
   }
 };
+
+export const getPartidoDetalles = async (nro: string) => {
+  try {
+    console.log(nro)
+    const partido = await Partido.findOne(
+      { nro },
+      { _id: 0 },
+    );
+
+    if (!partido) {
+      throw new Error(`No se encontró el jugador con nombre: ${nro}`);
+    }
+    return partido;
+  } catch (error) {
+    throw new Error("Error al obtener el partido: " + error);
+  }
+};

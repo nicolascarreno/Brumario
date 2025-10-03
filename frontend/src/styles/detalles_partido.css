@@ -1,0 +1,9 @@
+.contenedor_resultado{
+    background-color: #d7d7d7;
+    gap: 10px;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+}

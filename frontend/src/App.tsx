@@ -6,6 +6,7 @@ import { Inicio } from './pages/inicio';
 import { Jugadores } from './pages/jugadores';
 import { DetallesJugador } from "./pages/detallesJugador";
 import { Partidos } from './pages/partidos';
+import { PartidoDetalle } from './pages/partidoDetalle';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/jugadores" element={<Jugadores />} />
         <Route path="/jugador/:nombre" element={<DetallesJugador />} />
         <Route path="/partidos" element={<Partidos />} />
+        <Route path="/partidos/:nro" element={<PartidoDetalle />} />
       </Routes>
     </Router>
   );

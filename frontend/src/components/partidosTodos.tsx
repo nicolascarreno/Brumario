@@ -3,6 +3,7 @@ import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/partido.css'
 import { Partido } from '../services/service_utils';
+import { useNavigate } from "react-router-dom";
 
 interface PartidosTodosProp {
   partidos: Partido[];
@@ -17,6 +18,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
   const [selectedCategoria, setSelectedCategoria] = useState<string>("");
   const [selectedDT, setSelectedDT] = useState<string>("");
   const [selectedRival, setSelectedRival] = useState<string>("");
+  const navigate = useNavigate();
 
   const iconosEstado = {
     Ganado: "/victoria2.png",
@@ -37,6 +39,10 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
     const uniqueCategorias = new Set(partidos.map((p) => p.categoria));
     return Array.from(uniqueCategorias);
   }, [partidos]);
+
+  // dentro del componente
+  const historialRivales = useMemo(() => calcularHistorial(partidos), [partidos]);
+
 
   // 🔹 DT únicos
   const directoresTecnicos = useMemo(() => {
@@ -88,7 +94,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
           <div style={{ width: 850, gap: 100 }}>
             <div className='contenedor_estadistica'>
               {/* 🔹 Filtros */}
-              <div style={{ marginBottom: 10, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>
+              <div style={{ marginBottom: 20, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>
                 {/* Año */}
                 <div>
                   <label style={{ marginRight: "10px", fontWeight: "bold" }}>Año:</label>
@@ -184,8 +190,18 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                               <span className="partido" style={{ paddingRight: 20, paddingLeft: 0, width: 60 }}>
                                 {partido.hora || "-------"}
                               </span>
-                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}>
+                              <span 
+                                className="partido_tooltip" 
+                                style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}
+                              >
                                 {partido.rival}
+                                <span className="tooltip-text" style={{width: 100}}>
+                                  {(() => {
+                                    const h = historialRivales[partido.rival];
+                                    if (!h) return "Sin historial";
+                                    return `${h.G}G - ${h.E}E - ${h.P}P`;
+                                  })()}
+                                </span>
                               </span>
                               <div style={{ width: 100, paddingRight: 20, paddingLeft: 10 }}>
                                 <img
@@ -193,31 +209,28 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                                   alt={partido.resultado}
                                   style={{ width: 15, height: 15, marginRight: 10, verticalAlign: 'middle' }}
                                 />
-                                <span className="partido_tooltip">
-  {partido.goles_favor} - {partido.goles_contra}
-  <span className="tooltip-text">
-    <strong>⚽GOLES:</strong>
-    <br />
-    {partido.golesFavor && partido.golesFavor.length > 0
-      ? (() => {
-          // contar goles por jugador
-          const contador: Record<string, number> = {};
-          partido.golesFavor.forEach(g => {
-            contador[g.gol] = (contador[g.gol] || 0) + 1;
-          });
-          // mostrar en vertical con cantidad si >1
-          return Object.entries(contador).map(([jugador, cantidad], i) => (
-            <div key={i}>
-              {jugador} {cantidad > 1 ? `(${cantidad})` : ""}
-            </div>
-          ));
-        })()
-      : "Ninguno"}
-  </span>
-</span>
-
-
-
+                                <span className="partido_tooltip" onClick={() => navigate(`/partidos/${partido.nro}`)}>
+                                  {partido.goles_favor} - {partido.goles_contra}
+                                  <span className="tooltip-text">
+                                    <strong>⚽GOLES:</strong>
+                                    <br />
+                                    {partido.golesFavor && partido.golesFavor.length > 0
+                                      ? (() => {
+                                          // contar goles por jugador
+                                          const contador: Record<string, number> = {};
+                                          partido.golesFavor.forEach(g => {
+                                            contador[g.gol] = (contador[g.gol] || 0) + 1;
+                                          });
+                                          // mostrar en vertical con cantidad si >1
+                                          return Object.entries(contador).map(([jugador, cantidad], i) => (
+                                            <div key={i}>
+                                              {jugador} {cantidad > 1 ? `(${cantidad})` : ""}
+                                            </div>
+                                          ));
+                                        })()
+                                      : "Ninguno"}
+                                  </span>
+                                </span>
                               </div>
                               <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 250 }}>
                                 {partido.competicion} ({partido.categoria})
@@ -251,3 +264,18 @@ function formatDateDDMMYYYY(date: Date | string): string {
   return `${dia}/${mes}/${anio}`;
 }
 
+function calcularHistorial(partidos: Partido[]) {
+  const historial: Record<string, { G: number; E: number; P: number }> = {};
+
+  partidos.forEach((p) => {
+    if (!historial[p.rival]) {
+      historial[p.rival] = { G: 0, E: 0, P: 0 };
+    }
+
+    if (p.resultado === "Ganado") historial[p.rival].G++;
+    else if (p.resultado === "Empatado") historial[p.rival].E++;
+    else if (p.resultado === "Perdido") historial[p.rival].P++;
+  });
+
+  return historial;
+}
