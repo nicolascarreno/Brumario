@@ -4,7 +4,8 @@ import '../styles/App.css';
 import '../styles/inicio.css';
 import '../styles/jugadores.css';
 import '../styles/jugadores_barra_opciones.css';
-import { getJugadores, Jugador } from "../services/jugadoresService";
+import { getJugadores } from "../services/jugadoresService";
+import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
 import { TablaPresencias } from '../components/tablaPresencias';
 import { TablaGoleadores } from '../components/tablaGoleadores';
@@ -140,14 +141,12 @@ export function Jugadores() {
         <img
           src={'/brumario.png'}
           alt="brumario"
-          height={90}
-          width={380}
-          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
+          className='logo'
         />
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
+      <div className='contenido_jugadores'>
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpciones onSelect={setOpcion} />  
         {renderContenido()}

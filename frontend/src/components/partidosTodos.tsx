@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/partido.css'
-import { Partido } from '../services/partidosService';
+import { Partido } from '../services/service_utils';
 
 interface PartidosTodosProp {
   partidos: Partido[];
@@ -196,7 +196,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                                 <span className="partido_tooltip">
   {partido.goles_favor} - {partido.goles_contra}
   <span className="tooltip-text">
-    <strong>⚽ GOLES:</strong>
+    <strong>⚽GOLES:</strong>
     <br />
     {partido.golesFavor && partido.golesFavor.length > 0
       ? (() => {

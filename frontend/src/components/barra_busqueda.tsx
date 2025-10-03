@@ -1,5 +1,5 @@
 import React from "react";
-import { Jugador } from "../services/jugadoresService";
+import { Jugador } from "../services/service_utils";
 import "../styles/barra_busqueda.css"
 
 interface BarraBusquedaProps {

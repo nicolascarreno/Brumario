@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Hitos } from '../services/jugadoresService';
+import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Hitos } from '../services/service_utils';
 
 interface Jugador {
   nombre: string;

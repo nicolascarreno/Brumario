@@ -22,5 +22,43 @@
   color: white;
   font-style:oblique;
   margin-right: 20px;
-  text-decoration:overline; 
+  text-decoration:overline;
+}
+
+.logo {
+  height: 90px;
+  width: 380px;
+  margin-left: 18px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* 🔹 Media query para pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+  .encabezado {
+    flex-direction: column;   /* 🔹 Apila el contenido (logo, título, etc.) */
+    justify-content: center;
+    padding: 10px;            /* 🔹 Un poco más de aire */
+    text-align: center;
+    width: 100%;
+  }
+
+  .sitio_web {
+    font-size: 24px;          /* 🔹 Texto más chico */
+    text-decoration: none;    /* 🔹 Menos cargado en celular */
+    font-family: 'Arial Black', sans-serif;
+    color: white;
+    font-style:oblique;
+    text-decoration:overline; 
+    font-weight: bold;
+    margin-left: auto;
+  }
+
+  .logo {
+    height: 80px;   /* más chico en celular */
+    width: 320px;   /* proporcional */
+    margin-left: 0; /* centrado */
+    padding: 10px 0;
+    padding-bottom: 2;
+  }
 }

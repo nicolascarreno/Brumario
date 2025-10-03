@@ -11,7 +11,7 @@ export function Inicio() {
   return (
     <div className="App">
       <div className="encabezado">     
-        <img src={'brumario.png'} alt="brumario" height={90} width={380} style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }} />
+        <img src={'brumario.png'} alt="brumario" className='logo' />
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
       <div className="botones-container">

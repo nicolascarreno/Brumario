@@ -43,7 +43,8 @@
 }
 
 .tablaPosiciones {
-    width: 100%;
+    width: 500px;
+
     border-color: red;
     border-collapse: collapse;
     border-start-start-radius: 4px;
@@ -99,4 +100,43 @@
     color: #434343;
     user-select: none;
     -webkit-user-drag: none;
+}
+
+.contenedor_fila{
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.contenido_jugadores{
+    display: flex; 
+    flex-direction: row;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .contenido_jugadores {
+    flex-direction: column; /* 🔹 Cambiar a vertical en pantallas chicas */
+    align-items: center;    /* Opcional: centrar contenido */
+    gap: 8px;              /* Un poco más de espacio */
+  }
+
+  .tablaPosiciones{
+    border-color: red;
+    border-collapse: collapse;
+    border-start-start-radius: 4px;
+    background-color: rgb(235, 235, 235);
+    border-spacing: 15px 15px;
+    text-align: left;
+    user-select: none;
+    -webkit-user-drag: none;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    width: 280px;
+  }
+
+  .contenedor_fila{
+    width: 220px;
+    display: flex;
+    align-items: center;
+  }
 }

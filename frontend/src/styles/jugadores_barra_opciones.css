@@ -2,7 +2,6 @@
     background-color: #d7d7d7;
     margin-top: 40px;
     margin-left: 40px;
-    height: 100%;
     width: 260px;
     border-radius: 8px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
@@ -70,4 +69,71 @@
     color: black;
     box-shadow: 0px 0px 16px rgba(255,0,0,0.2);
     border: 3px solid red
+}
+
+.icono{
+    height: 30px;
+    width: 30px;
+}
+
+/* 🔹 Estilos responsivos para celular */
+@media (max-width: 600px) {
+    .contenedor_barra_opciones_general{
+        justify-content: center;
+        width: 100%;
+        overflow: hidden; 
+    }
+  .contenedor_barra_opciones {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;      /* 🔹 activa el scroll horizontal */
+    white-space: nowrap;   /* 🔹 evita que los botones pasen a otra fila */
+    gap: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    scrollbar-width: thin; /* 🔹 scroll más fino en Firefox */
+  }
+
+  .contenedor_barra_opciones::-webkit-scrollbar {
+    height: 6px;            /* 🔹 scroll horizontal finito */
+  }
+
+  .contenedor_barra_opciones::-webkit-scrollbar-thumb {
+    background: #888;        /* 🔹 color del scroll */
+    border-radius: 4px;
+  }
+
+  .contenedor_barra_opciones button {
+    width: 140px;       /* 🔹 ancho fijo para que sean iguales */
+    font-size: 13px;
+    padding: 10px 6px;
+    gap: 6px;
+  }
+
+  .primer_boton_barra_opciones{
+    font-size: 14px;          /* texto más chico */
+    padding: 12px 6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    flex: 1;                  /* cada botón ocupa el mismo espacio */
+    gap: 8px;                 /* íconos + texto más juntos */   
+  }
+  .boton_barra_opciones{
+    font-size: 14px;          /* texto más chico */
+    padding: 12px 6px;
+    border-radius: 0;         /* sin esquinas redondeadas */
+    flex: 1;                  /* cada botón ocupa el mismo espacio */
+    gap: 8px;                 /* íconos + texto más juntos */
+  }
+  .ultimo_boton_barra_opciones {
+    font-size: 14px;          /* texto más chico */
+    padding: 12px 6px;
+    border-bottom: 4px;         /* sin esquinas redondeadas */
+    flex: 1;                  /* cada botón ocupa el mismo espacio */
+    gap: 8px;                 /* íconos + texto más juntos */
+  }
+
+  .icono{
+    height: 20px;
+    width: 20px;
+  }
 }

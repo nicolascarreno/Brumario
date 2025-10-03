@@ -18,6 +18,6 @@ app.get('/hello', (req, res) => {
   res.json({ message: 'Hola desde el backend!' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor backend escuchando en puerto ${PORT}`);
 });

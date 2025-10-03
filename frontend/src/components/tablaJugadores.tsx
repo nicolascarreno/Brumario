@@ -35,7 +35,7 @@ export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
         </div>
       ) : (
         <>
-          <table className="tablaPosiciones" style={{ width: 500, marginBottom: 20 }}>
+          <table className="tablaPosiciones" style={{ marginBottom: 20 }}>
             <thead>
               <tr>
                 <th
@@ -57,7 +57,7 @@ export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
                 <tr key={jugador.nombre} className="tr">
                   <td className="td">
                     <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
-                      <div style={{ width: 300, display: 'flex', alignItems: 'center' }}>
+                      <div className='contenedor_fila'>
                         <img
                           src={'/brumario_escudo_sin_fondo.png'}
                           alt="App Logo"

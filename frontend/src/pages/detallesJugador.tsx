@@ -5,8 +5,9 @@ import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
-import { DirectorTecnico, getJugador, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/jugadoresService";
+import { DirectorTecnico, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
+import { getJugador } from "../services/jugadoresService";
 
 interface Jugador {
   nombre: string;
