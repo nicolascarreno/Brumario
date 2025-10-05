@@ -14,6 +14,7 @@ export interface Partido {
     suplentes: string[];
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
+    golesRecibidos: GolRecibido[];
     amarillas: string[];
     rojas: string[];
     presencia_sin_jugar: string[];
@@ -21,6 +22,7 @@ export interface Partido {
     fecha: Date;
     hora: string;
     resultado: string;
+    esquema_tactico: string;
 }
 
 export interface GolFavor {
@@ -29,6 +31,12 @@ export interface GolFavor {
   resultadoParcial: string;
   asistencia: string;
   tipoAsistencia: string;
+}
+
+export interface GolRecibido {
+  arquero: string;
+  tipo: string;
+  resultadoParcial: string;
 }
 
 export interface GolEnContra {

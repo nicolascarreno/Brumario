@@ -129,6 +129,38 @@ export interface FilaPartido {
     'Gol en contra': string;
     'Tipo de gol en contra': string;
 
+    'Gol recibido 1': string;
+    'Tipo de gol recibido 1': string;
+    'Resultado parcial gol recibido 1': string;
+
+    'Gol recibido 2': string;
+    'Tipo de gol recibido 2': string;
+    'Resultado parcial gol recibido 2': string;
+
+    'Gol recibido 3': string;
+    'Tipo de gol recibido 3': string;
+    'Resultado parcial gol recibido 3': string;
+
+    'Gol recibido 4': string;
+    'Tipo de gol recibido 4': string;
+    'Resultado parcial gol recibido 4': string;
+
+    'Gol recibido 5': string;
+    'Tipo de gol recibido 5': string;
+    'Resultado parcial gol recibido 5': string;
+    
+    'Gol recibido 6': string;
+    'Tipo de gol recibido 6': string;
+    'Resultado parcial gol recibido 6': string;
+
+    'Gol recibido 7': string;
+    'Tipo de gol recibido 7': string;
+    'Resultado parcial gol recibido 7': string;
+
+    'Gol recibido 8': string;
+    'Tipo de gol recibido 8': string;
+    'Resultado parcial gol recibido 8': string;
+
     'Tarjeta amarilla 1': string;
     'Tarjeta amarilla 2': string;
     'Tarjeta amarilla 3': string;

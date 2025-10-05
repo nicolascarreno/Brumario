@@ -74,12 +74,13 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                           Formación
                       </span>   
                   </div>
+                  <span className='estadistica' style={{paddingLeft: 35}}>Esquema Táctico: {partido.esquema_tactico}</span>
                   {partido.titulares.length === 0 ? (
   <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
     No hay datos disponibles
   </p>
 ) : (
-  <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15 }}>
+  <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15, marginTop: 15 }}>
     <tbody>
       {partido.titulares.map((jugador, index) => {
         const [apellido, nombre] = jugador.split(",").map(s => s.trim());

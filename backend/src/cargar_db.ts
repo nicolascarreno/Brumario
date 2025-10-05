@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 import Persona from './models/persona';
-import Partido, { GolEnContra, GolFavor } from './models/partido';
+import Partido, { GolEnContra, GolFavor, GolRecibido } from './models/partido';
 
 import mongoose from 'mongoose';
 import connectDB from './db/db';
@@ -81,6 +81,21 @@ export async function cargar_partidos() {
         }
       }
 
+      const golesRecibidos: GolRecibido[] = [];
+      for (let i = 1; i <= 8; i++) {
+        const arquero = fila[`Gol recibido ${i}`];
+        console.log(fila[`Gol recibido ${i}`])
+        console.log(`Gol recibido ${i}`)
+        if (arquero) {
+          golesRecibidos.push({
+            arquero,
+            tipo: fila[`Tipo de gol recibido ${i}`],
+            resultadoParcial: fila[`Resultado parcial gol recibido ${i}`],
+          });
+        }
+      }
+
+
       const golesEnContra: GolEnContra[] = [];
       if (fila['Gol en contra']) {
         golesEnContra.push({
@@ -124,12 +139,12 @@ export async function cargar_partidos() {
       contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
       //console.log(estadisticas);
       try {
-        const nuevoPartido = new Partido({ nro: fila['Partido'], fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
+        const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
-        //console.log(`Partido guardado: ${nuevoPartido}`);
+        console.log(`Partido guardado: ${nuevoPartido}`);
       } catch (error: any) {
         if (error.code === 11000) {
-          //console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
+          console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
         } else {
           console.error(`Error guardando ${fila['Partido']}:`, error);
         }

@@ -27,6 +27,18 @@ const golFavorSchema = new Schema({
   tipoAsistencia: String
 }, { _id: false });
 
+export interface GolRecibido {
+  arquero: string;
+  tipo: string;
+  resultadoParcial: string;
+}
+
+const golRecibidoSchema = new Schema({
+  arquero: String,
+  tipo: String,
+  resultadoParcial: String,
+}, { _id: false });
+
 export interface IPartido extends Document {
     nro: string;
     categoria: string;
@@ -43,6 +55,7 @@ export interface IPartido extends Document {
     suplentes: string[];
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
+    golesRecibidos: GolRecibido[];
     amarillas: string[];
     rojas: string[];
     presencia_sin_jugar: string[];
@@ -50,6 +63,7 @@ export interface IPartido extends Document {
     fecha: Date;
     hora: string;
     resultado: string;
+    esquema_tactico: String;
     createdAt: Date;
 }
 
@@ -69,6 +83,7 @@ const partidoSchema: Schema = new Schema({
   suplentes: [{ type: String }],
   golesFavor: [golFavorSchema],
   golesEnContra: [golEnContraSchema],
+  golesRecibidos: [golRecibidoSchema],
   amarillas: [{ type: String }],
   rojas: [{ type: String }],
   presencia_sin_jugar: [{ type: String }],
@@ -76,6 +91,7 @@ const partidoSchema: Schema = new Schema({
   fecha: { type: Date, required: true },
   hora: { type: String, required: false },
   resultado: { type: String, required: true },
+  esquema_tactico: { type: String, required: false },
   createdAt: { type: Date, default: Date.now }
 });
 
