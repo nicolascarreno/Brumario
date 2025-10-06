@@ -60,8 +60,8 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                 <span className='estadistica'>Cancha: {partido.cancha}</span>
                 <span className='estadistica'>Jornada: {partido.jornada}</span>
               </div>
-              <div style={{display: 'flex'}}>
-                <div style={{paddingBottom: 10}}>
+              <div style={{display: 'flex', gap: 0}}>
+                <div style={{paddingBottom: 10, width: 300}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
                           src={'/diego2_sin_fondo.png'}
@@ -76,141 +76,294 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   </div>
                   <span className='estadistica' style={{paddingLeft: 35}}>Esquema Táctico: {partido.esquema_tactico}</span>
                   {partido.titulares.length === 0 ? (
-  <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
-    No hay datos disponibles
-  </p>
-) : (
-  <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15, marginTop: 15 }}>
-    <tbody>
-      {partido.titulares.map((jugador, index) => {
-        const [apellido, nombre] = jugador.split(",").map(s => s.trim());
-        const nombreBackend = jugador; 
+                    <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
+                      No hay datos disponibles
+                    </p>
+                  ) : (
+                    <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15, marginTop: 15 }}>
+                      <tbody>
+                        {partido.titulares.map((jugador, index) => {
+                          const [apellido, nombre] = jugador.split(",").map(s => s.trim());
+                          const nombreBackend = jugador; 
 
-        // Contar goles
-        const goles = partido.golesFavor
-          ? partido.golesFavor.filter(g => g.gol === nombreBackend).length
-          : 0;
+                          // Contar goles
+                          const goles = partido.golesFavor
+                            ? partido.golesFavor.filter(g => g.gol === nombreBackend).length
+                            : 0;
 
-        // Contar asistencias
-        const asistencias = partido.golesFavor
-          ? partido.golesFavor.filter(g => g.asistencia === nombreBackend).length
-          : 0;
+                          // Contar asistencias
+                          const asistencias = partido.golesFavor
+                            ? partido.golesFavor.filter(g => g.asistencia === nombreBackend).length
+                            : 0;
 
-        // Contar amarillas
-        const amarillas = partido.amarillas
-          ? partido.amarillas.filter(a => a === nombreBackend).length
-          : 0;
+                          // Contar amarillas
+                          const amarillas = partido.amarillas
+                            ? partido.amarillas.filter(a => a === nombreBackend).length
+                            : 0;
 
-        // Contar rojas
-        const rojas = partido.rojas
-          ? partido.rojas.filter(r => r === nombreBackend).length
-          : 0;
+                          // Contar rojas
+                          const rojas = partido.rojas
+                            ? partido.rojas.filter(r => r === nombreBackend).length
+                            : 0;
 
-        // 🔹 Usamos React.ReactNode[] en vez de string[] | JSX.Element[]
-        const partes: React.ReactNode[] = [];
+                          // 🔹 Usamos React.ReactNode[] en vez de string[] | JSX.Element[]
+                          const partes: React.ReactNode[] = [];
 
-        if (goles > 0) {
-          partes.push(
-            <>⚽{goles > 1 ? `(${goles})` : ""}</>
-          );
-        }
-        if (asistencias > 0) {
-          partes.push(
-            <>
-              <img
-                src="/asistencia6.png"
-                alt="Asistencia"
-                style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }}
-              />
-              {asistencias > 1 ? `(${asistencias})` : ""}
-            </>
-          );
-        }
-        if (amarillas > 0) {
-          partes.push(
-            <>
-              <img
-                src="/amarilla_sin_fondo2.png"
-                alt="Amarilla"
-                style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
-              />
-              {amarillas > 1 ? `(${amarillas})` : ""}
-            </>
-          );
-        }
-        if (rojas > 0) {
-          partes.push(
-            <>
-              <img
-                src="/roja_sin_fondo.png"
-                alt="Roja"
-                style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
-              />
-              {rojas > 1 ? `(${rojas})` : ""}
-            </>
-          );
-        }
+                          if (goles > 0) {
+                            partes.push(
+                              <>⚽{goles > 1 ? `(${goles})` : ""}</>
+                            );
+                          }
+                          if (asistencias > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/asistencia6.png"
+                                  alt="Asistencia"
+                                  style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {asistencias > 1 ? `(${asistencias})` : ""}
+                              </>
+                            );
+                          }
+                          if (amarillas > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/amarilla_sin_fondo2.png"
+                                  alt="Amarilla"
+                                  style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {amarillas > 1 ? `(${amarillas})` : ""}
+                              </>
+                            );
+                          }
+                          if (rojas > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/roja_sin_fondo.png"
+                                  alt="Roja"
+                                  style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {rojas > 1 ? `(${rojas})` : ""}
+                              </>
+                            );
+                          }
 
-        return (
-          <tr key={index}>
-            <td className='estadistica' style={{ paddingLeft: 20 }}>
-              {nombre} {apellido}
-              {partes.length > 0 && (
-                <> {partes.map((p, i) => (
-                  <span key={i}>
-                    {i > 0 ? ", " : ""}{p}
-                  </span>
-                ))}</>
-              )}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-)}
+                          return (
+                            <tr key={index}>
+                              <td className='estadistica' style={{ paddingLeft: 20 }}>
+                                {nombre} {apellido}
+                                {partes.length > 0 && (
+                                  <> {partes.map((p, i) => (
+                                    <span key={i}>
+                                      {i > 0 ? ", " : ""}{p}
+                                    </span>
+                                  ))}</>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
 
-{partido.suplentes.length === 0 ? (
-  <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
-    No hay datos disponibles
-  </p>
-) : (
-  <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15 }}>
-    <tbody>
-      {partido.suplentes.map((jugador, index) => {
-        const [apellido, nombre] = jugador.split(",").map(s => s.trim());
+                  {partido.suplentes.length === 0 ? (
+                    <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
+                      No hay datos disponibles
+                    </p>
+                  ) : (
+                    <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15 }}>
+                      <tbody>
+                        {partido.suplentes.map((jugador, index) => {
+                          const [apellido, nombre] = jugador.split(",").map(s => s.trim());
 
-        // 🔹 Contar goles de este jugador
-        const goles = partido.golesFavor
-          ? partido.golesFavor.filter(g => g.gol === jugador).length
-          : 0;
+                          // 🔹 Contar goles de este jugador
+                          const goles = partido.golesFavor
+                            ? partido.golesFavor.filter(g => g.gol === jugador).length
+                            : 0;
 
-        // 🔹 Contar asistencias de este jugador
-        const asistencias = partido.golesFavor
-          ? partido.golesFavor.filter(g => g.asistencia === jugador).length
-          : 0;
+                          // 🔹 Contar asistencias de este jugador
+                          const asistencias = partido.golesFavor
+                            ? partido.golesFavor.filter(g => g.asistencia === jugador).length
+                            : 0;
 
-        return (
-          <tr key={index}>
-            <td className='estadistica' style={{ paddingLeft: 20 }}>
-              {nombre} {apellido}
-              {goles > 0 && (
-                <> ⚽{goles > 1 ? `(${goles})` : ""}</>
-              )}
-              {asistencias > 0 && (
-                <> <img src="/asistencia6.png" alt="Asistencia" style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }} 
-              />{asistencias > 1 ? `(${asistencias})` : ""}</>
-              )}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-)}
-
-                    <span className='estadistica' style={{paddingLeft: 35}}>DT: {partido.director_tecnico}</span>
+                          return (
+                            <tr key={index}>
+                              <td className='estadistica' style={{ paddingLeft: 20 }}>
+                                {nombre} {apellido}
+                                {goles > 0 && (
+                                  <> ⚽{goles > 1 ? `(${goles})` : ""}</>
+                                )}
+                                {asistencias > 0 && (
+                                  <> <img src="/asistencia6.png" alt="Asistencia" style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }} 
+                                />{asistencias > 1 ? `(${asistencias})` : ""}</>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+                  <span className='estadistica' style={{paddingLeft: 35}}>DT: {partido.director_tecnico}</span>
                 </div>
+                <div style={{paddingBottom: 10}}>
+                  <div className='contenedor_estadistica_nombre' style={{marginTop: 10}}>
+                      <img
+                          src={'/goleadors_sin_fondo.png'}
+                          alt="App Logo"
+                          width="40"
+                          height="40"
+                          style={{ marginLeft: 10, marginRight: 5, transform: "translateY(2px)" }}
+                      />
+                      <span className='nombre_estadistica'>
+                          Resumen
+                      </span>   
+                  </div>
+                  <div style={{ marginTop: 22, marginLeft: 35 }}>
+                  {(() => {
+                  // 🔹 Unificamos goles a favor y en contra
+                  const eventos = [
+                    ...(partido.golesFavor?.map((g) => {
+                      const [apellido, nombre] = g.gol.split(",").map((s) => s.trim());
+                      const goleador = `${nombre} ${apellido}`;
+                      let textoAsistencia = "";
+
+                      if (g.asistencia) {
+                        const [aApe, aNom] = g.asistencia.split(",").map((s) => s.trim());
+                        const asistidor = `${aNom} ${aApe}`;
+                        textoAsistencia = ` || ${asistidor} (${g.tipoAsistencia})`;
+                      }
+
+                      return {
+                        texto: `${g.resultadoParcial}: ⚽ ${goleador} (${g.tipo})${textoAsistencia}`,
+                        parcial: g.resultadoParcial,
+                        tipo: "favor" as const,
+                        tieneAsistencia: !!g.asistencia
+                      };
+                    }) || []),
+
+                    ...(partido.golesRecibidos?.map((g) => ({
+                      texto: g.tipo
+                        ? `${g.resultadoParcial}: Gol rival (${g.tipo})`
+                        : `${g.resultadoParcial}: Gol rival`,
+                      parcial: g.resultadoParcial,
+                      tipo: "contra" as const,
+                    })) || []),
+                  ];
+
+                  // 🔹 Ordenar cronológicamente por resultado parcial (1-0, 1-1, 2-1...)
+                  const parseResultado = (r: string) => {
+                    const [favor, contra] = r.split("-").map(Number);
+                    return favor + contra;
+                  };
+
+                  const eventosOrdenados = eventos.sort(
+                    (a, b) => parseResultado(a.parcial) - parseResultado(b.parcial)
+                  );
+
+                  // 🔹 Renderizado
+                  if (eventosOrdenados.length === 0) {
+                    return (
+                      <p style={{ fontStyle: "italic", color: "grey" }}>
+                        No se registraron goles en este partido.
+                      </p>
+                    );
+                  }
+
+                  return (
+                    <ul style={{ listStyle: "none", padding: 0, marginTop: 10 }}>
+                  {eventosOrdenados.map((ev, i) => (
+                    <li
+                  key={i}
+                  className="estadistica"
+                  style={{
+                    marginBottom: 10,
+                    display: "flex",
+                    alignItems: "center", // ✅ centra verticalmente imagen y texto
+                    gap: 4,
+                    flexWrap: "wrap", // permite que todo se vaya a la siguiente línea si no cabe
+                    whiteSpace: "normal",
+                  }}
+                >
+                  {ev.tipo === "favor" ? (
+                    <>
+                      <span style={{ display: "inline-block" }}>
+                  <img
+                    src="/victoria2.png"
+                    alt="Gol a favor"
+                    style={{
+                      width: 11,
+                      height: 11,
+                      verticalAlign: "top", // ✅ se alinea al primer renglón
+                      marginRight: 4,
+                      transform: "translateY(5px)"
+                    }}
+                  />
+                  <span style={{ display: "inline" }}>
+                    {ev.texto.split("||")[0].trim()}
+                    {ev.tieneAsistencia && <> {" || "} 🎯 {ev.texto.split("||")[1].trim()}</>}
+                  </span>
+                </span>
+
+
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src="/derrota2.png"
+                        alt="Gol en contra"
+                        style={{
+                          width: 11,
+                          height: 11,
+                          marginRight: 2,
+                          flexShrink: 0,
+                          verticalAlign: "middle",
+                          transform: "translateY(1px)"
+                        }}
+                      />
+                      <span style={{ flex: "0 1 auto" }}>{ev.texto}</span>
+                    </>
+                  )}
+                </li>
+
+                  ))}
+                </ul>
+
+                  );
+                })()}
+                </div>
+                <div style={{paddingBottom: 10}}>
+                  <div className='contenedor_estadistica_nombre' style={{marginTop: 50}}>
+                        <img
+                            src={'/cerveza_sin_fondo.png'}
+                            alt="App Logo"
+                            width="40"
+                            height="40"
+                            style={{ marginLeft: 10, marginRight: 5, transform: "translateY(2px)" }}
+                        />
+                        <span className='nombre_estadistica'>
+                            Presencias Sin Jugar
+                        </span>   
+                  </div>
+                  <span className="estadistica" style={{marginLeft: 35}}>
+                    {partido.presencia_sin_jugar.length === 0 ? (
+                      <span style={{ fontWeight: "normal", fontStyle: "italic", color: 'black' }}>No hubo presencias sin jugar</span>
+                    ) : (
+                      partido.presencia_sin_jugar
+                        .map((jugador) => {
+                          const [apellido, nombre] = jugador.split(",").map(s => s.trim());
+                          return `${nombre} ${apellido}`;
+                        })
+                        .join(", ")
+                    )}
+                  </span>
+                </div>
+                </div>
+                
               </div>
           </div>
         </div>
