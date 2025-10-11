@@ -81,6 +81,29 @@ export interface DirectorTecnico {
   jugadoresPreferidos: { nombre: string }[];
 }
 
+export interface HitosPartidos{
+  mayorVictoriaLibres: {partido: HitosPartido},
+  mayorDerrotaLibres: {partido: HitosPartido},
+  masGolesLibres: {partido: HitosPartido},
+  mayorVictoriaSenior: {partido: HitosPartido},
+  mayorDerrotaSenior: {partido: HitosPartido},
+  masGolesSenior: {partido: HitosPartido},
+  rachaInvictaLibres: {racha: HitoRacha},
+  rachaGanadosLibres: {racha: HitoRacha},
+  rachaSinGanarLibres: {racha: HitoRacha},
+  rachaPerdidosLibres: {racha: HitoRacha},
+  rachaInvictaSenior: {racha: HitoRacha},
+  rachaGanadosSenior: {racha: HitoRacha},
+  rachaSinGanarSenior: {racha: HitoRacha},
+  rachaPerdidosSenior: {racha: HitoRacha},
+  ganadosLibres: number,
+  empatadosLibres: number,
+  perdidosLibres: number,
+  ganadosSenior: number,
+  empatadosSenior: number,
+  perdidosSenior: number
+}
+
 export interface HitosPartido {
   rival: string;
   competicion: string;

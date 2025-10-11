@@ -26,7 +26,7 @@ export const BarraOpcionesPartidos: React.FC<BarraOpcionesPartidos> = ({ onSelec
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" width="30" height="30"/>
           <span>Resultados</span>
         </button>
-        <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("general")}>
+        <button className="ultimo_boton_barra_opciones" onClick={() => onSelect("hitos")}>
           <img src={'/hitos.png'} alt="App Logo" width="30" height="30"/>
           <span>Hitos</span>
         </button>

@@ -224,7 +224,7 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
 );
 };
 
-function formatDateDDMMYYYY(date: Date | string): string {
+function formatDateDDMMYYYY(date: Date | string ): string {
   const d = new Date(date);
   const dia = String(d.getDate()).padStart(2, "0");
   const mes = String(d.getMonth() + 1).padStart(2, "0"); // meses empiezan en 0
@@ -232,7 +232,10 @@ function formatDateDDMMYYYY(date: Date | string): string {
   return `${dia}/${mes}/${anio}`;
 }
 
-function diasEntre(f1: Date | string, f2: Date | string): number {
+export function diasEntre(f1?: Date | string, f2?: Date | string): number {
+  if (!f1) return 0;
+  if (!f2) return 0;
+
   const fecha1 = new Date(f1);
   const fecha2 = new Date(f2);
 

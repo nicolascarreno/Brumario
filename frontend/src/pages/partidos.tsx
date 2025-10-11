@@ -5,14 +5,16 @@ import '../styles/inicio.css';
 import '../styles/jugadores.css';
 import '../styles/jugadores_barra_opciones.css';
 import { getPartidos } from "../services/partidosService";
-import { Partido } from "../services/service_utils";
+import { HitosPartidos, Partido } from "../services/service_utils";
 import { PartidosTodos } from '../components/partidosTodos';
 import { BarraOpcionesPartidos } from "../components/barraOpcionesPartidos";
 import CircularProgress from '@mui/material/CircularProgress';
+import { PartidosHitos } from '../components/partidosHitos';
 
 export function Partidos() {
   const navigate = useNavigate();
   const [partidos, setPartidos] = useState<Partido[]>([]);
+  const [hitos, setHitos] = useState<HitosPartidos>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [pagina, setPagina] = useState<number>(1);
@@ -24,7 +26,8 @@ export function Partidos() {
       try {
         setLoading(true);
         const data = await getPartidos();
-        setPartidos(data);
+        setPartidos(data.partidos);
+        setHitos(data.hitos);
         console.log(data)
       } catch (err: any) {
         setError(err.message);
@@ -43,19 +46,26 @@ export function Partidos() {
   const renderContenido = () => {
     switch (opcion) {
       case "general":
-                return (
-                  <PartidosTodos
-                    partidos={partidos}
-                    loading={loading}
-                  />
-                );
-              default:
-                return (
-                  <PartidosTodos
-                    partidos={partidos}
-                    loading={loading}
-                  />
-                );
+        return (
+          <PartidosTodos
+            partidos={partidos}
+            loading={loading}
+          />
+        );
+      case "hitos":
+        return (
+          <PartidosHitos
+            hitos={hitos}
+            loading={loading}
+          />
+        );
+      default:
+        return (
+          <PartidosTodos
+            partidos={partidos}
+            loading={loading}
+          />
+        );
     }
   };
 

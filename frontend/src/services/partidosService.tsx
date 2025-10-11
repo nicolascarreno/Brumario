@@ -1,6 +1,11 @@
-import { Partido } from "./service_utils";
+import { HitosPartidos, Partido } from "./service_utils";
 
-export async function getPartidos(): Promise<Partido[]> {
+interface Partidos{
+  partidos: Partido[],
+  hitos: HitosPartidos
+}
+
+export async function getPartidos(): Promise<Partidos> {
   const API_URL = process.env.REACT_APP_API_URL;
   const response = await fetch(`${API_URL}/partidos`, {
     method: "GET",
