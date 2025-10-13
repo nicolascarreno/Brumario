@@ -101,7 +101,9 @@ export interface HitosPartidos{
   perdidosLibres: number,
   ganadosSenior: number,
   empatadosSenior: number,
-  perdidosSenior: number
+  perdidosSenior: number,
+  masPresenciasSinJugarLibres: {cantidad: number, partido: HitosPartido},
+  masPresenciasSinJugarSenior: {cantidad: number, partido: HitosPartido}
 }
 
 export interface HitosPartido {
@@ -122,6 +124,7 @@ export interface HitoRacha {
 export interface Hitos {
   masGoles: {cantidad: number, partido: HitosPartido};
   masAsistencias: {cantidad: number, partido: HitosPartido};
+  masContribuciones: {cantidadGoles: number, cantidadAsistencias: number, partido: HitosPartido},
   masGolesAnio: {cantidad: number, anio: number},
   masAsistenciasAnio: {cantidad: number, anio: number},
   masAmarillasAnio: {cantidad: number, anio: number},
@@ -134,7 +137,8 @@ export interface Hitos {
   tecnicoRachaInvicta: {racha: HitoRacha},
   tecnicoRachaGanados: {racha: HitoRacha},
   tecnicoRachaSinGanar: {racha: HitoRacha},
-  tecnicoRachaPerdidos: {racha: HitoRacha}
+  tecnicoRachaPerdidos: {racha: HitoRacha},
+  ultimoGol: {partido: HitosPartido, gol: GolFavor}
 }
 
 export interface Jugador {

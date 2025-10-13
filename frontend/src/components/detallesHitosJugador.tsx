@@ -83,6 +83,24 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                   </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Mas contribuciones en un partido:</span>{" "}
+                    {jugador.hitos.masContribuciones.partido.golesBrumario === ""
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
+                      : `${jugador.hitos.masContribuciones.cantidadAsistencias+jugador.hitos.masContribuciones.cantidadGoles} (${jugador.hitos.masContribuciones.cantidadGoles}⚽ || ${jugador.hitos.masContribuciones.cantidadAsistencias}🎯) (BRUMARIO ${jugador.hitos.masContribuciones.partido.golesBrumario} - ${jugador.hitos.masContribuciones.partido.golesRecibidos} ${jugador.hitos.masContribuciones.partido.rival}, ${jugador.hitos.masContribuciones.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masContribuciones.partido.fecha)})`
+                    }
+                    </span>
+                  </div>
+                  <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                    <span style={{ color: 'black' }}>Último gol:</span>{" "}
+                    {jugador.hitos.ultimoGol.partido.golesBrumario === ""
+                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
+                      : `de ${jugador.hitos.ultimoGol.gol.tipo}, ${jugador.hitos.ultimoGol.gol.resultadoParcial} (Parcial) (BRUMARIO ${jugador.hitos.ultimoGol.partido.golesBrumario} - ${jugador.hitos.ultimoGol.partido.golesRecibidos} ${jugador.hitos.ultimoGol.partido.rival}, ${jugador.hitos.ultimoGol.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.ultimoGol.partido.fecha)})`
+                    }
+                  </span> 
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
                     <span style={{ color: 'black' }}>Mas presencias en un año calendario:</span>{" "}
                     {jugador.hitos.masPresenciasAnio.cantidad === 0
                       ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene presencias</span>

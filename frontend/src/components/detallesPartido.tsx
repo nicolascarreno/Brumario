@@ -336,7 +336,7 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   );
                 })()}
                 </div>
-                <div style={{paddingBottom: 10}}>
+                <div style={{paddingBottom: 10, width:560}}>
                   <div className='contenedor_estadistica_nombre' style={{marginTop: 50}}>
                         <img
                             src={'/cerveza_sin_fondo.png'}

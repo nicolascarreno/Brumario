@@ -66,7 +66,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span>
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
               {hitos?.mayorVictoriaLibres.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -75,7 +75,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
               {hitos?.mayorDerrotaLibres.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -84,7 +84,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
               {hitos?.masGolesLibres.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -92,8 +92,17 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               }
               </span> 
             </div>
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
+              <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
+              {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario === ""
+                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay presencias sin jugar</span>
+                : `${hitos?.masPresenciasSinJugarLibres.cantidad} (BRUMARIO ${hitos?.masPresenciasSinJugarLibres.partido.golesBrumario} - ${hitos?.masPresenciasSinJugarLibres.partido.golesRecibidos} ${hitos?.masPresenciasSinJugarLibres.partido.rival}, ${hitos?.masPresenciasSinJugarLibres.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masPresenciasSinJugarLibres.partido.fecha)})`
+              }
+              </span> 
+            </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos invicto:</span>{" "}
                 {hitos?.rachaInvictaLibres.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -102,7 +111,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos ganados:</span>{" "}
                 {hitos?.rachaGanadosLibres.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -111,7 +120,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos sin ganar:</span>{" "}
                 {hitos?.rachaSinGanarLibres.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -120,7 +129,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos perdidos:</span>{" "}
                 {hitos?.rachaPerdidosLibres.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -141,7 +150,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span>   
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className="contenedor_estadistica_nombre">
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Historial:</span>{" "}
                 {hitos ? (
                   `${hitos.ganadosSenior}G - ${hitos.empatadosSenior}E - ${hitos.perdidosSenior}P (Efectividad: ${porcentajeSenior}%)`
@@ -153,7 +162,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span>
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
               {hitos?.mayorVictoriaSenior.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -162,7 +171,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
               {hitos?.mayorDerrotaSenior.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -171,7 +180,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
               <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
               {hitos?.masGolesSenior.partido.golesBrumario === ""
                 ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
@@ -179,8 +188,17 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               }
               </span> 
             </div>
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
+              <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
+              {hitos?.masPresenciasSinJugarSenior.partido.golesBrumario === ""
+                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay presencias sin jugar</span>
+                : `${hitos?.masPresenciasSinJugarSenior.cantidad} (BRUMARIO ${hitos?.masPresenciasSinJugarSenior.partido.golesBrumario} - ${hitos?.masPresenciasSinJugarSenior.partido.golesRecibidos} ${hitos?.masPresenciasSinJugarSenior.partido.rival}, ${hitos?.masPresenciasSinJugarSenior.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masPresenciasSinJugarSenior.partido.fecha)})`
+              }
+              </span> 
+            </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos invicto:</span>{" "}
                 {hitos?.rachaInvictaSenior.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -189,7 +207,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos ganados:</span>{" "}
                 {hitos?.rachaGanadosSenior.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -198,7 +216,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos sin ganar:</span>{" "}
                 {hitos?.rachaSinGanarSenior.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>
@@ -207,7 +225,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 </span>
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Mas partidos consecutivos perdidos:</span>{" "}
                 {hitos?.rachaPerdidosSenior.racha.duracionPartidos === 0
                   ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias/empates</span>

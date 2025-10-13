@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IPartido } from "../models/partido";
+import { GolFavor, IPartido } from "../models/partido";
 
 export interface HitoPartido {
   rival: string;
@@ -33,6 +33,16 @@ export function crearHitoRachaBase() {
     inicio: crearHitoBase(),
     fin: crearHitoBase(),
     duracionPartidos: 0,
+  }
+}
+
+export function crearGolFavorBase() {
+  return {
+  gol: "",
+  tipo: "",
+  resultadoParcial: "",
+  asistencia: "",
+  tipoAsistencia: "",
   }
 }
 
@@ -86,11 +96,13 @@ export function procesarGolesYAsistencias(
 ) {
   let golesPartidoActual = 0;
   let asistenciasPartidoActual = 0;
+  let ultimoGolInfo: GolFavor = crearGolFavorBase()
 
   for (const goles of partido.golesFavor) {
     if (goles.gol === nombreJugador) {
       golesPartidoActual += 1;
       estadisticas.goles += 1;
+      ultimoGolInfo = goles
     }
     if (goles.asistencia === nombreJugador) {
       asistenciasPartidoActual += 1;
@@ -98,7 +110,7 @@ export function procesarGolesYAsistencias(
     }
   }
 
-  return { golesPartidoActual, asistenciasPartidoActual };
+  return { golesPartidoActual, asistenciasPartidoActual, ultimoGolInfo };
 }
 
 export function procesarTarjetas(

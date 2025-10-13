@@ -1,7 +1,7 @@
-import Partido from "../models/partido";
+import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
 import Jugador from "../models/persona"; // tu modelo de Mongoose
-import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, Anio, crearAnioBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
+import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 
 export const getJugadores = async () => {
   try {
@@ -82,13 +82,18 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let masGolesPartido: HitoPartido = crearHitoBase();
   let masAsistencias = 0;
   let masAsistenciasPartido: HitoPartido = crearHitoBase();
+  let masContribucionesGoles = 0;
+  let masContribucionesAsistencias = 0;
+  let masContribucionesPartido: HitoPartido = crearHitoBase();
   let mayorVictoriaDirigido: HitoPartido = crearHitoBase();
   let mayorDerrotaDirigido: HitoPartido = crearHitoBase();
   let masGolesDirigido: HitoPartido = crearHitoBase();
   let rachaInvictaDirigido: HitoRacha = crearHitoRachaBase();
   let rachaGanadosDirigido: HitoRacha = crearHitoRachaBase();
   let rachaSinGanarDirigido: HitoRacha = crearHitoRachaBase();  
-  let rachaPerdidosDirigido: HitoRacha = crearHitoRachaBase();  
+  let rachaPerdidosDirigido: HitoRacha = crearHitoRachaBase();
+  let ultimoGol: GolFavor = crearGolFavorBase();
+  let ultimoGolPartido: HitoPartido = crearHitoBase();
   let anios: Anio[] = [];
   for (const partido of partidos) {
     const anio = partido.fecha.getFullYear()
@@ -98,7 +103,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     const estadisticas_anio = anios.find(a => a.anio === anio);
 
     procesarPresencias(nombreJugador, partido, estadisticas_anio!);
-    const { golesPartidoActual, asistenciasPartidoActual } = 
+    const { golesPartidoActual, asistenciasPartidoActual, ultimoGolInfo } = 
       procesarGolesYAsistencias(nombreJugador, partido, estadisticas_anio!);
     procesarTarjetas(nombreJugador, partido, estadisticas_anio!);
     procesarPresenciasSinJugar(nombreJugador, partido, estadisticas_anio!);
@@ -110,6 +115,15 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     if (asistenciasPartidoActual > masAsistencias) {
       masAsistencias = asistenciasPartidoActual;
       masAsistenciasPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+    }
+    if (golesPartidoActual > 0) {
+      ultimoGolPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      ultimoGol = ultimoGolInfo;
+    }
+    if (golesPartidoActual+asistenciasPartidoActual > masContribucionesGoles+masContribucionesAsistencias) {
+      masContribucionesGoles = golesPartidoActual;
+      masContribucionesAsistencias = asistenciasPartidoActual;
+      masContribucionesPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
   }
 
@@ -170,6 +184,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   return {
     masGoles: { cantidad: masGoles, partido: masGolesPartido },
     masAsistencias: { cantidad: masAsistencias, partido: masAsistenciasPartido },
+    masContribuciones: {cantidadGoles: masContribucionesGoles, cantidadAsistencias: masContribucionesAsistencias, partido: masContribucionesPartido},
     masGolesAnio: encontrarMaximoPorAnio(anios, "goles"),
     masAsistenciasAnio: encontrarMaximoPorAnio(anios, "asistencias"),
     masAmarillasAnio: encontrarMaximoPorAnio(anios, "amarillas"),
@@ -182,6 +197,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     tecnicoRachaInvicta: {racha: rachaInvictaDirigido},
     tecnicoRachaGanados: {racha: rachaGanadosDirigido},
     tecnicoRachaSinGanar: {racha: rachaSinGanarDirigido},
-    tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido}
+    tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido},
+    ultimoGol: {partido: ultimoGolPartido, gol: ultimoGol}
   };  
 }

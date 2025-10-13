@@ -47,6 +47,8 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
   let ganadosLibres = 0;
   let empatadosLibres = 0;
   let perdidosLibres = 0;
+  let masPresenciasSinJugarPartidoLibres: HitoPartido = crearHitoBase();
+  let masPresenciasSinJugarCantidadLibres = 0;
 
   let mayorVictoriaSenior: HitoPartido = crearHitoBase();
   let mayorDerrotaSenior: HitoPartido = crearHitoBase();
@@ -58,6 +60,8 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
   let ganadosSenior = 0;
   let empatadosSenior = 0;
   let perdidosSenior = 0;
+  let masPresenciasSinJugarCantidadSenior = 0;
+  let masPresenciasSinJugarPartidoSenior: HitoPartido = crearHitoBase();
 
   let rachaInvictaActual: HitoRacha = crearHitoRachaBase();
   let rachaGanadosActual: HitoRacha = crearHitoRachaBase();
@@ -78,6 +82,10 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
     }
     if (mas_goles < goles_partido) {
       masGolesLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+    }
+    if (partido.presencia_sin_jugar.length > masPresenciasSinJugarCantidadLibres) {
+      masPresenciasSinJugarPartidoLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masPresenciasSinJugarCantidadLibres = partido.presencia_sin_jugar.length
     }
     if (partido.resultado == "Ganado"){
       ganadosLibres += 1;
@@ -142,7 +150,11 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
     if (mas_goles < goles_partido) {
       masGolesSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
-     if (partido.resultado == "Ganado"){
+    if (partido.presencia_sin_jugar.length > masPresenciasSinJugarCantidadSenior) {
+      masPresenciasSinJugarPartidoSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masPresenciasSinJugarCantidadSenior = partido.presencia_sin_jugar.length;
+    }
+    if (partido.resultado == "Ganado"){
       ganadosSenior += 1;
     }
     else if (partido.resultado == "Empatado"){
@@ -204,6 +216,8 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
     perdidosLibres:  perdidosLibres,
     ganadosSenior: ganadosSenior,
     empatadosSenior: empatadosSenior,
-    perdidosSenior:  perdidosSenior
+    perdidosSenior:  perdidosSenior,
+    masPresenciasSinJugarLibres: {cantidad: masPresenciasSinJugarCantidadLibres, partido: masPresenciasSinJugarPartidoLibres},
+    masPresenciasSinJugarSenior: {cantidad: masPresenciasSinJugarCantidadSenior, partido: masPresenciasSinJugarPartidoSenior}
   }
 }
