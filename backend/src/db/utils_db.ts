@@ -34,7 +34,10 @@ export function formatDateDDMMYYYY(date: Date): string {
 }
 
 export interface FilaJugador {
-    Nombre: string;  // nombre exacto de la columna
+    'Nombre': string;  // nombre exacto de la columna
+    'Debut': number;
+    'Debut Oficial': number;
+    'Dorsal': number
 }
 
 export interface FilaPartido {

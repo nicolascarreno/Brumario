@@ -90,6 +90,9 @@ interface IPersona extends Document {
     presencias_sin_jugar: number;
     tipos_presencias_sin_jugar: TiposPresenciasSinJugar
     director_tecnico: DirectorTecnico;
+    debut: Date;
+    debut_oficial: Date;
+    dorsal: number;
     createdAt: Date;
 }
 
@@ -106,6 +109,9 @@ const personaSchema: Schema = new Schema({
     presencias_sin_jugar: { type: Number, required: true },
     tipos_presencias_sin_jugar: tiposPresenciaSinJugarSchema,
     director_tecnico: DirectorTecnicoSchema,
+    debut: { type: Date, required: true },
+    debut_oficial: { type: Date, required: true },
+    dorsal: { type: Number, required: false },
     createdAt: { type: Date, default: Date.now }
 });
 

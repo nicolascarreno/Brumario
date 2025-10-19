@@ -30,11 +30,15 @@ export async function cargar_jugadores() {
           const tipos_asistencia = { "cabeza": 0, "pie_jugada": 0, "corner": 0, "tiro_libre": 0, 'otros': 0 };
           const tipos_presencia_sin_jugar = {"ganados": 0, "empatados": 0, "perdidos": 0};
           const director_tecnico = {"ganados": 0, "empatados": 0, "perdidos": 0, "esquemas": {}};
+          const debut: Date = excelDateToJSDate(fila['Debut'] ? fila['Debut'] : 1);
+          const debut_oficial: Date = excelDateToJSDate(fila['Debut Oficial'] ? fila['Debut Oficial'] : 1);
+          const dorsal = fila['Dorsal'];
           const nuevaPersona = new Persona({ nombre: nombrePersona, goles: 0, tipos_gol: tipos_gol, asistencias: 0, 
                                             amarillas: 0, rojas: 0, presencias_sin_jugar: 0, 
                                             titular: 0, suplente: 0, tipos_asistencia: tipos_asistencia,
                                             tipos_presencias_sin_jugar: tipos_presencia_sin_jugar,
-                                            director_tecnico: director_tecnico });
+                                            director_tecnico: director_tecnico, debut: debut,
+                                            debut_oficial: debut_oficial, dorsal: dorsal });
           await nuevaPersona.save();
           console.log(`Persona guardada: ${nombrePersona}`);
       } catch (error: any) {
@@ -84,8 +88,6 @@ export async function cargar_partidos() {
       const golesRecibidos: GolRecibido[] = [];
       for (let i = 1; i <= 8; i++) {
         const arquero = fila[`Gol recibido ${i}`];
-        console.log(fila[`Gol recibido ${i}`])
-        console.log(`Gol recibido ${i}`)
         if (arquero) {
           golesRecibidos.push({
             arquero,
@@ -144,7 +146,7 @@ export async function cargar_partidos() {
         console.log(`Partido guardado: ${nuevoPartido}`);
       } catch (error: any) {
         if (error.code === 11000) {
-          console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
+          //console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
         } else {
           console.error(`Error guardando ${fila['Partido']}:`, error);
         }

@@ -138,7 +138,9 @@ export interface Hitos {
   tecnicoRachaGanados: {racha: HitoRacha},
   tecnicoRachaSinGanar: {racha: HitoRacha},
   tecnicoRachaPerdidos: {racha: HitoRacha},
-  ultimoGol: {partido: HitosPartido, gol: GolFavor}
+  ultimoGol: {partido: HitosPartido, gol: GolFavor},
+  debut: {partido: HitosPartido},
+  debut_oficial: {partido: HitosPartido}
 }
 
 export interface Jugador {
@@ -154,5 +156,8 @@ export interface Jugador {
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
   director_tecnico: DirectorTecnico;
+  debut: Date;
+  debut_oficial: Date;
+  dorsal: number;
   hitos: Hitos;
 }

@@ -5,25 +5,9 @@ import '../styles/App.css';
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
-import { DirectorTecnico, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from "../services/service_utils";
+import { DirectorTecnico, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
 import { getJugador } from "../services/jugadoresService";
-
-interface Jugador {
-  nombre: string;
-  goles: number;
-  asistencias: number;
-  amarillas: number;
-  rojas: number;
-  presencias_sin_jugar: number;
-  titular: number;
-  suplente: number;
-  tipos_gol: TiposGol;
-  tipos_asistencia: TiposAsistencia;
-  tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
-  director_tecnico: DirectorTecnico;
-  hitos: Hitos;
-}
 
 export const DetallesJugador: React.FC = () => {
   const { nombre } = useParams<{ nombre: string }>();

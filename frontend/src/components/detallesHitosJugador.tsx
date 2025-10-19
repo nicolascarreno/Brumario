@@ -1,24 +1,9 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Hitos } from '../services/service_utils';
+import { Jugador } from '../services/service_utils';
 
-interface Jugador {
-  nombre: string;
-  titular: number;
-  suplente: number;
-  goles: number;
-  asistencias: number;
-  amarillas: number;
-  rojas: number;
-  presencias_sin_jugar: number;
-  tipos_gol: TiposGol;
-  tipos_asistencia: TiposAsistencia;
-  tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
-  director_tecnico: DirectorTecnico;
-  hitos: Hitos;
-}
 
 interface DetallesHitosProp {
   jugador: Jugador;
@@ -62,6 +47,30 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                       <span className='nombre_estadistica'>
                           Hitos Como Jugador
                       </span>   
+                  </div>
+                  <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                      <span style={{ color: 'black' }}>Debut:</span>{" "}
+                      { !jugador.debut || new Date(jugador.debut) < new Date("2000-05-10") ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay datos disponibles</span>
+                      ) : !jugador.hitos?.debut?.partido?.golesBrumario ? (
+                        `(${formatDateDDMMYYYY(jugador.debut)})`
+                      ) : (
+                        `(BRUMARIO ${jugador.hitos.debut.partido.golesBrumario} - ${jugador.hitos.debut.partido.golesRecibidos} ${jugador.hitos.debut.partido.rival}, ${jugador.hitos.debut.partido.competicion}, ${formatDateDDMMYYYY(jugador.debut)})`
+                      )}
+                    </span> 
+                  </div>
+                  <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
+                      <span style={{ color: 'black' }}>Debut oficial:</span>{" "}
+                      { !jugador.debut_oficial || new Date(jugador.debut_oficial) < new Date("2000-05-10") ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay datos disponibles</span>
+                      ) : !jugador.hitos?.debut_oficial?.partido?.golesBrumario ? (
+                        `(${formatDateDDMMYYYY(jugador.debut_oficial)})`
+                      ) : (
+                        `(BRUMARIO ${jugador.hitos.debut_oficial.partido.golesBrumario} - ${jugador.hitos.debut_oficial.partido.golesRecibidos} ${jugador.hitos.debut_oficial.partido.rival}, ${jugador.hitos.debut_oficial.partido.competicion}, ${formatDateDDMMYYYY(jugador.debut_oficial)})`
+                      )}
+                    </span> 
                   </div>
                   <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">

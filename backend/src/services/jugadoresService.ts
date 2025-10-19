@@ -40,6 +40,24 @@ export const getJugadoresDetalles = async (nombre: string) => {
       { _id: 0 } // 🎯 proyección, devolvés todos los campos o los que quieras
     );
 
+    const debut  = await Partido.find(
+      { 
+        $or: [
+          { fecha: jugador.debut },  // aparece en titulares
+        ]
+      },
+      { _id: 0 } // 🎯 proyección, devolvés todos los campos o los que quieras
+    );
+
+    const debut_oficial  = await Partido.find(
+      { 
+        $or: [
+          { fecha: jugador.debut_oficial },  // aparece en titulares
+        ]
+      },
+      { _id: 0 } // 🎯 proyección, devolvés todos los campos o los que quieras
+    );
+
     const jugadoresPreferidos = calcularTopJugadores(jugadores.map(j => j.toObject()), partidosDirigidos);    
     return {
       ...jugador.toObject(),
@@ -47,7 +65,7 @@ export const getJugadoresDetalles = async (nombre: string) => {
         ...JSON.parse(JSON.stringify(jugador.director_tecnico)),
         jugadoresPreferidos,
       },
-      hitos: hitos(nombre, partidosJugados, partidosDirigidos),
+      hitos: hitos(nombre, partidosJugados, partidosDirigidos, debut, debut_oficial),
     };
   } catch (error) {
     throw new Error("Error al obtener jugador: " + error);
@@ -77,7 +95,7 @@ const calcularTopJugadores = (
     .map(({ nombre }) => ({ nombre }));
 };
 
-function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: IPartido[]) {
+function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: IPartido[], debut: IPartido[], debut_oficial: IPartido[]) {
   let masGoles = 0;
   let masGolesPartido: HitoPartido = crearHitoBase();
   let masAsistencias = 0;
@@ -95,6 +113,15 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let ultimoGol: GolFavor = crearGolFavorBase();
   let ultimoGolPartido: HitoPartido = crearHitoBase();
   let anios: Anio[] = [];
+
+  let debut_partido = debut.length > 0 
+    ? {rival: debut[0].rival, competicion: debut[0].competicion, tipo_partido: debut[0].tipo_partido, golesBrumario: debut[0].goles_favor, golesRecibidos: debut[0].goles_contra, fecha: debut[0].fecha}       
+    : crearHitoBase(); 
+
+  let debut_oficial_partido = debut_oficial.length > 0 
+    ? {rival: debut_oficial[0].rival, competicion: debut_oficial[0].competicion, tipo_partido: debut_oficial[0].tipo_partido, golesBrumario: debut_oficial[0].goles_favor, golesRecibidos: debut_oficial[0].goles_contra, fecha: debut_oficial[0].fecha}       
+    : crearHitoBase(); 
+
   for (const partido of partidos) {
     const anio = partido.fecha.getFullYear()
     if (!anios.some(a => a.anio === anio)) {
@@ -198,6 +225,8 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     tecnicoRachaGanados: {racha: rachaGanadosDirigido},
     tecnicoRachaSinGanar: {racha: rachaSinGanarDirigido},
     tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido},
-    ultimoGol: {partido: ultimoGolPartido, gol: ultimoGol}
+    ultimoGol: {partido: ultimoGolPartido, gol: ultimoGol},
+    debut: {partido: debut_oficial_partido},
+    debut_oficial: {partido: debut_oficial_partido}
   };  
 }
