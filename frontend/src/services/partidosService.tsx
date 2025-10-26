@@ -6,7 +6,7 @@ interface Partidos{
 }
 
 export async function getPartidos(): Promise<Partidos> {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
   const response = await fetch(`${API_URL}/api/partidos`, {
     method: "GET",
     headers: {
@@ -24,7 +24,7 @@ export async function getPartidos(): Promise<Partidos> {
 }
 
 export async function getPartido(nro: string): Promise<Partido | null> {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
   console.log(nro)
   try {
     const res = await fetch(`${API_URL}/api/partidos/${nro}`, { cache: "no-store" });
