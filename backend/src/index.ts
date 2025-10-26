@@ -19,12 +19,12 @@ app.get('/hello', (req, res) => {
 });
 
 // 📦 Servir el frontend buildado de React
-const frontendPath = path.join(__dirname, '../../frontend/build');
-app.use(express.static(frontendPath));
+//const frontendPath = path.join(__dirname, '../../frontend/build');
+//app.use(express.static(frontendPath));
 
-app.get(/.*/, (_, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
+//app.get(/.*/, (_, res) => {
+//  res.sendFile(path.join(frontendPath, 'index.html'));
+//});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor backend escuchando en puerto ${PORT}`);

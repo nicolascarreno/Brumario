@@ -8,8 +8,6 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "cargar-db": "ts-node src/cargar_db.ts",
     "build": "tsc",
-    "build_prod": "npm run build_prod:frontend && tsc",
-    "build_prod:frontend": "cd ../frontend && npm install && npm run build",
     "start": "node dist/index.js"
   },
   "keywords": [],
