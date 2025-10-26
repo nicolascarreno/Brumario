@@ -1,11 +1,11 @@
 import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
-import Jugador from "../models/persona"; // tu modelo de Mongoose
+import Persona from "../models/persona"; // tu modelo de Mongoose
 import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 
 export const getJugadores = async () => {
   try {
-    const jugadores = await Jugador.find({}, { _id: 0 });
+    const jugadores = await Persona.find({}, { _id: 0 });
     console.log(jugadores)
     return jugadores;
   } catch (error) {
@@ -15,7 +15,7 @@ export const getJugadores = async () => {
 
 export const getJugadoresDetalles = async (nombre: string) => {
   try {
-    const jugador = await Jugador.findOne(
+    const jugador = await Persona.findOne(
       { nombre },
       { _id: 0 },
     );
@@ -24,7 +24,7 @@ export const getJugadoresDetalles = async (nombre: string) => {
       throw new Error(`No se encontró el jugador con nombre: ${nombre}`);
     }
 
-    const jugadores = await Jugador.find({}, { _id: 0, nombre: 1 });0
+    const jugadores = await Persona.find({}, { _id: 0, nombre: 1 });
     const partidosDirigidos = await Partido.find(
       { director_tecnico: nombre },
       { _id: 0 }
