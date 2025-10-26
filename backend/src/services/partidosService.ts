@@ -75,16 +75,16 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
     const dif_resultado = parseGoles(partido.goles_favor) - parseGoles(partido.goles_contra);
     const goles_partido = parseGoles(partido.goles_contra) + parseGoles(partido.goles_favor);
     if (mayor_victoria < dif_resultado && dif_resultado > 0) {
-      mayorVictoriaLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorVictoriaLibres = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mayor_derrota > dif_resultado && dif_resultado < 0) {
-      mayorDerrotaLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorDerrotaLibres = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mas_goles < goles_partido) {
-      masGolesLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masGolesLibres = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (partido.presencia_sin_jugar.length > masPresenciasSinJugarCantidadLibres) {
-      masPresenciasSinJugarPartidoLibres = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masPresenciasSinJugarPartidoLibres = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       masPresenciasSinJugarCantidadLibres = partido.presencia_sin_jugar.length
     }
     if (partido.resultado == "Ganado"){
@@ -142,16 +142,16 @@ function hitos(partidosLibres: IPartido[], partidosSenior: IPartido[]){
     const dif_resultado = parseGoles(partido.goles_favor) - parseGoles(partido.goles_contra);
     const goles_partido = parseGoles(partido.goles_contra) + parseGoles(partido.goles_favor);
     if (mayor_victoria < dif_resultado && dif_resultado > 0) {
-      mayorVictoriaSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorVictoriaSenior = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mayor_derrota > dif_resultado && dif_resultado < 0) {
-      mayorDerrotaSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorDerrotaSenior = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mas_goles < goles_partido) {
-      masGolesSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masGolesSenior = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (partido.presencia_sin_jugar.length > masPresenciasSinJugarCantidadSenior) {
-      masPresenciasSinJugarPartidoSenior = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masPresenciasSinJugarPartidoSenior = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       masPresenciasSinJugarCantidadSenior = partido.presencia_sin_jugar.length;
     }
     if (partido.resultado == "Ganado"){

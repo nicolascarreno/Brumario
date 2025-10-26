@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/App.css';
+import '../styles/detalles_jugador.css'
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
-import { DirectorTecnico, Hitos, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Jugador } from "../services/service_utils";
+import { Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
 import { getJugador } from "../services/jugadoresService";
 
@@ -26,11 +27,8 @@ export const DetallesJugador: React.FC = () => {
 
   console.log(jugador);
 
-  if (!jugador && !loading) return <p>No se encontró el jugador</p>;
-
-
   const renderContenido = () => {
-      if (!jugador) return <p>No se encontró el jugador</p>;
+      if (!jugador) return <div style={{padding: 40}}><span className="nombre_estadistica">¡Ups! No se encontró el jugador buscado</span></div>;
       switch (opcion) {
         case "general":
           return (

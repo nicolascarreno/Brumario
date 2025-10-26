@@ -52,11 +52,24 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                     <span style={{ textIndent: 20 }} className="estadistica">
                       <span style={{ color: 'black' }}>Debut:</span>{" "}
                       { !jugador.debut || new Date(jugador.debut) < new Date("2000-05-10") ? (
-                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay datos disponibles</span>
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No hay datos disponibles
+                        </span>
                       ) : !jugador.hitos?.debut?.partido?.golesBrumario ? (
                         `(${formatDateDDMMYYYY(jugador.debut)})`
                       ) : (
-                        `(BRUMARIO ${jugador.hitos.debut.partido.golesBrumario} - ${jugador.hitos.debut.partido.golesRecibidos} ${jugador.hitos.debut.partido.rival}, ${jugador.hitos.debut.partido.competicion}, ${formatDateDDMMYYYY(jugador.debut)})`
+                        <Link
+                          to={`/partidos/${jugador.hitos.debut.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            (BRUMARIO {jugador.hitos.debut.partido.golesBrumario} -{" "}
+                            {jugador.hitos.debut.partido.golesRecibidos}{" "}
+                            {jugador.hitos.debut.partido.rival},{" "}
+                            {jugador.hitos.debut.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.debut)})
+                          </span>
+                        </Link>
                       )}
                     </span> 
                   </div>
@@ -64,49 +77,96 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                     <span style={{ textIndent: 20 }} className="estadistica">
                       <span style={{ color: 'black' }}>Debut oficial:</span>{" "}
                       { !jugador.debut_oficial || new Date(jugador.debut_oficial) < new Date("2000-05-10") ? (
-                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay datos disponibles</span>
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No hay datos disponibles
+                        </span>
                       ) : !jugador.hitos?.debut_oficial?.partido?.golesBrumario ? (
                         `(${formatDateDDMMYYYY(jugador.debut_oficial)})`
                       ) : (
-                        `(BRUMARIO ${jugador.hitos.debut_oficial.partido.golesBrumario} - ${jugador.hitos.debut_oficial.partido.golesRecibidos} ${jugador.hitos.debut_oficial.partido.rival}, ${jugador.hitos.debut_oficial.partido.competicion}, ${formatDateDDMMYYYY(jugador.debut_oficial)})`
+                        <Link
+                          to={`/partidos/${jugador.hitos.debut_oficial.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            (BRUMARIO {jugador.hitos.debut_oficial.partido.golesBrumario} -{" "}
+                            {jugador.hitos.debut_oficial.partido.golesRecibidos}{" "}
+                            {jugador.hitos.debut_oficial.partido.rival},{" "}
+                            {jugador.hitos.debut_oficial.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.debut_oficial)})
+                          </span>
+                        </Link>
                       )}
                     </span> 
                   </div>
-                  <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-                    <span style={{ textIndent: 20 }} className="estadistica">
-                    <span style={{ color: 'black' }}>Mas goles en un partido:</span>{" "}
-                    {jugador.hitos.masGoles.cantidad === 0
-                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                      : `${jugador.hitos.masGoles.cantidad} (BRUMARIO ${jugador.hitos.masGoles.partido.golesBrumario} - ${jugador.hitos.masGoles.partido.golesRecibidos} ${jugador.hitos.masGoles.partido.rival}, ${jugador.hitos.masGoles.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masGoles.partido.fecha)})`
-                    }
-                  </span> 
-                  </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
-                    <span style={{ color: 'black' }}>Mas asistencias en un partido:</span>{" "}
-                    {jugador.hitos.masAsistencias.cantidad === 0
-                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
-                      : `${jugador.hitos.masAsistencias.cantidad} (BRUMARIO ${jugador.hitos.masAsistencias.partido.golesBrumario} - ${jugador.hitos.masAsistencias.partido.golesRecibidos} ${jugador.hitos.masAsistencias.partido.rival}, ${jugador.hitos.masAsistencias.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masAsistencias.partido.fecha)})`
-                    }
+                      <span style={{ color: 'black' }}>Más asistencias en un partido:</span>{" "}
+                      {jugador.hitos.masAsistencias.cantidad === 0 ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No tiene asistencias
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/partidos/${jugador.hitos.masAsistencias.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            {jugador.hitos.masAsistencias.cantidad} (BRUMARIO {jugador.hitos.masAsistencias.partido.golesBrumario} -{" "}
+                            {jugador.hitos.masAsistencias.partido.golesRecibidos}{" "}
+                            {jugador.hitos.masAsistencias.partido.rival},{" "}
+                            {jugador.hitos.masAsistencias.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.hitos.masAsistencias.partido.fecha)})
+                          </span>
+                        </Link>
+                      )}
                     </span>
                   </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
-                    <span style={{ color: 'black' }}>Mas contribuciones en un partido:</span>{" "}
-                    {jugador.hitos.masContribuciones.partido.golesBrumario === ""
-                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene asistencias</span>
-                      : `${jugador.hitos.masContribuciones.cantidadAsistencias+jugador.hitos.masContribuciones.cantidadGoles} (${jugador.hitos.masContribuciones.cantidadGoles}⚽ || ${jugador.hitos.masContribuciones.cantidadAsistencias}🎯) (BRUMARIO ${jugador.hitos.masContribuciones.partido.golesBrumario} - ${jugador.hitos.masContribuciones.partido.golesRecibidos} ${jugador.hitos.masContribuciones.partido.rival}, ${jugador.hitos.masContribuciones.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.masContribuciones.partido.fecha)})`
-                    }
+                      <span style={{ color: 'black' }}>Más contribuciones en un partido:</span>{" "}
+                      {jugador.hitos.masContribuciones.partido.golesBrumario === "" ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No tiene contribuciones
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/partidos/${jugador.hitos.masContribuciones.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            {jugador.hitos.masContribuciones.cantidadGoles + jugador.hitos.masContribuciones.cantidadAsistencias} (
+                            {jugador.hitos.masContribuciones.cantidadGoles}⚽ || {jugador.hitos.masContribuciones.cantidadAsistencias}🎯) (BRUMARIO {jugador.hitos.masContribuciones.partido.golesBrumario} -{" "}
+                            {jugador.hitos.masContribuciones.partido.golesRecibidos}{" "}
+                            {jugador.hitos.masContribuciones.partido.rival},{" "}
+                            {jugador.hitos.masContribuciones.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.hitos.masContribuciones.partido.fecha)})
+                          </span>
+                        </Link>
+                      )}
                     </span>
                   </div>
                   <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
-                    <span style={{ color: 'black' }}>Último gol:</span>{" "}
-                    {jugador.hitos.ultimoGol.partido.golesBrumario === ""
-                      ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                      : `de ${jugador.hitos.ultimoGol.gol.tipo}, ${jugador.hitos.ultimoGol.gol.resultadoParcial} (Parcial) (BRUMARIO ${jugador.hitos.ultimoGol.partido.golesBrumario} - ${jugador.hitos.ultimoGol.partido.golesRecibidos} ${jugador.hitos.ultimoGol.partido.rival}, ${jugador.hitos.ultimoGol.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.ultimoGol.partido.fecha)})`
-                    }
-                  </span> 
+                      <span style={{ color: 'black' }}>Último gol:</span>{" "}
+                      {jugador.hitos.ultimoGol.partido.golesBrumario === "" ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No tiene goles
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/partidos/${jugador.hitos.ultimoGol.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            de {jugador.hitos.ultimoGol.gol.tipo}, {jugador.hitos.ultimoGol.gol.resultadoParcial} (Parcial) (BRUMARIO {jugador.hitos.ultimoGol.partido.golesBrumario} -{" "}
+                            {jugador.hitos.ultimoGol.partido.golesRecibidos}{" "}
+                            {jugador.hitos.ultimoGol.partido.rival},{" "}
+                            {jugador.hitos.ultimoGol.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.hitos.ultimoGol.partido.fecha)})
+                          </span>
+                        </Link>
+                      )}
+                    </span> 
                   </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
@@ -182,29 +242,71 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
               </div>
               <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                 <span style={{ textIndent: 20 }} className="estadistica">
-                <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
-                {jugador.hitos.tecnicoMayorVictoria.partido.golesBrumario === ""
-                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene victorias</span>
-                  : `(BRUMARIO ${jugador.hitos.tecnicoMayorVictoria.partido.golesBrumario} - ${jugador.hitos.tecnicoMayorVictoria.partido.golesRecibidos} ${jugador.hitos.tecnicoMayorVictoria.partido.rival}, ${jugador.hitos.tecnicoMayorVictoria.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.tecnicoMayorVictoria.partido.fecha)})`
-                }
+                  <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
+                  {jugador.hitos.tecnicoMayorVictoria.partido.golesBrumario === "" ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene victorias
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${jugador.hitos.tecnicoMayorVictoria.partido.nro}`}
+                      style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {jugador.hitos.tecnicoMayorVictoria.partido.golesBrumario} -{" "}
+                        {jugador.hitos.tecnicoMayorVictoria.partido.golesRecibidos}{" "}
+                        {jugador.hitos.tecnicoMayorVictoria.partido.rival},{" "}
+                        {jugador.hitos.tecnicoMayorVictoria.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(jugador.hitos.tecnicoMayorVictoria.partido.fecha)})
+                      </span>
+                    </Link>
+                  )}
                 </span>
               </div>
               <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                 <span style={{ textIndent: 20 }} className="estadistica">
-                <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
-                {jugador.hitos.tecnicoMayorDerrota.partido.golesBrumario === ""
-                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene derrotas</span>
-                  : `(BRUMARIO ${jugador.hitos.tecnicoMayorDerrota.partido.golesBrumario} - ${jugador.hitos.tecnicoMayorDerrota.partido.golesRecibidos} ${jugador.hitos.tecnicoMayorDerrota.partido.rival}, ${jugador.hitos.tecnicoMayorDerrota.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.tecnicoMayorDerrota.partido.fecha)})`
-                }
+                  <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
+                  {jugador.hitos.tecnicoMayorDerrota.partido.golesBrumario === "" ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene derrotas
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${jugador.hitos.tecnicoMayorDerrota.partido.nro}`}
+                      style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {jugador.hitos.tecnicoMayorDerrota.partido.golesBrumario} -{" "}
+                        {jugador.hitos.tecnicoMayorDerrota.partido.golesRecibidos}{" "}
+                        {jugador.hitos.tecnicoMayorDerrota.partido.rival},{" "}
+                        {jugador.hitos.tecnicoMayorDerrota.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(jugador.hitos.tecnicoMayorDerrota.partido.fecha)})
+                      </span>
+                    </Link>
+                  )}
                 </span>
               </div>
               <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                 <span style={{ textIndent: 20 }} className="estadistica">
-                <span style={{ color: 'black' }}>Mas goles en un partido:</span>{" "}
-                {jugador.hitos.tecnicoMayorDerrota.partido.golesBrumario === ""
-                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene partidos dirigidos</span>
-                  : `(BRUMARIO ${jugador.hitos.tecnicoMasGoles.partido.golesBrumario} - ${jugador.hitos.tecnicoMasGoles.partido.golesRecibidos} ${jugador.hitos.tecnicoMasGoles.partido.rival}, ${jugador.hitos.tecnicoMasGoles.partido.competicion}, ${formatDateDDMMYYYY(jugador.hitos.tecnicoMasGoles.partido.fecha)})`
-                }
+                  <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
+                  {jugador.hitos.tecnicoMasGoles.partido.golesBrumario === "" ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene partidos dirigidos
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${jugador.hitos.tecnicoMasGoles.partido.nro}`}
+                      style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {jugador.hitos.tecnicoMasGoles.partido.golesBrumario} -{" "}
+                        {jugador.hitos.tecnicoMasGoles.partido.golesRecibidos}{" "}
+                        {jugador.hitos.tecnicoMasGoles.partido.rival},{" "}
+                        {jugador.hitos.tecnicoMasGoles.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(jugador.hitos.tecnicoMasGoles.partido.fecha)})
+                      </span>
+                    </Link>
+                  )}
                 </span>
               </div>
               <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>

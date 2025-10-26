@@ -137,20 +137,20 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
 
     if (golesPartidoActual > masGoles) {
       masGoles = golesPartidoActual;
-      masGolesPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masGolesPartido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (asistenciasPartidoActual > masAsistencias) {
       masAsistencias = asistenciasPartidoActual;
-      masAsistenciasPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masAsistenciasPartido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (golesPartidoActual > 0) {
-      ultimoGolPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      ultimoGolPartido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       ultimoGol = ultimoGolInfo;
     }
     if (golesPartidoActual+asistenciasPartidoActual > masContribucionesGoles+masContribucionesAsistencias) {
       masContribucionesGoles = golesPartidoActual;
       masContribucionesAsistencias = asistenciasPartidoActual;
-      masContribucionesPartido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masContribucionesPartido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
   }
 
@@ -165,13 +165,13 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     const dif_resultado = parseGoles(partido.goles_favor) - parseGoles(partido.goles_contra);
     const goles_partido = parseGoles(partido.goles_contra) + parseGoles(partido.goles_favor);
     if (mayor_victoria < dif_resultado && dif_resultado > 0) {
-      mayorVictoriaDirigido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorVictoriaDirigido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mayor_derrota > dif_resultado && dif_resultado < 0) {
-      mayorDerrotaDirigido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      mayorDerrotaDirigido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
     if (mas_goles < goles_partido) {
-      masGolesDirigido = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      masGolesDirigido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
     }
 
    const resultadoRacha = actualizarRachaInvicta(

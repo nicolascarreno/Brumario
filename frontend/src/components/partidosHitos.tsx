@@ -67,38 +67,112 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
               <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
-              {hitos?.mayorVictoriaLibres.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.mayorVictoriaLibres.partido.golesBrumario} - ${hitos?.mayorVictoriaLibres.partido.golesRecibidos} ${hitos?.mayorVictoriaLibres.partido.rival}, ${hitos?.mayorVictoriaLibres.partido.competicion}, ${formatDateDDMMYYYY(hitos?.mayorVictoriaLibres.partido.fecha)})`
-              }
+                <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
+                {hitos?.mayorVictoriaLibres.partido.golesBrumario === ""
+                  ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene goles
+                    </span>
+                  ) : (
+                    <Link to={`/partidos/${hitos?.mayorVictoriaLibres.partido.nro}`} style={{textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {hitos?.mayorVictoriaLibres.partido.golesBrumario} - 
+                        {hitos?.mayorVictoriaLibres.partido.golesRecibidos}{" "}
+                        {hitos?.mayorVictoriaLibres.partido.rival},{" "}
+                        {hitos?.mayorVictoriaLibres.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(hitos?.mayorVictoriaLibres.partido.fecha)})
+                      </span>
+                    </Link>
+                  )
+                }
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
               <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
-              {hitos?.mayorDerrotaLibres.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.mayorDerrotaLibres.partido.golesBrumario} - ${hitos?.mayorDerrotaLibres.partido.golesRecibidos} ${hitos?.mayorDerrotaLibres.partido.rival}, ${hitos?.mayorDerrotaLibres.partido.competicion}, ${formatDateDDMMYYYY(hitos?.mayorDerrotaLibres.partido.fecha)})`
-              }
+                <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
+                {hitos?.mayorDerrotaLibres.partido.golesBrumario === ""
+                  ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene goles
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${hitos?.mayorDerrotaLibres.partido.nro}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {hitos?.mayorDerrotaLibres.partido.golesBrumario} - 
+                        {hitos?.mayorDerrotaLibres.partido.golesRecibidos}{" "}
+                        {hitos?.mayorDerrotaLibres.partido.rival},{" "}
+                        {hitos?.mayorDerrotaLibres.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(hitos?.mayorDerrotaLibres.partido.fecha)})
+                      </span>
+                    </Link>
+                  )
+                }
+              </span>
+            </div>
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
+                <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
+                {hitos?.masGolesLibres.partido.golesBrumario === ""
+                  ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene goles
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${hitos?.masGolesLibres.partido.nro}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        (BRUMARIO {hitos?.masGolesLibres.partido.golesBrumario} - 
+                        {hitos?.masGolesLibres.partido.golesRecibidos}{" "}
+                        {hitos?.masGolesLibres.partido.rival},{" "}
+                        {hitos?.masGolesLibres.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(hitos?.masGolesLibres.partido.fecha)})
+                      </span>
+                    </Link>
+                  )
+                }
               </span> 
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
               <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
-              {hitos?.masGolesLibres.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.masGolesLibres.partido.golesBrumario} - ${hitos?.masGolesLibres.partido.golesRecibidos} ${hitos?.masGolesLibres.partido.rival}, ${hitos?.masGolesLibres.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masGolesLibres.partido.fecha)})`
-              }
-              </span> 
-            </div>
-            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
-              {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay presencias sin jugar</span>
-                : `${hitos?.masPresenciasSinJugarLibres.cantidad} (BRUMARIO ${hitos?.masPresenciasSinJugarLibres.partido.golesBrumario} - ${hitos?.masPresenciasSinJugarLibres.partido.golesRecibidos} ${hitos?.masPresenciasSinJugarLibres.partido.rival}, ${hitos?.masPresenciasSinJugarLibres.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masPresenciasSinJugarLibres.partido.fecha)})`
-              }
+                <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
+                {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario === ""
+                  ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No hay presencias sin jugar
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${hitos?.masPresenciasSinJugarLibres.partido.nro}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        {hitos?.masPresenciasSinJugarLibres.cantidad}{" "}
+                        (BRUMARIO {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario} - 
+                        {hitos?.masPresenciasSinJugarLibres.partido.golesRecibidos}{" "}
+                        {hitos?.masPresenciasSinJugarLibres.partido.rival},{" "}
+                        {hitos?.masPresenciasSinJugarLibres.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(hitos?.masPresenciasSinJugarLibres.partido.fecha)})
+                      </span>
+                    </Link>
+                  )
+                }
               </span> 
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
@@ -161,40 +235,93 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                 )}
               </span>
             </div>
-            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Mayor victoria:</span>{" "}
-              {hitos?.mayorVictoriaSenior.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.mayorVictoriaSenior.partido.golesBrumario} - ${hitos?.mayorVictoriaSenior.partido.golesRecibidos} ${hitos?.mayorVictoriaSenior.partido.rival}, ${hitos?.mayorVictoriaSenior.partido.competicion}, ${formatDateDDMMYYYY(hitos?.mayorVictoriaSenior.partido.fecha)})`
-              }
-              </span> 
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className="contenedor_estadistica_nombre">
+              <span style={{ textIndent: 20, textAlign: "left" }} className="estadistica">
+                <span style={{ color: "black" }}>Mayor victoria:</span>{" "}
+                {hitos?.mayorVictoriaSenior.partido.golesBrumario === "" ? (
+                  <span style={{fontStyle: "italic", fontWeight: "normal", color: "black"}}>
+                    No tiene goles
+                  </span>
+                ) : (
+                  <Link
+                    to={`/partidos/${hitos?.mayorVictoriaSenior.partido.nro}`}
+                    style={{textDecoration: "none", color: "inherit", cursor: "pointer"}}>
+                    <span style={{ color: "#434343" }}>
+                      (BRUMARIO {hitos?.mayorVictoriaSenior.partido.golesBrumario} -{" "}
+                      {hitos?.mayorVictoriaSenior.partido.golesRecibidos}{" "}
+                      {hitos?.mayorVictoriaSenior.partido.rival},{" "}
+                      {hitos?.mayorVictoriaSenior.partido.competicion},{" "}
+                      {formatDateDDMMYYYY(hitos?.mayorVictoriaSenior.partido.fecha)})
+                    </span>
+                  </Link>
+                )}
+              </span>
+            </div>
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className="contenedor_estadistica_nombre">
+              <span style={{ textIndent: 20, textAlign: "left" }} className="estadistica">
+                <span style={{ color: "black" }}>Mayor derrota:</span>{" "}
+                {hitos?.mayorDerrotaSenior.partido.golesBrumario === "" ? (
+                  <span style={{fontStyle: "italic", fontWeight: "normal", color: "black"}}>
+                    No tiene goles
+                  </span>
+                ) : (
+                  <Link
+                    to={`/partidos/${hitos?.mayorDerrotaSenior.partido.nro}`}
+                    style={{textDecoration: "none", color: "inherit",cursor: "pointer"}}>
+                    <span style={{ color: "#434343" }}>
+                      (BRUMARIO {hitos?.mayorDerrotaSenior.partido.golesBrumario} -{" "}
+                      {hitos?.mayorDerrotaSenior.partido.golesRecibidos}{" "}
+                      {hitos?.mayorDerrotaSenior.partido.rival},{" "}
+                      {hitos?.mayorDerrotaSenior.partido.competicion},{" "}
+                      {formatDateDDMMYYYY(hitos?.mayorDerrotaSenior.partido.fecha)})
+                    </span>
+                  </Link>
+                )}
+              </span>
+            </div>
+            <div style={{ paddingTop: 5, paddingLeft: 15 }} className="contenedor_estadistica_nombre">
+              <span style={{ textIndent: 20, textAlign: "left" }} className="estadistica">
+                <span style={{ color: "black" }}>Más goles en un partido:</span>{" "}
+                {hitos?.masGolesSenior.partido.golesBrumario === "" ? (
+                  <span style={{fontStyle: "italic", fontWeight: "normal", color: "black"}}>
+                    No tiene goles
+                  </span>
+                ) : (
+                  <Link
+                    to={`/partidos/${hitos?.masGolesSenior.partido.nro}`}
+                    style={{textDecoration: "none", color: "inherit", cursor: "pointer"}}                  >
+                    <span style={{ color: "#434343" }}>
+                      (BRUMARIO {hitos?.masGolesSenior.partido.golesBrumario} -{" "}
+                      {hitos?.masGolesSenior.partido.golesRecibidos}{" "}
+                      {hitos?.masGolesSenior.partido.rival},{" "}
+                      {hitos?.masGolesSenior.partido.competicion},{" "}
+                      {formatDateDDMMYYYY(hitos?.masGolesSenior.partido.fecha)})
+                    </span>
+                  </Link>
+                )}
+              </span>
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
               <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Mayor derrota:</span>{" "}
-              {hitos?.mayorDerrotaSenior.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.mayorDerrotaSenior.partido.golesBrumario} - ${hitos?.mayorDerrotaSenior.partido.golesRecibidos} ${hitos?.mayorDerrotaSenior.partido.rival}, ${hitos?.mayorDerrotaSenior.partido.competicion}, ${formatDateDDMMYYYY(hitos?.mayorDerrotaSenior.partido.fecha)})`
-              }
-              </span> 
-            </div>
-            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
-              {hitos?.masGolesSenior.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles</span>
-                : `(BRUMARIO ${hitos?.masGolesSenior.partido.golesBrumario} - ${hitos?.masGolesSenior.partido.golesRecibidos} ${hitos?.masGolesSenior.partido.rival}, ${hitos?.masGolesSenior.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masGolesSenior.partido.fecha)})`
-              }
-              </span> 
-            </div>
-            <div style={{ paddingTop: 5, paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
-              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
-              <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
-              {hitos?.masPresenciasSinJugarSenior.partido.golesBrumario === ""
-                ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No hay presencias sin jugar</span>
-                : `${hitos?.masPresenciasSinJugarSenior.cantidad} (BRUMARIO ${hitos?.masPresenciasSinJugarSenior.partido.golesBrumario} - ${hitos?.masPresenciasSinJugarSenior.partido.golesRecibidos} ${hitos?.masPresenciasSinJugarSenior.partido.rival}, ${hitos?.masPresenciasSinJugarSenior.partido.competicion}, ${formatDateDDMMYYYY(hitos?.masPresenciasSinJugarSenior.partido.fecha)})`
-              }
+                <span style={{ color: 'black' }}>Más presencias sin jugar en un partido:</span>{" "}
+                {hitos?.masPresenciasSinJugarSenior.partido.golesBrumario === "" ? (
+                  <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                    No hay presencias sin jugar
+                  </span>
+                ) : (
+                  <Link
+                    to={`/partidos/${hitos?.masPresenciasSinJugarSenior.partido.nro}`}
+                    style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
+                    <span style={{ color: '#434343' }}>
+                      {hitos?.masPresenciasSinJugarSenior.cantidad} (BRUMARIO {hitos?.masPresenciasSinJugarSenior.partido.golesBrumario} -{" "}
+                      {hitos?.masPresenciasSinJugarSenior.partido.golesRecibidos}{" "}
+                      {hitos?.masPresenciasSinJugarSenior.partido.rival},{" "}
+                      {hitos?.masPresenciasSinJugarSenior.partido.competicion},{" "}
+                      {formatDateDDMMYYYY(hitos?.masPresenciasSinJugarSenior.partido.fecha)})
+                    </span>
+                  </Link>
+                )}
               </span> 
             </div>
             <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>

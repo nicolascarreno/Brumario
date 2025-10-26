@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { GolFavor, IPartido } from "../models/partido";
 
 export interface HitoPartido {
+  nro: number;
   rival: string;
   competicion: string;
   tipo_partido: string;
@@ -13,6 +14,7 @@ export interface HitoPartido {
 
 export function crearHitoBase() {
   return {
+    nro: 0,
     rival: "",
     competicion: "",
     tipo_partido: "",
@@ -195,12 +197,12 @@ export function actualizarRachaInvicta(
 ): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
   if (partido.resultado == 'Ganado' || partido.resultado == 'Empatado') {
       if(rachaInvictaActual.duracionPartidos == 0) {
-        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
-                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+        rachaInvictaActual = {inicio: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
                               duracionPartidos: 0}
       }
       rachaInvictaActual.duracionPartidos += 1;
-      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      rachaInvictaActual.fin = {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
         rachaInvictaDirigido = {
           inicio: { ...rachaInvictaActual.inicio },
@@ -222,12 +224,12 @@ export function actualizarRachaGanados(
 ): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
   if (partido.resultado == 'Ganado') {
       if(rachaInvictaActual.duracionPartidos == 0) {
-        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
-                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+        rachaInvictaActual = {inicio: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
                               duracionPartidos: 0}
       }
       rachaInvictaActual.duracionPartidos += 1;
-      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      rachaInvictaActual.fin = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
         rachaInvictaDirigido = {
           inicio: { ...rachaInvictaActual.inicio },
@@ -249,12 +251,12 @@ export function actualizarRachaGanados(
 ): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
   if (partido.resultado == 'Empatado' || partido.resultado == 'Perdido') {
       if(rachaInvictaActual.duracionPartidos == 0) {
-        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
-                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+        rachaInvictaActual = {inicio: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
                               duracionPartidos: 0}
       }
       rachaInvictaActual.duracionPartidos += 1;
-      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      rachaInvictaActual.fin = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
         rachaInvictaDirigido = {
           inicio: { ...rachaInvictaActual.inicio },
@@ -276,12 +278,12 @@ export function actualizarRachaGanados(
 ): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
   if (partido.resultado == 'Perdido') {
       if(rachaInvictaActual.duracionPartidos == 0) {
-        rachaInvictaActual = {inicio: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
-                              fin: {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+        rachaInvictaActual = {inicio: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
                               duracionPartidos: 0}
       }
       rachaInvictaActual.duracionPartidos += 1;
-      rachaInvictaActual.fin = {rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      rachaInvictaActual.fin = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
       if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
         rachaInvictaDirigido = {
           inicio: { ...rachaInvictaActual.inicio },

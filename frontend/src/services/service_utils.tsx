@@ -107,6 +107,7 @@ export interface HitosPartidos{
 }
 
 export interface HitosPartido {
+  nro: number;
   rival: string;
   competicion: string;
   tipo_partido: string;
