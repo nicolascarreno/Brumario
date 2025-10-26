@@ -1,28 +1,14 @@
 services:
-  # Backend service
   - type: web
-    name: brumario-backend
+    name: brumario
     env: node
     plan: free
-    buildCommand: cd backend && npm install && npm run build
-    startCommand: cd backend && npm start
+    rootDir: backend
+    buildCommand: npm install && npm run build_prod
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
         value: mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario
     healthCheckPath: /hello
-
-  # Frontend service
-  - type: web
-    name: brumario-frontend
-    env: static
-    plan: free
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: brumario-backend
-          property: host
