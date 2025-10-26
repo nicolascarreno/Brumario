@@ -12,19 +12,21 @@ connectDB();
 
 app.use(cors());
 
-app.use("/jugadores", jugadoresRouter);
-app.use("/partidos", partidosRouter);
-app.get('/hello', (req, res) => {
+// Rutas de la API
+app.use("/api/jugadores", jugadoresRouter);
+app.use("/api/partidos", partidosRouter);
+app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hola desde el backend!' });
 });
 
 // 📦 Servir el frontend buildado de React
-//const frontendPath = path.join(__dirname, '../../frontend/build');
-//app.use(express.static(frontendPath));
+const frontendPath = path.join(__dirname, '../../frontend/build');
+app.use(express.static(frontendPath));
 
-//app.get(/.*/, (_, res) => {
-//  res.sendFile(path.join(frontendPath, 'index.html'));
-//});
+// Catch-all handler: send back React's index.html file for any non-API routes
+app.get(/^(?!\/api).*/, (_, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor backend escuchando en puerto ${PORT}`);

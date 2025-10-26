@@ -6,7 +6,7 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/brumario';
+    const mongoURI = process.env.MONGODB_URI || "mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario";
     await mongoose.connect(mongoURI);
     console.log('MongoDB conectado');
   } catch (err) {

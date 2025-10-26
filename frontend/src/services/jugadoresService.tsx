@@ -2,7 +2,7 @@ import { Jugador } from "./service_utils";
 
 export async function getJugadores(): Promise<Jugador[]> {
   const API_URL = process.env.REACT_APP_API_URL;
-  const response = await fetch(`${API_URL}/jugadores`, {
+  const response = await fetch(`${API_URL}/api/jugadores`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export async function getJugadores(): Promise<Jugador[]> {
 export async function getJugador(nombre: string): Promise<Jugador | null> {
   const API_URL = process.env.REACT_APP_API_URL;
   try {
-    const res = await fetch(`${API_URL}/jugadores/${nombre}`, { cache: "no-store" });
+    const res = await fetch(`${API_URL}/api/jugadores/${nombre}`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error("Error al traer jugador");
     }
