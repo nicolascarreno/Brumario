@@ -5,7 +5,7 @@ import jugadoresRouter from "./routes/jugadoresRoutes";
 import partidosRouter from "./routes/partidosRoutes";
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 
 import connectDB from './db/db';
 connectDB();
