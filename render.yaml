@@ -10,7 +10,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: mongodb+srv://brumario-user:TU_PASSWORD@cluster0.xxxxx.mongodb.net/brumario?retryWrites=true&w=majority
+        value: mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario
     healthCheckPath: /hello
 
   # Frontend service
