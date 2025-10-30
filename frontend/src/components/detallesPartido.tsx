@@ -76,9 +76,9 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   </div>
                   <span className='estadistica' style={{paddingLeft: 35}}>Esquema Táctico: {partido.esquema_tactico}</span>
                   {partido.titulares.length === 0 ? (
-                    <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
-                      No hay datos disponibles
-                    </p>
+                    <p style={{ fontStyle: "italic", color: "grey", marginLeft: 37 }}>
+                        No hay datos disponibles
+                      </p>
                   ) : (
                     <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15, marginTop: 15 }}>
                       <tbody>
@@ -132,7 +132,7 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                                 <img
                                   src="/amarilla_sin_fondo2.png"
                                   alt="Amarilla"
-                                  style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
+                                  style={{ width: 22, height: 20, verticalAlign: "middle", marginLeft: 5 }}
                                 />
                                 {amarillas > 1 ? `(${amarillas})` : ""}
                               </>
@@ -154,7 +154,9 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                           return (
                             <tr key={index}>
                               <td className='estadistica' style={{ paddingLeft: 20 }}>
-                                {nombre} {apellido}
+                                <Link to={`/jugador/${jugador}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                                  {nombre} {apellido}
+                                </Link>
                                 {partes.length > 0 && (
                                   <> {partes.map((p, i) => (
                                     <span key={i}>
@@ -172,34 +174,91 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
 
                   {partido.suplentes.length === 0 ? (
                     <p style={{ marginLeft: 37, fontStyle: 'italic', marginRight: 90 }}>
-                      No hay datos disponibles
                     </p>
                   ) : (
-                    <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15 }}>
+                    <table style={{ marginLeft: 15, textAlign: 'left', marginBottom: 15, marginTop: 15 }}>
                       <tbody>
                         {partido.suplentes.map((jugador, index) => {
                           const [apellido, nombre] = jugador.split(",").map(s => s.trim());
+                          const nombreBackend = jugador; 
 
-                          // 🔹 Contar goles de este jugador
+                          // Contar goles
                           const goles = partido.golesFavor
-                            ? partido.golesFavor.filter(g => g.gol === jugador).length
+                            ? partido.golesFavor.filter(g => g.gol === nombreBackend).length
                             : 0;
 
-                          // 🔹 Contar asistencias de este jugador
+                          // Contar asistencias
                           const asistencias = partido.golesFavor
-                            ? partido.golesFavor.filter(g => g.asistencia === jugador).length
+                            ? partido.golesFavor.filter(g => g.asistencia === nombreBackend).length
                             : 0;
+
+                          // Contar amarillas
+                          const amarillas = partido.amarillas
+                            ? partido.amarillas.filter(a => a === nombreBackend).length
+                            : 0;
+
+                          // Contar rojas
+                          const rojas = partido.rojas
+                            ? partido.rojas.filter(r => r === nombreBackend).length
+                            : 0;
+
+                          // 🔹 Usamos React.ReactNode[] en vez de string[] | JSX.Element[]
+                          const partes: React.ReactNode[] = [];
+
+                          if (goles > 0) {
+                            partes.push(
+                              <>⚽{goles > 1 ? `(${goles})` : ""}</>
+                            );
+                          }
+                          if (asistencias > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/asistencia6.png"
+                                  alt="Asistencia"
+                                  style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {asistencias > 1 ? `(${asistencias})` : ""}
+                              </>
+                            );
+                          }
+                          if (amarillas > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/amarilla_sin_fondo2.png"
+                                  alt="Amarilla"
+                                  style={{ width: 22, height: 20, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {amarillas > 1 ? `(${amarillas})` : ""}
+                              </>
+                            );
+                          }
+                          if (rojas > 0) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/roja_sin_fondo.png"
+                                  alt="Roja"
+                                  style={{ width: 22, height: 22, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                                {rojas > 1 ? `(${rojas})` : ""}
+                              </>
+                            );
+                          }
 
                           return (
                             <tr key={index}>
                               <td className='estadistica' style={{ paddingLeft: 20 }}>
-                                {nombre} {apellido}
-                                {goles > 0 && (
-                                  <> ⚽{goles > 1 ? `(${goles})` : ""}</>
-                                )}
-                                {asistencias > 0 && (
-                                  <> <img src="/asistencia6.png" alt="Asistencia" style={{ width: 18, height: 18, verticalAlign: "middle", marginLeft: 5 }} 
-                                />{asistencias > 1 ? `(${asistencias})` : ""}</>
+                                <Link to={`/jugador/${jugador}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                                  {nombre} {apellido}
+                                </Link>
+                                {partes.length > 0 && (
+                                  <> {partes.map((p, i) => (
+                                    <span key={i}>
+                                      {i > 0 ? ", " : ""}{p}
+                                    </span>
+                                  ))}</>
                                 )}
                               </td>
                             </tr>
@@ -208,7 +267,15 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                       </tbody>
                     </table>
                   )}
-                  <span className='estadistica' style={{paddingLeft: 35}}>DT: {partido.director_tecnico}</span>
+                  <span className='estadistica' style={{paddingLeft: 35}}>
+                    DT: {partido.director_tecnico ? (
+                      <Link to={`/jugador/${partido.director_tecnico}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                        {partido.director_tecnico}
+                      </Link>
+                    ) : (
+                      ""
+                    )}
+                  </span>
                 </div>
                 <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre' style={{marginTop: 10}}>
@@ -229,12 +296,12 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   const eventos = [
                     ...(partido.golesFavor?.map((g) => {
                       const [apellido, nombre] = g.gol.split(",").map((s) => s.trim());
-                      const goleador = `${nombre} ${apellido}`;
+                      const goleador = [nombre, apellido].filter(Boolean).join(" ");
                       let textoAsistencia = "";
 
                       if (g.asistencia) {
                         const [aApe, aNom] = g.asistencia.split(",").map((s) => s.trim());
-                        const asistidor = `${aNom} ${aApe}`;
+                        const asistidor = [aNom, aApe].filter(Boolean).join(" ");
                         textoAsistencia = ` || ${asistidor} (${g.tipoAsistencia})`;
                       }
 
@@ -242,7 +309,9 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                         texto: `${g.resultadoParcial}: ⚽ ${goleador} (${g.tipo})${textoAsistencia}`,
                         parcial: g.resultadoParcial,
                         tipo: "favor" as const,
-                        tieneAsistencia: !!g.asistencia
+                        tieneAsistencia: !!g.asistencia,
+                        goleador: g.gol,
+                        asistidor: g.asistencia
                       };
                     }) || []),
 
@@ -269,7 +338,7 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   if (eventosOrdenados.length === 0) {
                     return (
                       <p style={{ fontStyle: "italic", color: "grey" }}>
-                        No se registraron goles en este partido.
+                        No se registraron goles en este partido
                       </p>
                     );
                   }
@@ -304,8 +373,12 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                     }}
                   />
                   <span style={{ display: "inline" }}>
-                    {ev.texto.split("||")[0].trim()}
-                    {ev.tieneAsistencia && <> {" || "} 🎯 {ev.texto.split("||")[1].trim()}</>}
+                    <Link to={`/jugador/${ev.goleador}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                      {ev.texto.split("||")[0].trim()}
+                    </Link>
+                    <Link to={`/jugador/${ev.asistidor}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                      {ev.tieneAsistencia && <> {" || "} 🎯 {ev.texto.split("||")[1].trim()}</>}
+                    </Link>
                   </span>
                 </span>
 
@@ -349,16 +422,27 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                             Presencias Sin Jugar
                         </span>   
                   </div>
-                  <span className="estadistica" style={{marginLeft: 35}}>
+                  <span className="estadistica" style={{marginLeft: 37}}>
                     {partido.presencia_sin_jugar.length === 0 ? (
-                      <span style={{ fontWeight: "normal", fontStyle: "italic", color: 'black' }}>No hubo presencias sin jugar</span>
+                      <p style={{ fontStyle: "italic", color: "grey", marginTop: 0, marginLeft: 30, fontWeight: "normal", fontSize: 16 }}>
+                        No hubo presencias sin jugar en este partido
+                      </p>
                     ) : (
-                      partido.presencia_sin_jugar
-                        .map((jugador) => {
-                          const [apellido, nombre] = jugador.split(",").map(s => s.trim());
-                          return `${nombre} ${apellido}`;
-                        })
-                        .join(", ")
+                      partido.presencia_sin_jugar.map((jugador, i) => {
+                        const [apellido, nombre] = jugador.split(",").map((s) => s.trim());
+                        const nombreCompleto = `${nombre} ${apellido}`;
+                        return (
+                          <span key={i}>
+                            <Link
+                              to={`/jugador/${jugador}`}
+                              style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                            >
+                              {nombreCompleto}
+                            </Link>
+                            {i < partido.presencia_sin_jugar.length - 1 && ", "}
+                          </span>
+                        );
+                      })
                     )}
                   </span>
                 </div>
