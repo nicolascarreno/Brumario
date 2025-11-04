@@ -41,3 +41,11 @@
     color: black;
     border-bottom: 3px solid red;
 }
+
+/* 🔹 Estilos responsivos para celular */
+@media (max-width: 600px) {
+    .contenedor_busqueda{
+        margin-top: 0px;
+        margin-bottom: 30px;
+    }
+}
