@@ -33,7 +33,7 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
         <p>Cargando...</p>
     ) : (
       <>
-        <table className="tablaPosiciones" style={{ width: 500, marginBottom: 20 }}>
+        <table className="tablaPosiciones" style={{ marginBottom: 20 }}>
           <thead>
             <tr>
               <th
@@ -59,15 +59,15 @@ export const TablaPresencias: React.FC<TablaJugadoresProps> = ({
                 <tr key={jugador.nombre} className="tr">
                   <td className="td">
                     <div style={{ display: 'flex', alignItems: 'center', padding: 10 }}>
-                      <div style={{ width: 450, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div className='dataTabla'>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <span className='nombres' style={{marginRight: 45}}>{index + 1}</span>
+                          <span className='indice'>{index + 1}</span>
                           <img
                             src={'/brumario_escudo_sin_fondo.png'}
                             alt="App Logo"
                             width="20"
                             height="20"
-                            style={{ marginRight: 20 }}
+                            className='imagen_brumario'
                           />
                           <Link to={`/jugador/${encodeURIComponent(jugador.nombre)}`} className="link">
                             {jugador.nombre}
