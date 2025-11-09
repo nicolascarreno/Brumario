@@ -20,18 +20,10 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
       <p>Cargando...</p>
     ) : (
       <>
-        <div style={{ width: 850, gap: 100 }}>
+        <div className='contenedor_general_gris'>
             <div className='contenedor_nombre'>
-                <img
-                    src={'/brumario_escudo_sin_fondo.png'}
-                    alt="App Logo"
-                    width="100"
-                    height="100"
-                    style={{ marginRight: 20 }}
-                />
-                <span className='nombre'>
-                    {jugador.nombre}
-                </span>
+                <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" className='imagen_logo'/>
+                <span className='nombre'>{jugador.nombre}</span>
             </div>
             <div className='contenedor_estadistica'>
               <div style={{display: 'flex'}}>

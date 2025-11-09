@@ -64,16 +64,10 @@ export const DetallesJugador: React.FC = () => {
   return (
   <div className="app">
     <div className="encabezado">
-      <img
-        src={'/brumario.png'}
-        alt="brumario"
-        height={90}
-        width={380}
-        style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
-      />
+      <img src={'/brumario.png'} alt="brumario" className="logo"/>
       <span className='sitio_web'>Sitio Web Oficial</span>
     </div>
-    <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+    <div className="contenedor_general">
       {/* Columna izquierda → contenedor de botones */}
       <BarraOpcionesJugador onSelect={setOpcion}/>  
 

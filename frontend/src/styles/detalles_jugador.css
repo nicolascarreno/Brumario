@@ -45,3 +45,113 @@
     margin-bottom: 15px;
     margin-top: 5px;
 }
+
+.contenedor_general{
+    display: flex;
+    flex-direction: row;
+    gap: 10px
+}
+
+.contenedor_general_gris{
+    width: 850px;
+    gap: 100px
+}
+
+.contenedor_tipo_estadistica{
+    display: flex;
+}
+
+.contenedor_tipo_estadistica2{
+    padding-left: 50px;
+}
+
+.contenedor_estadistica_segunda_columna{
+    display: flex; 
+    padding-left: 10px; 
+    padding-top: 65px;
+    justify-content: space-between; 
+    width: 220px; 
+    margin-left: 25px
+}
+
+.contenedor_jugadores_preferidos{
+    padding-bottom: 10px;
+    padding-left: 15px;
+}
+
+.contenedor_jugadores_preferidos_texto{
+    display: flex;
+    padding-left: 10px; 
+    padding-top: 5px;
+    justify-content: space-between;
+    width: 450px;
+    margin-left: 25px
+}
+
+.imagen_logo{
+    height: 100px;
+    width: 100px;
+    margin-right: 20px;
+}
+
+/* 🔹 Estilos responsivos para celular */
+@media (max-width: 600px) {
+    .contenedor_general{
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .contenedor_general_gris{
+        width: 300px;
+        gap: 100px
+    }
+
+    .imagen_logo{
+        height: 60px;
+        width: 60px;
+        margin-right: 5px;
+    }
+
+    .nombre{
+        font-size: 26px;
+        font-family: 'Arial black', sans-serif;
+        font-weight: bold;
+    }
+
+    .contenedor_tipo_estadistica{
+        flex-direction: column;
+    }
+
+    .contenedor_tipo_estadistica2{
+        padding-left: 0px;
+    }
+
+    .nombre_estadistica{
+        font-size: 21px;
+        font-family: 'Arial black', sans-serif;
+        font-weight: bold;
+    }
+
+    .contenedor_estadistica_segunda_columna{
+        display: flex; 
+        padding-left: 10px; 
+        padding-top: 15px;
+        justify-content: space-between; 
+        width: 220px; 
+        margin-left: 25px
+    }
+
+    .contenedor_jugadores_preferidos{
+        padding-bottom: 10px;
+        padding-left: 0px;
+    }
+
+    .contenedor_jugadores_preferidos_texto{
+        display: flex;
+        padding-left: 10px; 
+        padding-top: 5px;
+        justify-content: space-between;
+        width: 240px;
+        margin-left: 25px
+    }
+}

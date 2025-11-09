@@ -50,21 +50,13 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
       <p>Cargando...</p>
     ) : (
       <>
-        <div style={{ width: 850, gap: 100 }}>
+        <div className='contenedor_general_gris'>
             <div className='contenedor_nombre'>
-                <img
-                    src={'/brumario_escudo_sin_fondo.png'}
-                    alt="App Logo"
-                    width="100"
-                    height="100"
-                    style={{ marginRight: 20 }}
-                />
-                <span className='nombre'>
-                    {jugador.nombre}
-                </span>
+                <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" className='imagen_logo'/>
+                <span className='nombre'>{jugador.nombre}</span>
             </div>
             <div className='contenedor_estadistica'>
-              <div style={{display: 'flex'}}>
+              <div className='contenedor_tipo_estadistica'>
                 <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
@@ -99,7 +91,7 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                       <span className='estadistica_clave'>{partidos_dirgidos}</span>
                   </div>
                 </div>
-                <div style={{paddingBottom: 10, paddingLeft: 50}}>
+                <div className='contenedor_tipo_estadistica2' style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
                           src={'/goleadors_sin_fondo.png'}
@@ -134,7 +126,7 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                   </div>
                 </div>
               </div>
-              <div style={{display: 'flex'}}>
+              <div className='contenedor_tipo_estadistica'>
                 <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
@@ -171,20 +163,20 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
                   </table>
                 )}
                 </div>
-                <div style={{paddingBottom: 10, paddingLeft: 15}}>
+                <div className='contenedor_jugadores_preferidos'>
                   <div className='contenedor_estadistica_nombre'>
                       <img
                           src={'/estrella.png'}
                           alt="App Logo"
                           width="40"
                           height="40"
-                          style={{ marginLeft: 10, marginRight: 5 }}
+                          style={{ marginLeft: 10 }}
                       />
                       <span className='nombre_estadistica'>
                           Jugadores Preferidos
                       </span>   
                   </div>
-                  <div style={{ display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 450, marginLeft: 25 }}>
+                  <div className='contenedor_jugadores_preferidos_texto'>
                     {Object.keys(jugador.director_tecnico.esquemas).length === 0 ? (
                       <span style={{ fontStyle: 'italic' }}>
                         No dirigió ningún partido

@@ -94,21 +94,13 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
       <p>Cargando...</p>
     ) : (
       <>
-        <div style={{ width: 850, gap: 100 }}>
+        <div className='contenedor_general_gris'>
             <div className='contenedor_nombre'>
-                <img
-                    src={'/brumario_escudo_sin_fondo.png'}
-                    alt="App Logo"
-                    width="100"
-                    height="100"
-                    style={{ marginRight: 20 }}
-                />
-                <span className='nombre'>
-                    {jugador.nombre}
-                </span>
+                <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" className='imagen_logo'/>
+                <span className='nombre'>{jugador.nombre}</span>
             </div>
             <div className='contenedor_estadistica'>
-              <div style={{display: 'flex'}}>
+              <div className='contenedor_tipo_estadistica'>
                 <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
@@ -143,7 +135,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                       <span className='estadistica_clave'>{jugador.titular + jugador.suplente}</span>
                   </div>
                 </div>
-                  <div style={{paddingLeft: 50}}>
+                  <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/goleadors_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
                       <span className='nombre_estadistica'>Goles</span>
@@ -170,7 +162,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                 </div>
                 <div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '65px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <div className='contenedor_estadistica_segunda_columna'>
                       <span className='estadistica'>De Pie (jugada) (%)</span>
                       <span className='estadistica'>{porcentajeJugada}</span>
                     </div>
@@ -192,7 +184,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                 </div>
               </div>
-              <div style={{display: 'flex'}}>
+              <div className='contenedor_tipo_estadistica'>
                 <div>
                   <div className='contenedor_estadistica_nombre'>
                       <img
@@ -227,7 +219,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                       <span className='estadistica_clave'>{jugador.presencias_sin_jugar}</span>
                   </div>
                 </div>
-                  <div style={{paddingLeft: 50}}>
+                  <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/asistencia6.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
                       <span className='nombre_estadistica'>Asistencias</span>
@@ -254,7 +246,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                 </div>
                 <div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '65px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
+                    <div className='contenedor_estadistica_segunda_columna'>
                       <span className='estadistica'>De Pie (jugada) (%)</span>
                       <span className='estadistica'>{porcentajeAsistenciaJugada}</span>
                     </div>
@@ -276,7 +268,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                 </div>
               </div>
-              <div style={{display: 'flex'}}>
+              <div className='contenedor_tipo_estadistica'>
                 <div>
                   <div className='contenedor_estadistica_nombre'>
                       <img src={'/amarilla_sin_fondo2.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
@@ -291,7 +283,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                       <span className='estadistica_clave'>{jugador.amarillas}</span>
                   </div>
                 </div>
-                  <div style={{paddingLeft: 50}}>
+                  <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/roja_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
                       <span className='nombre_estadistica'>Rojas</span>
