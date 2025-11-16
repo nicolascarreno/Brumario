@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/partido.css'
+import '../styles/partidos.css'
 import { Partido } from '../services/service_utils';
 import { useNavigate } from "react-router-dom";
 
@@ -91,7 +92,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
         <p>Cargando...</p>
       ) : (
         <>
-          <div style={{ width: 850, gap: 100 }}>
+          <div className='contenedor_general_gris'>
             <div className='contenedor_estadistica'>
               {/* 🔹 Filtros */}
               <div style={{ marginBottom: 20, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>
@@ -144,9 +145,9 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                 <div>
                   <label style={{ marginRight: "10px", fontWeight: "bold" }}>Rival:</label>
                   <select
+                    className="filtrar_rival"
                     value={selectedRival}
                     onChange={(e) => setSelectedRival(e.target.value)}
-                    style={{ padding: "5px", borderRadius: "5px" }}
                   >
                     <option value="">Todos</option>
                     {rivales.map((rival) => (
@@ -175,7 +176,8 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
               </div>
 
               {/* Tabla */}
-              <table className="tabla-partidos">
+              <div style={{ overflowX: "auto", width: "100%", paddingBottom: 60, paddingTop: 15 }}>
+              <table>
                 <tbody>
                   {Array.isArray(filteredPartidos) && filteredPartidos.length > 0 ? (
                     [...filteredPartidos]
@@ -183,58 +185,58 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                       .map((partido, i) => (
                         <tr key={i}>
                           <td style={{ paddingBottom: 0, height: 50 }}>
-                            <div style={{ display: "flex" }}>
-                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10 }}>
-                                {formatDateDDMMYYYY(partido.fecha)}
-                              </span>
-                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 0, width: 60 }}>
-                                {partido.hora || "-------"}
-                              </span>
-                              <span 
-                                className="partido_tooltip" 
-                                style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}
-                              >
-                                {partido.rival}
-                                <span className="tooltip-text" style={{width: 100}}>
-                                  {(() => {
-                                    const h = historialRivales[partido.rival];
-                                    if (!h) return "Sin historial";
-                                    return `${h.G}G - ${h.E}E - ${h.P}P`;
-                                  })()}
+                            <div className='contenedor_partido'>
+                                <span className="partido" style={{paddingRight: 30, paddingLeft: 10}}>
+                                  {formatDateDDMMYYYY(partido.fecha)}
                                 </span>
-                              </span>
-                              <div style={{ width: 100, paddingRight: 20, paddingLeft: 10 }}>
-                                <img
-                                  src={iconosEstado[partido.resultado as "Ganado" | "Empatado" | "Perdido"]}
-                                  alt={partido.resultado}
-                                  style={{ width: 15, height: 15, marginRight: 10, verticalAlign: 'middle' }}
-                                />
-                                <span className="partido_tooltip" onClick={() => navigate(`/partidos/${partido.nro}`)}>
-                                  {partido.goles_favor} - {partido.goles_contra}
-                                  <span className="tooltip-text">
-                                    <strong>⚽GOLES:</strong>
-                                    <br />
-                                    {partido.golesFavor && partido.golesFavor.length > 0
-                                      ? (() => {
-                                          // contar goles por jugador
-                                          const contador: Record<string, number> = {};
-                                          partido.golesFavor.forEach(g => {
-                                            contador[g.gol] = (contador[g.gol] || 0) + 1;
-                                          });
-                                          // mostrar en vertical con cantidad si >1
-                                          return Object.entries(contador).map(([jugador, cantidad], i) => (
-                                            <div key={i}>
-                                              {jugador} {cantidad > 1 ? `(${cantidad})` : ""}
-                                            </div>
-                                          ));
-                                        })()
-                                      : "Ninguno"}
+                                <span className="partido" style={{paddingRight: 20, paddingLeft: 0, width: 60}}>
+                                  {partido.hora || "-------"}
+                                </span>
+                                <span 
+                                  className="partido_tooltip" 
+                                  style={{ paddingRight: 20, paddingLeft: 10, width: 200 }}
+                                >
+                                  {partido.rival}
+                                  <span className="tooltip-text" style={{width: 100}}>
+                                    {(() => {
+                                      const h = historialRivales[partido.rival];
+                                      if (!h) return "Sin historial";
+                                      return `${h.G}G - ${h.E}E - ${h.P}P`;
+                                    })()}
                                   </span>
                                 </span>
-                              </div>
-                              <span className="partido" style={{ paddingRight: 20, paddingLeft: 10, width: 250 }}>
-                                {partido.competicion} ({partido.categoria})
-                              </span>
+                                <div style={{width: 100, paddingRight: 20, paddingLeft: 10}}>
+                                  <img
+                                    src={iconosEstado[partido.resultado as "Ganado" | "Empatado" | "Perdido"]}
+                                    alt={partido.resultado}
+                                    style={{width: 15, height: 15, marginRight: 10, verticalAlign: 'middle'}}
+                                  />
+                                  <span className="partido_tooltip" onClick={() => navigate(`/partidos/${partido.nro}`)}>
+                                    {partido.goles_favor} - {partido.goles_contra}
+                                    <span className="tooltip-text">
+                                      <strong>⚽GOLES:</strong>
+                                      <br />
+                                      {partido.golesFavor && partido.golesFavor.length > 0
+                                        ? (() => {
+                                            // contar goles por jugador
+                                            const contador: Record<string, number> = {};
+                                            partido.golesFavor.forEach(g => {
+                                              contador[g.gol] = (contador[g.gol] || 0) + 1;
+                                            });
+                                            // mostrar en vertical con cantidad si >1
+                                            return Object.entries(contador).map(([jugador, cantidad], i) => (
+                                              <div key={i}>
+                                                {jugador} {cantidad > 1 ? `(${cantidad})` : ""}
+                                              </div>
+                                            ));
+                                          })()
+                                        : "Ninguno"}
+                                    </span>
+                                  </span>
+                                </div>
+                                <span className="partido" style={{paddingRight: 20, paddingLeft: 10, width: 250}}>
+                                  {partido.competicion} ({partido.categoria})
+                                </span>
                             </div>
                           </td>
                         </tr>
@@ -248,6 +250,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                   )}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </>

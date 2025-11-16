@@ -1,0 +1,26 @@
+.contenedor_partidos {
+    display: flex; 
+    flex-direction: row; 
+    gap: 10px
+}
+
+.contenedor_partido {
+    display: flex;
+}
+
+.filtrar_rival {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+    .contenedor_partidos {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .filtrar_rival {
+        padding: 5px;
+        border-radius: 5px;
+        width: 200px
+    }
+}

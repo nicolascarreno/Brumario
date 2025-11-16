@@ -33,11 +33,12 @@
   z-index: 100;
   bottom: 125%;          /* encima del resultado */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-90%);
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   opacity: 0;
   transition: opacity 0.3s;
   width: 200px;
+  transform: translateY(110%);
 }
 
 .partido_tooltip:hover .tooltip-text {

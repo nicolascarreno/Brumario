@@ -4,6 +4,7 @@ import '../styles/App.css';
 import '../styles/inicio.css';
 import '../styles/jugadores.css';
 import '../styles/jugadores_barra_opciones.css';
+import '../styles/partidos.css';
 import { getPartidos } from "../services/partidosService";
 import { HitosPartidos, Partido } from "../services/service_utils";
 import { PartidosTodos } from '../components/partidosTodos';
@@ -72,17 +73,11 @@ export function Partidos() {
   return (
     <div className="App">
       <div className="encabezado">
-        <img
-          src={'/brumario.png'}
-          alt="brumario"
-          height={90}
-          width={380}
-          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
-        />
+        <img src={'/brumario.png'} alt="brumario" className='logo'/>
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
+      <div className='contenedor_partidos'>
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpcionesPartidos onSelect={setOpcion} />  
         {loading ? (
