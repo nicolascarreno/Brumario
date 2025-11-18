@@ -28,40 +28,38 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
       <p>Cargando...</p>
     ) : (
       <>
-        <div style={{ width: 850, gap: 100 }}>
+        <div className='contenedor_general_gris_partido'>
             <div className='contenedor_nombre_partido'>
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-                  <span className='estadistica_clave'>{partido.competicion} ({partido.categoria})</span>
-                  <span className='estadistica'>{formatDateDDMMYYYY(partido.fecha)} {partido.hora}</span>
+                  <span className='estadistica_clave_partido'>{partido.competicion} ({partido.categoria})</span>
+                  <span className='estadistica_partido'>{formatDateDDMMYYYY(partido.fecha)} {partido.hora}</span>
                 </div>
-                <div style={{display: "flex", width: 830, alignItems: 'center'}}>
+                <div className='contenedor_resultado_partido'>
                   <img
                       src={'/brumario_escudo_sin_fondo.png'}
                       alt="App Logo"
-                      width="100"
-                      height="100"
-                      style={{ marginRight: 20 }}
+                      className='img_partido'
                   />
-                  <div style={{width: 500}}><span className='nombre'>{partido.rival}</span></div>
-                  <div style={{display: 'flex', width: 260, alignItems: 'center', justifyContent: "center"}}>
+                  <div className='contenedor_rival'><span className='nombre_rival'>{partido.rival}</span></div>
+                  <div className='contenedor_resultado_final'>
                       <img
                           src={iconosEstado[partido.resultado as "Ganado" | "Empatado" | "Perdido"]}
                           alt={partido.resultado}
-                          style={{ width: 30, height: 30, marginRight: 10, verticalAlign: 'middle' }}
+                          className='img_resultado'
                       />
-                      <span className='nombre'>{partido.goles_favor} - {partido.goles_contra}</span>
+                      <span className='nombre_resultado'>{partido.goles_favor} - {partido.goles_contra}</span>
                   </div>
                 </div>
             </div>
             <div className='contenedor_estadistica'>
               <div style={{paddingBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px'}}>
-                <span className='estadistica'>Ubicacion: {partido.ubicacion}</span>
-                <span className='estadistica'>Sede: {partido.predio}</span>
-                <span className='estadistica'>Cancha: {partido.cancha}</span>
-                <span className='estadistica'>Jornada: {partido.jornada}</span>
+                <span className='metadata_partido'>Ubicacion: {partido.ubicacion}</span>
+                <span className='metadata_partido'>Sede: {partido.predio}</span>
+                <span className='metadata_partido'>Cancha: {partido.cancha}</span>
+                <span className='metadata_partido'>Jornada: {partido.jornada}</span>
               </div>
-              <div style={{display: 'flex', gap: 0}}>
-                <div style={{paddingBottom: 10, width: 300}}>
+              <div className='contenedor_general_partido'>
+                <div className='contenedor_formacion'>
                   <div className='contenedor_estadistica_nombre'>
                       <img
                           src={'/diego2_sin_fondo.png'}
@@ -409,8 +407,8 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                   );
                 })()}
                 </div>
-                <div style={{paddingBottom: 10, width:560}}>
-                  <div className='contenedor_estadistica_nombre' style={{marginTop: 50}}>
+                <div className='contenedor_presencias_sin_jugar'>
+                  <div className='contenedor_estadistica_presencias_sin_jugar'>
                         <img
                             src={'/cerveza_sin_fondo.png'}
                             alt="App Logo"

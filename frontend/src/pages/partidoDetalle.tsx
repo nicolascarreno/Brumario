@@ -5,6 +5,7 @@ import { getPartido } from "../services/partidosService";
 
 import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/App.css';
+import '../styles/inicio.css';
 import { BarraOpcionesPartido } from "../components/barraOpcionesPartido";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
@@ -47,15 +48,9 @@ export const PartidoDetalle: React.FC = () => {
       };
 
     return (
-    <div className="app">
+    <div>
       <div className="encabezado">
-        <img
-          src={'/brumario.png'}
-          alt="brumario"
-          height={90}
-          width={380}
-          style={{ marginLeft: '18px', paddingTop: 20, paddingBottom: 20 }}
-        />
+        <img src={'/brumario.png'} alt="brumario" className="logo"/>
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>

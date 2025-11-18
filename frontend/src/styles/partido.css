@@ -45,3 +45,170 @@
   visibility: visible;
   opacity: 1;
 }
+
+.metadata_partido{
+    font-weight: bold;
+    color: #434343;
+    font-size: 14px;
+}
+
+.estadistica_clave_partido{
+    font-weight: bold;
+    color: #000000;
+    display: block; 
+    text-align: center;
+}
+
+.estadistica_partido{
+    font-weight: bold;
+    color: #434343;
+    display: block; 
+    text-align: center;
+    font-size: 14px;
+}
+
+.img_partido{
+    width: 100px; 
+    height: 100px; 
+    margin-right: 20px
+}
+
+.contenedor_rival{
+  width: 500px;
+}
+
+.nombre_rival{
+    font-size: 32px;
+    font-family: 'Arial black', sans-serif;
+}
+
+.nombre_resultado{
+      font-size: 32px;
+      font-weight: bold;
+}
+
+.contenedor_resultado_partido{
+  display: flex;
+  width: 830px;
+  align-items: center;
+}
+
+.img_resultado{
+  width: 30px; 
+  height: 30px; 
+  margin-right: 10px; 
+  vertical-align: middle
+}
+
+.contenedor_resultado_final{
+  display: flex; 
+  width: 260px; 
+  align-items: center; 
+  justify-content: center
+}
+
+.contenedor_general_partido{
+  display: flex; 
+  gap: 0px;
+}
+
+.contenedor_presencias_sin_jugar{
+  padding-bottom: 10px; 
+  width:560px
+}
+
+.contenedor_estadistica_presencias_sin_jugar{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: none;
+    margin-bottom: 15px;
+    margin-top: 50px;
+}
+
+.contenedor_general_gris_partido{
+    width: 850px;
+    gap: 100px
+}
+
+.contenedor_formacion{
+  padding-bottom: 10px;
+  width: 300px;
+}
+
+@media (max-width: 600px) {
+  .estadistica_clave_partido{
+      font-size: 14px;
+  }
+  .estadistica_partido{
+    font-size: 12px;
+  }
+  .img_partido{
+    width: 40px;
+    height: 40px;
+    margin-right: 5px
+  }
+  .contenedor_rival{
+    width: 170px;
+  }
+  .nombre_rival{
+      font-size: 16px;
+      font-weight: bold;
+  }
+  .nombre_resultado{
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: -5px;
+  }
+  .contenedor_resultado_partido{
+    display: flex;
+    width: 300px;
+    align-items: center;
+    padding-top: 5px;
+    width: 300px;
+  }
+  .img_resultado{
+    width: 15px; 
+    height: 15px; 
+    vertical-align: middle;
+  }
+  .contenedor_resultado_final{
+    display: flex; 
+    width: 190px; 
+    align-items: center; 
+    justify-content: center;
+  }
+  .metadata_partido{
+    font-weight: bold;
+    color: #434343;
+    font-size: 12px;
+  }
+  .contenedor_general_partido{
+    flex-direction: column; 
+    gap: 0px;
+  }
+  .contenedor_presencias_sin_jugar{
+    padding-bottom: 10px; 
+    width:280px;
+  }
+  .contenedor_estadistica_presencias_sin_jugar{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: none;
+    margin-bottom: 15px;
+    margin-top: 30px;
+  }
+
+  .contenedor_general_gris_partido{
+    width: 300px;
+    gap: 100px;
+    margin-left: -30px;
+    transform: translateX(4%);
+  }
+  .contenedor_formacion{
+    padding-bottom: 10px;
+    width: 300px;
+    margin-top: 5px;
+  }
+}

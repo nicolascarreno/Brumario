@@ -81,7 +81,7 @@ export function Partidos() {
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpcionesPartidos onSelect={setOpcion} />  
         {loading ? (
-                      <div style={{ width: 500, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 100 }}>
+                      <div className='loading'>
                         <CircularProgress sx={{ color: '#ff0000' }} size={100} />
                         <span style={{ fontWeight: 'bold', marginTop: '10px' }}>Cargando...</span>
                       </div>

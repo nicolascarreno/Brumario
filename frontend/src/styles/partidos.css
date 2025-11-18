@@ -13,6 +13,19 @@
   border-radius: 5px;
 }
 
+.loading{
+    width: 500px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 100px
+}
+
+.contenedor_general_gris_partidos{
+    width: 870px;
+    gap: 100px
+}
+
 @media (max-width: 600px) {
     .contenedor_partidos {
         flex-direction: column;
@@ -22,5 +35,16 @@
         padding: 5px;
         border-radius: 5px;
         width: 200px
+    }
+    .loading{
+        width: 350px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding-top: 100px;
+    }
+    .contenedor_general_gris_partidos{
+        width: 300px;
+        gap: 100px
     }
 }

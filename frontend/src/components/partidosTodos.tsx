@@ -92,7 +92,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
         <p>Cargando...</p>
       ) : (
         <>
-          <div className='contenedor_general_gris'>
+          <div className='contenedor_general_gris_partidos'>
             <div className='contenedor_estadistica'>
               {/* 🔹 Filtros */}
               <div style={{ marginBottom: 20, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>

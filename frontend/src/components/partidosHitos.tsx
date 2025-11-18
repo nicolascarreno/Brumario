@@ -39,7 +39,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
       <p>Cargando...</p>
     ) : (
       <>
-        <div style={{ width: 850, gap: 100 }}>
+        <div className='contenedor_general_gris'>
           <div className='contenedor_estadistica'>
             <div className='contenedor_estadistica_nombre'>
               <img
@@ -54,7 +54,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
               </span>   
             </div>
             <div style={{ paddingTop: 5, paddingLeft: 15 }} className="contenedor_estadistica_nombre">
-              <span style={{ textIndent: 20 }} className="estadistica">
+              <span style={{ textIndent: 20, textAlign: 'left' }} className="estadistica">
                 <span style={{ color: 'black' }}>Historial:</span>{" "}
                 {hitos ? (
                   `${hitos.ganadosLibres}G - ${hitos.empatadosLibres}E - ${hitos.perdidosLibres}P (Efectividad: ${porcentajeLibres}%)`
