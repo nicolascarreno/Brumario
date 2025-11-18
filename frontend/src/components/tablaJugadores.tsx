@@ -26,6 +26,8 @@ export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
   handleAnterior,
   handleSiguiente
 }) => {
+
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
       {loading ? (

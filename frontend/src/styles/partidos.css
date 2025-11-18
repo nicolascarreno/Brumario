@@ -26,6 +26,12 @@
     gap: 100px
 }
 
+.tabla_partidos{
+    width: 100%; 
+    padding-bottom: 20px;
+    padding-top: 15px;
+}
+
 @media (max-width: 600px) {
     .contenedor_partidos {
         flex-direction: column;
@@ -46,5 +52,10 @@
     .contenedor_general_gris_partidos{
         width: 300px;
         gap: 100px
+    }
+    .tabla_partidos{
+        overflow-x: auto; 
+        width: 100%; 
+        padding-top: 15px;
     }
 }

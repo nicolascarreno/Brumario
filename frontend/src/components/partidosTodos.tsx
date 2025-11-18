@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/partido.css'
@@ -26,6 +26,9 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
     Empatado: "/empate3.png",
     Perdido: "/derrota2.png"
   };
+
+  const [pagina, setPagina] = useState(1);
+  const partidosPorPagina = 8;
 
   // 🔹 Años únicos
   const years = useMemo(() => {
@@ -77,6 +80,25 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
       return matchYear && matchCategoria && matchDT && matchRival;
     });
   }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival]);
+
+  // calcular la cantidad total de páginas
+  const totalPaginas = Math.ceil(filteredPartidos.length / partidosPorPagina);
+
+  const handleSiguiente = () => {
+    if (pagina < totalPaginas) setPagina(pagina + 1);
+  };
+
+  const handleAnterior = () => {
+    if (pagina > 1) setPagina(pagina - 1);
+  };
+
+  const inicio = (pagina - 1) * partidosPorPagina;
+  const partidosPaginados = filteredPartidos.slice(inicio, inicio + partidosPorPagina);
+
+  useEffect(() => {
+    setPagina(1);
+  }, [selectedYear, selectedCategoria, selectedDT, selectedRival]);
+
 
   // 🔹 Función para limpiar filtros
   const resetFilters = () => {
@@ -176,11 +198,11 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
               </div>
 
               {/* Tabla */}
-              <div style={{ overflowX: "auto", width: "100%", paddingBottom: 60, paddingTop: 15 }}>
+              <div className='tabla_partidos'>
               <table>
                 <tbody>
-                  {Array.isArray(filteredPartidos) && filteredPartidos.length > 0 ? (
-                    [...filteredPartidos]
+                  {Array.isArray(partidosPaginados) && partidosPaginados.length > 0 ? (
+                    [...partidosPaginados]
                       .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
                       .map((partido, i) => (
                         <tr key={i}>
@@ -253,6 +275,31 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
               </div>
             </div>
           </div>
+          {/* Paginación */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+                {/* Columna izquierda */}
+                <div style={{ width: '50px', textAlign: 'center' }}>
+                  {pagina > 1 && (
+                    <button className='boton_cambiar_pagina' onClick={handleAnterior}>
+                      {'<'}
+                    </button>
+                  )}
+                </div>
+
+                {/* Columna central */}
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <span className='nro_pagina'>Página {pagina} de {totalPaginas}</span>
+                </div>
+
+                {/* Columna derecha */}
+                <div style={{ width: '50px', textAlign: 'center' }}>
+                  {pagina < totalPaginas && (
+                    <button className='boton_cambiar_pagina' onClick={handleSiguiente}>
+                      {'>'}
+                    </button>
+                  )}
+                </div>
+              </div>
         </>
       )}
     </div>
