@@ -94,6 +94,14 @@
     margin-right: 20px;
 }
 
+.contenedor_loading_jugador{
+    width: 500px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 100px
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_general{
@@ -153,5 +161,12 @@
         justify-content: space-between;
         width: 240px;
         margin-left: 25px
+    }
+    .contenedor_loading_jugador{
+        width: 350px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding-top: 100px;
     }
 }

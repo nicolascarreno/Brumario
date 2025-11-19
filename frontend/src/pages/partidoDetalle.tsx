@@ -53,13 +53,13 @@ export const PartidoDetalle: React.FC = () => {
         <img src={'/brumario.png'} alt="brumario" className="logo"/>
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+      <div className="contenedor_general_partido">
         {/* Columna izquierda → contenedor de botones */}
         <BarraOpcionesPartido />  
   
         {/* Render del contenido */}
         {loading ? (
-                <div style={{ width: 500, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 100 }}>
+                <div className="contenedor_loading_partido">
                   <CircularProgress sx={{ color: '#ff0000' }} size={100} />
                   <span style={{ fontWeight: 'bold', marginTop: '10px' }}>Cargando...</span>
                 </div>
