@@ -295,16 +295,19 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                     ...(partido.golesFavor?.map((g) => {
                       const [apellido, nombre] = g.gol.split(",").map((s) => s.trim());
                       const goleador = [nombre, apellido].filter(Boolean).join(" ");
+                      const textoGol = g.tipo ? ` (${g.tipo})` : "";
                       let textoAsistencia = "";
 
                       if (g.asistencia) {
                         const [aApe, aNom] = g.asistencia.split(",").map((s) => s.trim());
                         const asistidor = [aNom, aApe].filter(Boolean).join(" ");
-                        textoAsistencia = ` || ${asistidor} (${g.tipoAsistencia})`;
+                        textoAsistencia = g.tipoAsistencia
+                          ? ` || ${asistidor} (${g.tipoAsistencia})`
+                          : ` || ${asistidor}`;
                       }
 
                       return {
-                        texto: `${g.resultadoParcial}: ⚽ ${goleador} (${g.tipo})${textoAsistencia}`,
+                        texto: `${g.resultadoParcial}: ⚽ ${goleador} ${textoGol}${textoAsistencia}`,
                         parcial: g.resultadoParcial,
                         tipo: "favor" as const,
                         tieneAsistencia: !!g.asistencia,
