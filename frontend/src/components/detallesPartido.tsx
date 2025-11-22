@@ -371,9 +371,16 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                     }}
                   />
                   <span style={{ display: "inline" }}>
-                    <Link to={`/jugador/${ev.goleador}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-                      {ev.texto.split("||")[0].trim()}
-                    </Link>
+                    {ev.goleador === "En contra" ? (
+                      <span>{ev.texto.split("||")[0].trim()}</span>
+                    ) : (
+                      <Link 
+                        to={`/jugador/${ev.goleador}`} 
+                        style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                      >
+                        {ev.texto.split("||")[0].trim()}
+                      </Link>
+                    )}
                     <Link to={`/jugador/${ev.asistidor}`} style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
                       {ev.tieneAsistencia && <> {" || "} 🎯 {ev.texto.split("||")[1].trim()}</>}
                     </Link>
