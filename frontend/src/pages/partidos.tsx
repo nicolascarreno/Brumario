@@ -27,7 +27,7 @@ export function Partidos() {
       try {
         setLoading(true);
         const data = await getPartidos();
-        setPartidos(data.partidos);
+        setPartidos(data.partidos.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime()));
         setHitos(data.hitos);
         console.log(data)
       } catch (err: any) {
