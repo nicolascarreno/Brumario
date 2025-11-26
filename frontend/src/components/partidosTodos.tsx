@@ -115,7 +115,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
       ) : (
         <>
           <div className='contenedor_general_gris_partidos'>
-            <div className='contenedor_estadistica'>
+            <div className='contenedor_estadistica_partidos'>
               {/* 🔹 Filtros */}
               <div style={{ marginBottom: 20, marginTop: 10, marginLeft: 5, display: "flex", gap: "20px", flexWrap: "wrap" }}>
                 {/* Año */}

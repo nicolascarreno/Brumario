@@ -40,7 +40,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
     ) : (
       <>
         <div className='contenedor_general_gris'>
-          <div className='contenedor_estadistica'>
+          <div className='contenedor_estadistica_partidos'>
             <div className='contenedor_estadistica_nombre'>
               <img
                   src={'/brumario_escudo_sin_fondo.png'}
