@@ -92,6 +92,29 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                   </div>
                   <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
                     <span style={{ textIndent: 20 }} className="estadistica">
+                      <span style={{ color: 'black' }}>Más goles en un partido:</span>{" "}
+                      {jugador.hitos.masGoles.cantidad === 0 ? (
+                        <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                          No tiene goles
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/partidos/${jugador.hitos.masGoles.partido.nro}`}
+                          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                          <span style={{ color: '#434343' }}>
+                            {jugador.hitos.masGoles.cantidad} (BRUMARIO {jugador.hitos.masGoles.partido.golesBrumario} -{" "}
+                            {jugador.hitos.masGoles.partido.golesRecibidos}{" "}
+                            {jugador.hitos.masGoles.partido.rival},{" "}
+                            {jugador.hitos.masGoles.partido.competicion},{" "}
+                            {formatDateDDMMYYYY(jugador.hitos.masGoles.partido.fecha)})
+                          </span>
+                        </Link>
+                      )}
+                    </span>
+                  </div>
+                  <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                    <span style={{ textIndent: 20 }} className="estadistica">
                       <span style={{ color: 'black' }}>Más asistencias en un partido:</span>{" "}
                       {jugador.hitos.masAsistencias.cantidad === 0 ? (
                         <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
