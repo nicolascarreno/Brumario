@@ -10,6 +10,17 @@ const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 import connectDB from './db/db';
 connectDB();
 
+// Inicializar base de datos en background después de conectar
+// Esto se ejecuta después de que el servidor esté listo, evitando timeouts en el build
+if (process.env.NODE_ENV === 'production') {
+  // Importar el módulo - se ejecutará automáticamente después de 10 segundos
+  import('./init-db').then(() => {
+    console.log('✅ Módulo de inicialización de BD cargado, se ejecutará automáticamente...');
+  }).catch(err => {
+    console.error('❌ Error cargando módulo de inicialización:', err);
+  });
+}
+
 app.use(cors());
 
 // Rutas de la API
