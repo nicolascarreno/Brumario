@@ -67,4 +67,13 @@
         width: 100%; 
         padding-top: 15px;
     }
+    .contenedor_estadistica_partidos{
+        background-color: #d7d7d7;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+        margin-top: -15px;
+    }    
 }
