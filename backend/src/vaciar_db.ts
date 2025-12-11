@@ -25,4 +25,3 @@ async function vaciarBaseDatos() {
 }
 
 vaciarBaseDatos();
-
