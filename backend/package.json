@@ -12,7 +12,7 @@
     "cargar-db:prod": "node dist/cargar_db.js",
     "vaciar-db:prod": "node dist/vaciar_db.js",
     "resetear-db:prod": "node dist/resetear_db.js",
-    "build": "tsc",
+    "build": "tsc && node copy-excel-files.js",
     "start": "node dist/index.js"
   },
   "keywords": [],

@@ -79,6 +79,7 @@ export async function cargar_partidos() {
   // Leer el archivo (puede ser desde un buffer, archivo local o base64)
     // La función encontrarArchivoExcel busca el archivo en diferentes ubicaciones
     const filePath = encontrarArchivoExcel('Once_Historico.xlsx');
+    console.log(`📂 Leyendo archivo desde: ${filePath}`);
     const workbook = XLSX.readFile(filePath); // para Node.js, archivo local
 
     // Obtener el nombre de la hoja que querés recorrer
@@ -89,7 +90,13 @@ export async function cargar_partidos() {
 
     // Convertir la hoja a JSON (array de objetos)
     const datos = XLSX.utils.sheet_to_json<FilaPartido>(hoja);
-    for (const fila of datos) {      
+    console.log(`📊 Total de partidos a procesar: ${datos.length}`);
+    
+    let partidosGuardados = 0;
+    let partidosConError = 0;
+    
+    for (let index = 0; index < datos.length; index++) {
+      const fila = datos[index];      
       const titulares = [ fila['Titular 1'], fila['Titular 2'], fila['Titular 3'], fila['Titular 4'], fila['Titular 5'], fila['Titular 6'], 
                         fila['Titular 7'], fila['Titular 8'], fila['Titular 9'], fila['Titular 10'], fila['Titular 11'] ].filter(Boolean);
 
@@ -164,20 +171,36 @@ export async function cargar_partidos() {
 
       const fecha: Date = excelDateToJSDate(fila['Fecha']);
 
-      contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
-      //console.log(estadisticas);
       try {
+        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
+        
         const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
-        console.log(`Partido guardado: ${nuevoPartido}`);
+        partidosGuardados++;
+        
+        // Mostrar progreso cada 50 partidos
+        if ((index + 1) % 50 === 0) {
+          console.log(`⏳ Progreso: ${index + 1}/${datos.length} partidos procesados (${partidosGuardados} guardados, ${partidosConError} errores)`);
+        }
       } catch (error: any) {
+        partidosConError++;
         if (error.code === 11000) {
-          //console.warn(`Duplicado: el partido ${fila['Partido']} ya existe en la base de datos`);
+          // Duplicado - continuar sin error
+          partidosGuardados++; // Contar duplicados como "guardados"
         } else {
-          console.error(`Error guardando ${fila['Partido']}:`, error);
+          console.error(`❌ Error guardando partido ${fila['Partido']} (índice ${index}):`, error.message);
+          if (error.stack) {
+            console.error('Stack trace:', error.stack);
+          }
         }
       }
     }
+    
+    console.log(`✅ Partidos procesados: ${datos.length} total, ${partidosGuardados} guardados, ${partidosConError} con errores`);
+    console.log(`📊 Actualizando estadísticas de ${Object.keys(estadisticas).length} jugadores...`);
+    let estadisticasActualizadas = 0;
+    let estadisticasConError = 0;
+    
     for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol, tipos_asistencia, tipos_presencia_sin_jugar, director_tecnico }] of Object.entries(estadisticas)) {
       try {
         await Persona.findOneAndUpdate(
@@ -199,10 +222,17 @@ export async function cargar_partidos() {
             $set: { "director_tecnico.esquemas": director_tecnico.esquemas } },     
           { new: true }
         );
-      } catch (err) {
-        console.error("Error actualizando jugador:", err);
+        estadisticasActualizadas++;
+      } catch (err: any) {
+        estadisticasConError++;
+        console.error(`❌ Error actualizando estadísticas de ${nombre}:`, err.message || err);
+        if (err.stack) {
+          console.error('Stack trace:', err.stack);
+        }
       }
     }
+    
+    console.log(`✅ Estadísticas actualizadas: ${estadisticasActualizadas} jugadores, ${estadisticasConError} errores`);
 }
 
 interface TiposGol {
