@@ -1,6 +1,8 @@
 import * as XLSX from 'xlsx';
 import Persona from './models/persona';
 import Partido, { GolEnContra, GolFavor, GolRecibido } from './models/partido';
+import path from 'path';
+import fs from 'fs';
 
 import mongoose from 'mongoose';
 import connectDB from './db/db';
@@ -9,9 +11,31 @@ import { crearEstadisticasBase, excelDateToJSDate, FilaJugador, FilaPartido, for
 
 //type FilaPartido = (string | number | null)[];
 
+// Función helper para encontrar el archivo Excel en diferentes ubicaciones
+function encontrarArchivoExcel(nombreArchivo: string): string {
+  // Rutas posibles donde puede estar el archivo
+  const rutasPosibles = [
+    path.join(__dirname, 'db', nombreArchivo), // Desde dist/ o src/
+    path.join(__dirname, '../src/db', nombreArchivo), // Desde dist/ hacia src/
+    path.join(__dirname, '../../src/db', nombreArchivo), // Desde dist/cargar_db.js hacia src/
+    path.join(process.cwd(), 'backend/src/db', nombreArchivo), // Desde raíz del proyecto
+    path.join(process.cwd(), 'src/db', nombreArchivo), // Desde backend/
+  ];
+
+  for (const ruta of rutasPosibles) {
+    if (fs.existsSync(ruta)) {
+      return ruta;
+    }
+  }
+
+  throw new Error(`No se pudo encontrar el archivo ${nombreArchivo} en ninguna de las rutas posibles: ${rutasPosibles.join(', ')}`);
+}
+
 export async function cargar_jugadores() {
     // Leer el archivo (puede ser desde un buffer, archivo local o base64)
-    const workbook = XLSX.readFile('./src/db/Jugadores_Historico.xlsx'); // para Node.js, archivo local
+    // La función encontrarArchivoExcel busca el archivo en diferentes ubicaciones
+    const filePath = encontrarArchivoExcel('Jugadores_Historico.xlsx');
+    const workbook = XLSX.readFile(filePath); // para Node.js, archivo local
 
     // Obtener el nombre de la hoja que querés recorrer
     const nombreHoja = workbook.SheetNames[0]; // por ejemplo la primera hoja
@@ -53,7 +77,9 @@ export async function cargar_jugadores() {
 
 export async function cargar_partidos() {
   // Leer el archivo (puede ser desde un buffer, archivo local o base64)
-    const workbook = XLSX.readFile('./src/db/Once_Historico.xlsx'); // para Node.js, archivo local
+    // La función encontrarArchivoExcel busca el archivo en diferentes ubicaciones
+    const filePath = encontrarArchivoExcel('Once_Historico.xlsx');
+    const workbook = XLSX.readFile(filePath); // para Node.js, archivo local
 
     // Obtener el nombre de la hoja que querés recorrer
     const nombreHoja = workbook.SheetNames[0]; // por ejemplo la primera hoja
@@ -389,5 +415,8 @@ async function main() {
     await mongoose.disconnect(); // cerrar conexión al final
   }
 }
-  
-main();
+
+// Solo ejecutar main() si se ejecuta directamente el archivo (no cuando se importa)
+if (require.main === module) {
+  main();
+}

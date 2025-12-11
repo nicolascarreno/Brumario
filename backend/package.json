@@ -7,6 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/index.ts",
     "cargar-db": "ts-node src/cargar_db.ts",
+    "vaciar-db": "ts-node src/vaciar_db.ts",
+    "resetear-db": "ts-node src/resetear_db.ts",
+    "cargar-db:prod": "node dist/cargar_db.js",
+    "vaciar-db:prod": "node dist/vaciar_db.js",
+    "resetear-db:prod": "node dist/resetear_db.js",
     "build": "tsc",
     "start": "node dist/index.js"
   },
