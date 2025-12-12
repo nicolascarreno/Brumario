@@ -12,6 +12,9 @@
     "cargar-db:prod": "set MONGODB_URI=mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario && node dist/cargar_db.js",
     "vaciar-db:prod": "set MONGODB_URI=mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario && node dist/vaciar_db.js",
     "resetear-db:prod": "set MONGODB_URI=mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario && node dist/resetear_db.js",
+    "cargar-db:next-prod": "set MONGODB_URI=mongodb+srv://nicocarre2000_db_user:96UwhdjTVWH9p94R@brumario-prod.nnymjct.mongodb.net/?appName=Brumario-Prod && node dist/cargar_db.js",
+    "vaciar-db:next-prod": "set MONGODB_URI=mongodb+srv://nicocarre2000_db_user:96UwhdjTVWH9p94R@brumario-prod.nnymjct.mongodb.net/?appName=Brumario-Prod && node dist/vaciar_db.js",
+    "resetear-db:next-prod": "set MONGODB_URI=mongodb+srv://nicocarre2000_db_user:96UwhdjTVWH9p94R@brumario-prod.nnymjct.mongodb.net/?appName=Brumario-Prod && node dist/resetear_db.js",
     "build": "tsc && node copy-excel-files.js",
     "start": "node dist/index.js"
   },
