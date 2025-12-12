@@ -1,7 +1,7 @@
 services:
   # Aplicación completa (Backend + Frontend)
   - type: web
-    name: brumario-app
+    name: brumario-dev
     env: node
     plan: free
     buildCommand: npm run install:all && npm run build
