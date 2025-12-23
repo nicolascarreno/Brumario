@@ -1,0 +1,16 @@
+services:
+  # Aplicación completa (Backend + Frontend)
+  - type: web
+    name: brumario-app
+    env: node
+    plan: free
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://nicocarre2000_db_user:96UwhdjTVWH9p94R@brumario-prod.nnymjct.mongodb.net/?appName=Brumario-Prod
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/hello
