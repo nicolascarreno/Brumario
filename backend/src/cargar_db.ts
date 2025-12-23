@@ -172,7 +172,7 @@ export async function cargar_partidos() {
       const fecha: Date = excelDateToJSDate(fila['Fecha']);
 
       try {
-        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema);
+        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha);
         
         const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
@@ -195,6 +195,7 @@ export async function cargar_partidos() {
         }
       }
     }
+    console.log(estadisticas);
     
     console.log(`✅ Partidos procesados: ${datos.length} total, ${partidosGuardados} guardados, ${partidosConError} con errores`);
     console.log(`📊 Actualizando estadísticas de ${Object.keys(estadisticas).length} jugadores...`);
@@ -288,7 +289,9 @@ const estadisticas: Record<string, { goles: number, asistencias: number,
                                     amarillas: number, rojas: number, presencias_sin_jugar: number,
                                     titular: number, suplente: number, tipos_gol: TiposGol,
                                     tipos_asistencia: TiposAsistencia, tipos_presencia_sin_jugar: TiposPresenciasSinJugar,
-                                    director_tecnico: DirectorTecnico }> = {};
+                                    director_tecnico: DirectorTecnico, goles_por_anio: Record<number, number>,
+                                    titular_por_anio: Record<number, number>,
+                                    suplente_por_anio: Record<number, number> }> = {};
 
 function contar_estadisticas(
   resultado: string,
@@ -303,6 +306,7 @@ function contar_estadisticas(
   cantidad_goles_anotados: string,
   cantidad_goles_recibidos: string,
   esquema: string,
+  fecha: Date,
 ) {
   // contar partidos jugados
   for (let nombreJugador of titulares) {
@@ -310,6 +314,7 @@ function contar_estadisticas(
       estadisticas[nombreJugador] = crearEstadisticasBase();
     }
     estadisticas[nombreJugador].titular += 1;
+    estadisticas[nombreJugador].titular_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].titular_por_anio[fecha.getFullYear()] || 0) + 1;
   }
 
   for (let nombreJugador of suplentes) {
@@ -317,6 +322,7 @@ function contar_estadisticas(
       estadisticas[nombreJugador] = crearEstadisticasBase();
     }
     estadisticas[nombreJugador].suplente += 1;
+    estadisticas[nombreJugador].suplente_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].suplente_por_anio[fecha.getFullYear()] || 0) + 1;
   }
 
   // contar goles
@@ -327,6 +333,7 @@ function contar_estadisticas(
       estadisticas[nombreGoleador] = crearEstadisticasBase();
     }
     estadisticas[nombreGoleador].goles += 1;
+    estadisticas[nombreGoleador].goles_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_por_anio[fecha.getFullYear()] || 0) + 1;
 
     const clave_gol = tipoGolMap[gol.tipo] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreGoleador].tipos_gol[clave_gol] += 1;
