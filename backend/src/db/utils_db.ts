@@ -12,6 +12,11 @@ export function crearEstadisticasBase() {
     tipos_presencia_sin_jugar: { ganados: 0, empatados: 0, perdidos: 0 },
     director_tecnico: { ganados: 0, empatados: 0, perdidos: 0, goles_favor: 0, goles_contra: 0, esquemas: {} },
     goles_por_anio: {},
+    goles_pie_por_anio: {},
+    goles_cabeza_por_anio: {},
+    goles_penal_por_anio: {},
+    goles_tiro_libre_por_anio: {},
+    goles_otro_por_anio: {},
     titular_por_anio: {},
     suplente_por_anio: {},
   };

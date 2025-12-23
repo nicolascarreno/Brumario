@@ -291,7 +291,12 @@ const estadisticas: Record<string, { goles: number, asistencias: number,
                                     tipos_asistencia: TiposAsistencia, tipos_presencia_sin_jugar: TiposPresenciasSinJugar,
                                     director_tecnico: DirectorTecnico, goles_por_anio: Record<number, number>,
                                     titular_por_anio: Record<number, number>,
-                                    suplente_por_anio: Record<number, number> }> = {};
+                                    suplente_por_anio: Record<number, number>,
+                                    goles_pie_por_anio: Record<number, number>,
+                                    goles_cabeza_por_anio: Record<number, number>,
+                                    goles_penal_por_anio: Record<number, number>,
+                                    goles_tiro_libre_por_anio: Record<number, number>,
+                                    goles_otro_por_anio: Record<number, number> }> = {};
 
 function contar_estadisticas(
   resultado: string,
@@ -337,6 +342,22 @@ function contar_estadisticas(
 
     const clave_gol = tipoGolMap[gol.tipo] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreGoleador].tipos_gol[clave_gol] += 1;
+
+    if (clave_gol === 'pie_jugada') {
+      estadisticas[nombreGoleador].goles_pie_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_pie_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_gol === 'cabeza') {
+      estadisticas[nombreGoleador].goles_cabeza_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_cabeza_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_gol === 'penal') {
+      estadisticas[nombreGoleador].goles_penal_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_penal_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_gol === 'tiro_libre') {
+      estadisticas[nombreGoleador].goles_tiro_libre_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_tiro_libre_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else{
+      estadisticas[nombreGoleador].goles_otro_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_otro_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
 
     if (!estadisticas[nombreAsistidor]) {
       estadisticas[nombreAsistidor] = crearEstadisticasBase();
