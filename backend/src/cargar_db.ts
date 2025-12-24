@@ -12,7 +12,7 @@ import { crearEstadisticasBase, excelDateToJSDate, FilaJugador, FilaPartido, for
 //type FilaPartido = (string | number | null)[];
 
 // Función helper para encontrar el archivo Excel en diferentes ubicaciones
-function encontrarArchivoExcel(nombreArchivo: string): string {
+export function encontrarArchivoExcel(nombreArchivo: string): string {
   // Rutas posibles donde puede estar el archivo
   const rutasPosibles = [
     path.join(__dirname, 'db', nombreArchivo), // Desde dist/ o src/

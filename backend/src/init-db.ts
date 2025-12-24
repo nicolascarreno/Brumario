@@ -1,8 +1,42 @@
 import mongoose from 'mongoose';
+import * as XLSX from 'xlsx';
 import connectDB from './db/db';
 import Persona from './models/persona';
 import Partido from './models/partido';
-import { cargar_jugadores, cargar_partidos } from './cargar_db';
+import { cargar_jugadores, cargar_partidos, encontrarArchivoExcel } from './cargar_db';
+import { FilaJugador, FilaPartido } from './db/utils_db';
+
+function contar_partidos () {
+  const filePath = encontrarArchivoExcel('Once_Historico.xlsx');
+  console.log(`📂 Leyendo archivo desde: ${filePath}`);
+  const workbook = XLSX.readFile(filePath); // para Node.js, archivo local
+
+  // Obtener el nombre de la hoja que querés recorrer
+  const nombreHoja = workbook.SheetNames[0]; // por ejemplo la primera hoja
+
+  // Obtener la hoja
+  const hoja = workbook.Sheets[nombreHoja];
+
+  // Convertir la hoja a JSON (array de objetos)
+  const datos = XLSX.utils.sheet_to_json<FilaPartido>(hoja);
+  console.log(`📊 Total de partidos a procesar: ${datos.length}`);
+  return datos.length;
+}
+
+function contar_jugadores () {
+  const filePath = encontrarArchivoExcel('Jugadores_Historico.xlsx');
+  const workbook = XLSX.readFile(filePath); // para Node.js, archivo local
+
+  // Obtener el nombre de la hoja que querés recorrer
+  const nombreHoja = workbook.SheetNames[0]; // por ejemplo la primera hoja
+
+  // Obtener la hoja
+  const hoja = workbook.Sheets[nombreHoja];
+
+  // Convertir la hoja a JSON (array de objetos)
+  const datos = XLSX.utils.sheet_to_json<FilaJugador>(hoja);
+  return datos.length;
+}
 
 async function inicializarBaseDatos() {
   try {
@@ -15,6 +49,11 @@ async function inicializarBaseDatos() {
     const totalPartidos = await Partido.countDocuments();
     
     console.log(`📊 Estado actual: ${totalPersonas} personas, ${totalPartidos} partidos`);
+
+    if (totalPersonas === contar_jugadores() && totalPartidos === contar_partidos()) {
+      console.log('✅ La base de datos ya está inicializada correctamente. No se requiere acción.');
+      return;
+    }
     
     // Solo resetear si la base está vacía o tiene muy pocos datos (probablemente falló el reset anterior)
 
