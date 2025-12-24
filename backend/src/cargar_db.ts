@@ -202,7 +202,20 @@ export async function cargar_partidos() {
     let estadisticasActualizadas = 0;
     let estadisticasConError = 0;
     
-    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol, tipos_asistencia, tipos_presencia_sin_jugar, director_tecnico }] of Object.entries(estadisticas)) {
+    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol, tipos_asistencia, tipos_presencia_sin_jugar, director_tecnico,
+                          titular_por_anio, suplente_por_anio, goles_por_anio, goles_cabeza_por_anio,
+                          goles_tiro_libre_por_anio, goles_penal_por_anio, goles_otro_por_anio, goles_pie_por_anio,
+                          asistencias_por_anio, asistencias_cabeza_por_anio, asistencias_corner_por_anio,
+                          asistencias_pie_por_anio, asistencias_tiro_libre_por_anio, 
+                          asistencias_otro_por_anio, presencias_sin_jugar_por_anio, presencias_sin_jugar_empatados_por_anio,
+                          presencias_sin_jugar_ganados_por_anio, presencias_sin_jugar_perdidos_por_anio,
+                          amarillas_por_anio, rojas_por_anio }] of Object.entries(estadisticas)) {
+      const estadisticas_por_anio = { titular_por_anio, suplente_por_anio, goles_por_anio, goles_cabeza_por_anio, goles_pie_por_anio,
+                                      goles_penal_por_anio, goles_tiro_libre_por_anio, goles_otro_por_anio, asistencias_por_anio,
+                                      asistencias_pie_por_anio, asistencias_tiro_libre_por_anio, asistencias_corner_por_anio,
+                                      asistencias_cabeza_por_anio, asistencias_otro_por_anio, presencias_sin_jugar_por_anio,
+                                      presencias_sin_jugar_ganados_por_anio, presencias_sin_jugar_empatados_por_anio,
+                                      presencias_sin_jugar_perdidos_por_anio, amarillas_por_anio, rojas_por_anio };
       try {
         await Persona.findOneAndUpdate(
           { nombre },
@@ -220,7 +233,8 @@ export async function cargar_partidos() {
               "director_tecnico.empatados": director_tecnico.empatados,
               "director_tecnico.goles_favor": director_tecnico.goles_favor,
               "director_tecnico.goles_contra": director_tecnico.goles_contra},
-            $set: { "director_tecnico.esquemas": director_tecnico.esquemas } },     
+            $set: { "director_tecnico.esquemas": director_tecnico.esquemas },
+                    estadisticas_por_anio},     
           { new: true }
         );
         estadisticasActualizadas++;
@@ -306,7 +320,9 @@ const estadisticas: Record<string, { goles: number, asistencias: number,
                                     presencias_sin_jugar_por_anio: Record<number, number>,
                                     presencias_sin_jugar_ganados_por_anio: Record<number, number>,
                                     presencias_sin_jugar_empatados_por_anio: Record<number, number>,
-                                    presencias_sin_jugar_perdidos_por_anio: Record<number, number> }> = {};
+                                    presencias_sin_jugar_perdidos_por_anio: Record<number, number>,
+                                    amarillas_por_anio: Record<number, number>,
+                                    rojas_por_anio: Record<number, number> }> = {};
 
 function contar_estadisticas(
   resultado: string,
@@ -399,6 +415,7 @@ function contar_estadisticas(
       estadisticas[jugadorAmarilla] = crearEstadisticasBase();
     }
     estadisticas[jugadorAmarilla].amarillas += 1;
+    estadisticas[jugadorAmarilla].amarillas_por_anio[fecha.getFullYear()] = (estadisticas[jugadorAmarilla].amarillas_por_anio[fecha.getFullYear()] || 0) + 1;
   }
 
   for (const jugadorRoja of rojas) {
@@ -406,6 +423,7 @@ function contar_estadisticas(
       estadisticas[jugadorRoja] = crearEstadisticasBase();
     }
     estadisticas[jugadorRoja].rojas += 1;
+    estadisticas[jugadorRoja].rojas_por_anio[fecha.getFullYear()] = (estadisticas[jugadorRoja].rojas_por_anio[fecha.getFullYear()] || 0) + 1;
   }
 
   for (const jugadorSinJugar of presenciasSinJugar) {

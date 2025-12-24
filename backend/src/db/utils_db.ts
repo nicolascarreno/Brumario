@@ -29,6 +29,8 @@ export function crearEstadisticasBase() {
     presencias_sin_jugar_ganados_por_anio: {},
     presencias_sin_jugar_empatados_por_anio: {},
     presencias_sin_jugar_perdidos_por_anio: {},
+    amarillas_por_anio: {},
+    rojas_por_anio: {}
   };
 }
 

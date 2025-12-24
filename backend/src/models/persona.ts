@@ -76,6 +76,64 @@ const DirectorTecnicoSchema = new Schema({
   },
 }, { _id: false });
 
+type EstadisticaPorAnio = Record<string, number>;
+
+interface IEstadisticasPorAnio {
+  titular_por_anio: EstadisticaPorAnio;
+  suplente_por_anio: EstadisticaPorAnio;
+
+  goles_por_anio: EstadisticaPorAnio;
+  goles_cabeza_por_anio: EstadisticaPorAnio;
+  goles_pie_por_anio: EstadisticaPorAnio;
+  goles_penal_por_anio: EstadisticaPorAnio;
+  goles_tiro_libre_por_anio: EstadisticaPorAnio;
+  goles_otro_por_anio: EstadisticaPorAnio;
+
+  asistencias_por_anio: EstadisticaPorAnio;
+  asistencias_pie_por_anio: EstadisticaPorAnio;
+  asistencias_tiro_libre_por_anio: EstadisticaPorAnio;
+  asistencias_corner_por_anio: EstadisticaPorAnio;
+  asistencias_cabeza_por_anio: EstadisticaPorAnio;
+  asistencias_otro_por_anio: EstadisticaPorAnio;
+
+  amarillas_por_anio: EstadisticaPorAnio;
+  rojas_por_anio: EstadisticaPorAnio;
+
+  presencias_sin_jugar_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_ganados_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_empatados_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_perdidos_por_anio: EstadisticaPorAnio;
+}
+
+const estadisticasPorAnioSchema = new Schema(
+  {
+    titular_por_anio: { type: Map, of: Number, default: {} },
+    suplente_por_anio: { type: Map, of: Number, default: {} },
+
+    goles_por_anio: { type: Map, of: Number, default: {} },
+    goles_cabeza_por_anio: { type: Map, of: Number, default: {} },
+    goles_pie_por_anio: { type: Map, of: Number, default: {} },
+    goles_penal_por_anio: { type: Map, of: Number, default: {} },
+    goles_tiro_libre_por_anio: { type: Map, of: Number, default: {} },
+    goles_otro_por_anio: { type: Map, of: Number, default: {} },
+
+    asistencias_por_anio: { type: Map, of: Number, default: {} },
+    asistencias_pie_por_anio: { type: Map, of: Number, default: {} },
+    asistencias_tiro_libre_por_anio: { type: Map, of: Number, default: {} },
+    asistencias_corner_por_anio: { type: Map, of: Number, default: {} },
+    asistencias_cabeza_por_anio: { type: Map, of: Number, default: {} },
+    asistencias_otro_por_anio: { type: Map, of: Number, default: {} },
+
+    amarillas_por_anio: { type: Map, of: Number, default: {} },
+    rojas_por_anio: { type: Map, of: Number, default: {} },
+
+    presencias_sin_jugar_por_anio: { type: Map, of: Number, default: {} },
+    presencias_sin_jugar_ganados_por_anio: { type: Map, of: Number, default: {} },
+    presencias_sin_jugar_empatados_por_anio: { type: Map, of: Number, default: {} },
+    presencias_sin_jugar_perdidos_por_anio: { type: Map, of: Number, default: {} },
+  },
+  { _id: false }
+);
 
 interface IPersona extends Document {
     nombre: string;
@@ -93,6 +151,7 @@ interface IPersona extends Document {
     debut: Date;
     debut_oficial: Date;
     dorsal: number;
+    estadisticas_por_anio: IEstadisticasPorAnio;
     createdAt: Date;
 }
 
@@ -112,6 +171,7 @@ const personaSchema: Schema = new Schema({
     debut: { type: Date, required: true },
     debut_oficial: { type: Date, required: true },
     dorsal: { type: Number, required: false },
+    estadisticas_por_anio: { type: estadisticasPorAnioSchema, default: {} },
     createdAt: { type: Date, default: Date.now }
 });
 

@@ -60,7 +60,7 @@ export const getJugadoresDetalles = async (nombre: string) => {
 
     const jugadoresPreferidos = calcularTopJugadores(jugadores.map(j => j.toObject()), partidosDirigidos);    
     return {
-      ...jugador.toObject(),
+      ...jugador.toObject({ flattenMaps: true }),
       director_tecnico: {
         ...JSON.parse(JSON.stringify(jugador.director_tecnico)),
         jugadoresPreferidos,

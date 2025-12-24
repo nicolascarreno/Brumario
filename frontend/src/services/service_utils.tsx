@@ -144,6 +144,35 @@ export interface Hitos {
   debut_oficial: {partido: HitosPartido}
 }
 
+export type EstadisticaPorAnio = Record<string, number>;
+
+interface IEstadisticasPorAnio {
+  titular_por_anio: EstadisticaPorAnio;
+  suplente_por_anio: EstadisticaPorAnio;
+
+  goles_por_anio: EstadisticaPorAnio;
+  goles_cabeza_por_anio: EstadisticaPorAnio;
+  goles_pie_por_anio: EstadisticaPorAnio;
+  goles_penal_por_anio: EstadisticaPorAnio;
+  goles_tiro_libre_por_anio: EstadisticaPorAnio;
+  goles_otro_por_anio: EstadisticaPorAnio;
+
+  asistencias_por_anio: EstadisticaPorAnio;
+  asistencias_pie_por_anio: EstadisticaPorAnio;
+  asistencias_tiro_libre_por_anio: EstadisticaPorAnio;
+  asistencias_corner_por_anio: EstadisticaPorAnio;
+  asistencias_cabeza_por_anio: EstadisticaPorAnio;
+  asistencias_otro_por_anio: EstadisticaPorAnio;
+
+  amarillas_por_anio: EstadisticaPorAnio;
+  rojas_por_anio: EstadisticaPorAnio;
+
+  presencias_sin_jugar_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_ganados_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_empatados_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_perdidos_por_anio: EstadisticaPorAnio;
+}
+
 export interface Jugador {
   nombre: string;
   goles: number;
@@ -161,4 +190,5 @@ export interface Jugador {
   debut_oficial: Date;
   dorsal: number;
   hitos: Hitos;
+  estadisticas_por_anio: IEstadisticasPorAnio;
 }
