@@ -296,7 +296,17 @@ const estadisticas: Record<string, { goles: number, asistencias: number,
                                     goles_cabeza_por_anio: Record<number, number>,
                                     goles_penal_por_anio: Record<number, number>,
                                     goles_tiro_libre_por_anio: Record<number, number>,
-                                    goles_otro_por_anio: Record<number, number> }> = {};
+                                    goles_otro_por_anio: Record<number, number>,
+                                    asistencias_por_anio: Record<number, number>,
+                                    asistencias_pie_por_anio: Record<number, number>,
+                                    asistencias_tiro_libre_por_anio: Record<number, number>,
+                                    asistencias_corner_por_anio: Record<number, number>,
+                                    asistencias_cabeza_por_anio: Record<number, number>,
+                                    asistencias_otro_por_anio: Record<number, number>,
+                                    presencias_sin_jugar_por_anio: Record<number, number>,
+                                    presencias_sin_jugar_ganados_por_anio: Record<number, number>,
+                                    presencias_sin_jugar_empatados_por_anio: Record<number, number>,
+                                    presencias_sin_jugar_perdidos_por_anio: Record<number, number> }> = {};
 
 function contar_estadisticas(
   resultado: string,
@@ -365,6 +375,23 @@ function contar_estadisticas(
     estadisticas[nombreAsistidor].asistencias += 1;
     const clave_asistencia = tipoAsistenciaMap[gol.tipoAsistencia] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreAsistidor].tipos_asistencia[clave_asistencia] += 1;
+    estadisticas[nombreAsistidor].asistencias_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio[fecha.getFullYear()] || 0) + 1;
+
+    if (clave_asistencia === 'pie_jugada') {
+      estadisticas[nombreAsistidor].asistencias_pie_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_asistencia === 'tiro_libre') {
+      estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_asistencia === 'corner') {
+      estadisticas[nombreAsistidor].asistencias_corner_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_corner_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (clave_asistencia === 'cabeza') {
+      estadisticas[nombreAsistidor].asistencias_cabeza_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_cabeza_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else{
+      estadisticas[nombreAsistidor].asistencias_otro_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_otro_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
   }
 
   for (const jugadorAmarilla of amarillas) {
@@ -386,14 +413,18 @@ function contar_estadisticas(
       estadisticas[jugadorSinJugar] = crearEstadisticasBase();
     }
     estadisticas[jugadorSinJugar].presencias_sin_jugar += 1;
+    estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio[fecha.getFullYear()] || 0) + 1;
     if (resultado == 'Ganado') {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.ganados += 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio[fecha.getFullYear()] || 0) + 1;
     }
     else if (resultado == 'Empatado') {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.empatados += 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio[fecha.getFullYear()] || 0) + 1;
     }
     else {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.perdidos += 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio[fecha.getFullYear()] || 0) + 1;
     }
   }
   if (director_tecnico) {

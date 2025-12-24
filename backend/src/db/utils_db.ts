@@ -17,8 +17,18 @@ export function crearEstadisticasBase() {
     goles_penal_por_anio: {},
     goles_tiro_libre_por_anio: {},
     goles_otro_por_anio: {},
+    asistencias_por_anio: {},
+    asistencias_pie_por_anio: {},
+    asistencias_tiro_libre_por_anio: {},
+    asistencias_corner_por_anio: {},
+    asistencias_cabeza_por_anio: {},
+    asistencias_otro_por_anio: {},
     titular_por_anio: {},
     suplente_por_anio: {},
+    presencias_sin_jugar_por_anio: {},
+    presencias_sin_jugar_ganados_por_anio: {},
+    presencias_sin_jugar_empatados_por_anio: {},
+    presencias_sin_jugar_perdidos_por_anio: {},
   };
 }
 
