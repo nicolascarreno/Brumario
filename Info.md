@@ -38,4 +38,3 @@ curl -i -X POST https://brumario-app-3t0y.onrender.com/api/database/reset
 
 curl -i https://brumario-app.onrender.com/api/hello
 curl -i -X POST https://brumario-app.onrender.com/api/database/reset
-

@@ -90,6 +90,11 @@ export async function cargar_partidos() {
 
     // Convertir la hoja a JSON (array de objetos)
     const datos = XLSX.utils.sheet_to_json<FilaPartido>(hoja);
+    //const datos = XLSX.utils.sheet_to_json<FilaPartido>(hoja, {
+    //  defval: null
+    //}).filter(fila =>
+    //  fila && Object.values(fila).some(v => v !== null)
+    //);
     console.log(`📊 Total de partidos a procesar: ${datos.length}`);
     
     let partidosGuardados = 0;
