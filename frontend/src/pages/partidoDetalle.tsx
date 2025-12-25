@@ -28,7 +28,7 @@ export const PartidoDetalle: React.FC = () => {
   }, [nro]);
 
   const renderContenido = () => {
-        if (!partido) return <div style={{padding: 40}}><span className="nombre_estadistica">¡Ups! No se encontró el partido buscado</span></div>;
+        if (!partido) return <div className="contenedor_error"><span className="nombre_estadistica">¡Ups! No se encontró el partido buscado</span></div>;
         switch (opcion) {
           case "general":
             return (

@@ -28,7 +28,7 @@ export const DetallesJugador: React.FC = () => {
   console.log(jugador);
 
   const renderContenido = () => {
-      if (!jugador) return <div style={{padding: 40}}><span className="nombre_estadistica">¡Ups! No se encontró el jugador buscado</span></div>;
+      if (!jugador) return <div className="contenedor_error"><span className="nombre_estadistica">¡Ups! No se encontró el jugador buscado</span></div>;
       switch (opcion) {
         case "general":
           return (

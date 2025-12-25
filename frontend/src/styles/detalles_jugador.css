@@ -124,6 +124,10 @@
     border-radius: 3px;
 }
 
+.contenedor_error {
+    padding: 40px;
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_general{
@@ -214,5 +218,13 @@
         padding: 10px;
         margin-bottom: 15px;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+    }
+    .contenedor_error {
+        width: 270px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+        padding-right: 0px;
+        margin-left: 25px;
     }
 }

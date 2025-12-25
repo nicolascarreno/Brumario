@@ -14,7 +14,7 @@ export const BarraOpcionesPartidos: React.FC<BarraOpcionesPartidos> = ({ onSelec
       <div className="contenedor_barra_opciones">
         <button className="primer_boton_barra_opciones" onClick={() => navigate("/")}>
           <img src={'/volver2.png'} alt="App Logo" className="icono"/>
-          <span>Atrás</span>
+          <span>Ir a Inicio</span>
         </button>
         <button className="ultimo_boton_barra_opciones" onClick={() => navigate("/jugadores")}>
           <img src={'/diego_sin_fondo.png'} alt="App Logo" className="icono"/>

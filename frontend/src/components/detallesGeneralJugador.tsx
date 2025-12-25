@@ -30,11 +30,17 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 }) => {
    const [anioSeleccionado, setAnioSeleccionado] = React.useState<number | null>(null);
   const aniosDisponibles = React.useMemo(() => {
-    const mapa = jugador.estadisticas_por_anio?.titular_por_anio || {};
-    return Object.keys(mapa)
-      .map(Number)
-      .sort((a, b) => b - a);
+    const titular = jugador.estadisticas_por_anio?.titular_por_anio || {};
+    const suplente = jugador.estadisticas_por_anio?.suplente_por_anio || {};
+
+    const anios = new Set<number>([
+      ...Object.keys(titular).map(Number),
+      ...Object.keys(suplente).map(Number),
+    ]);
+
+    return Array.from(anios).sort((a, b) => b - a);
   }, [jugador]);
+
   const estadisticas = jugador.estadisticas_por_anio;
   const jugadorVista = React.useMemo(() => ({
     ...jugador,

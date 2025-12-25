@@ -13,7 +13,7 @@ export const BarraOpciones: React.FC<BarraOpciones> = ({ onSelect }) => {
       <div className="contenedor_barra_opciones">
         <button className="primer_boton_barra_opciones" onClick={() => navigate("/")}>
           <img src={'/volver2.png'} alt="App Logo" className="icono"/>
-          <span>Atrás</span>
+          <span>Ir a Inicio</span>
         </button>
         <button className="ultimo_boton_barra_opciones" onClick={() => navigate("/partidos")}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" className="icono"/>
