@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import jugadoresRouter from "./routes/jugadoresRoutes";
 import partidosRouter from "./routes/partidosRoutes";
+import databaseRouter from "./routes/databaseRoutes";
 import path from 'path';
 
 const app = express();
@@ -22,10 +23,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(cors());
+app.use(express.json()); 
 
 // Rutas de la API
 app.use("/api/jugadores", jugadoresRouter);
 app.use("/api/partidos", partidosRouter);
+app.use("/api/database", databaseRouter);
+
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hola desde el backend!' });
 });
