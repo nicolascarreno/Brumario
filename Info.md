@@ -27,3 +27,15 @@ Connection String: mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqo
 
 GMAIL -----> ncarreno
 
+# CURLS
+
+## DEV
+
+curl -i https://brumario-app-3t0y.onrender.com/api/hello
+curl -i -X POST https://brumario-app-3t0y.onrender.com/api/database/reset
+
+## PROD
+
+curl -i https://https://brumario-app.onrender.com/api/hello
+curl -i -X POST https://https://brumario-app.onrender.com/api/database/reset
+

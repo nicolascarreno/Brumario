@@ -194,9 +194,7 @@ export async function cargar_partidos() {
           }
         }
       }
-    }
-    console.log(estadisticas);
-    
+    }    
     console.log(`✅ Partidos procesados: ${datos.length} total, ${partidosGuardados} guardados, ${partidosConError} con errores`);
     console.log(`📊 Actualizando estadísticas de ${Object.keys(estadisticas).length} jugadores...`);
     let estadisticasActualizadas = 0;
