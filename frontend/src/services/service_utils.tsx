@@ -146,7 +146,7 @@ export interface Hitos {
 
 export type EstadisticaPorAnio = Record<string, number>;
 
-interface IEstadisticasPorAnio {
+export interface IEstadisticasPorAnio {
   titular_por_anio: EstadisticaPorAnio;
   suplente_por_anio: EstadisticaPorAnio;
 

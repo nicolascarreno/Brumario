@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from '../services/service_utils';
+import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar, IEstadisticasPorAnio } from '../services/service_utils';
 
 interface Jugador {
   nombre: string;
@@ -16,6 +16,7 @@ interface Jugador {
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
+  estadisticas_por_anio: IEstadisticasPorAnio;
 }
 
 interface DetallesGeneralJugadorProp {
@@ -27,67 +28,144 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   jugador,
   loading,
 }) => {
-  const partidos_jugados = jugador.titular + jugador.suplente;
+   const [anioSeleccionado, setAnioSeleccionado] = React.useState<number | null>(null);
+  const aniosDisponibles = React.useMemo(() => {
+    const mapa = jugador.estadisticas_por_anio?.titular_por_anio || {};
+    return Object.keys(mapa)
+      .map(Number)
+      .sort((a, b) => b - a);
+  }, [jugador]);
+  const estadisticas = jugador.estadisticas_por_anio;
+  const jugadorVista = React.useMemo(() => ({
+    ...jugador,
+
+    titular: valorPorAnio(
+      jugador.titular,
+      estadisticas?.titular_por_anio,
+      anioSeleccionado
+    ),
+
+    suplente: valorPorAnio(
+      jugador.suplente,
+      estadisticas?.suplente_por_anio,
+      anioSeleccionado
+    ),
+
+    goles: valorPorAnio(
+      jugador.goles,
+      estadisticas?.goles_por_anio,
+      anioSeleccionado
+    ),
+
+    asistencias: valorPorAnio(
+      jugador.asistencias,
+      estadisticas?.asistencias_por_anio,
+      anioSeleccionado
+    ),
+
+    amarillas: valorPorAnio(
+      jugador.amarillas,
+      estadisticas?.amarillas_por_anio,
+      anioSeleccionado
+    ),
+
+    rojas: valorPorAnio(
+      jugador.rojas,
+      estadisticas?.rojas_por_anio,
+      anioSeleccionado
+    ),
+
+    presencias_sin_jugar: valorPorAnio(
+      jugador.presencias_sin_jugar,
+      estadisticas?.presencias_sin_jugar_por_anio,
+      anioSeleccionado
+    ),
+
+    tipos_presencias_sin_jugar: {
+      perdidos: valorPorAnio(jugador.tipos_presencias_sin_jugar.perdidos, estadisticas?.presencias_sin_jugar_perdidos_por_anio, anioSeleccionado),
+      ganados: valorPorAnio(jugador.tipos_presencias_sin_jugar.ganados, estadisticas?.presencias_sin_jugar_ganados_por_anio, anioSeleccionado),
+      empatados: valorPorAnio(jugador.tipos_presencias_sin_jugar.empatados, estadisticas?.presencias_sin_jugar_empatados_por_anio, anioSeleccionado),
+    },
+
+    tipos_gol: {
+      cabeza: valorPorAnio(jugador.tipos_gol.cabeza, estadisticas?.goles_cabeza_por_anio, anioSeleccionado),
+      pie_jugada: valorPorAnio(jugador.tipos_gol.pie_jugada, estadisticas?.goles_pie_por_anio, anioSeleccionado),
+      penal: valorPorAnio(jugador.tipos_gol.penal, estadisticas?.goles_penal_por_anio, anioSeleccionado),
+      tiro_libre: valorPorAnio(jugador.tipos_gol.tiro_libre, estadisticas?.goles_tiro_libre_por_anio, anioSeleccionado),
+      otros: valorPorAnio(jugador.tipos_gol.otros, estadisticas?.goles_otro_por_anio, anioSeleccionado),
+    },
+
+    tipos_asistencia: {
+      cabeza: valorPorAnio(jugador.tipos_asistencia.cabeza, estadisticas?.asistencias_cabeza_por_anio, anioSeleccionado),
+      pie_jugada: valorPorAnio(jugador.tipos_asistencia.pie_jugada, estadisticas?.asistencias_pie_por_anio, anioSeleccionado),
+      tiro_libre: valorPorAnio(jugador.tipos_asistencia.tiro_libre, estadisticas?.asistencias_tiro_libre_por_anio, anioSeleccionado),
+      corner: valorPorAnio(jugador.tipos_asistencia.corner, estadisticas?.asistencias_corner_por_anio, anioSeleccionado),
+      otros: valorPorAnio(jugador.tipos_asistencia.otros, estadisticas?.asistencias_otro_por_anio, anioSeleccionado),
+    }
+
+  }), [jugador, estadisticas, anioSeleccionado]);
+  const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
   const porcentajeTitular =
       partidos_jugados > 0? 
-        ((jugador.titular / partidos_jugados)).toFixed(2) // 0 decimales
+        ((jugadorVista.titular / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeSuplente =
       partidos_jugados > 0? 
-        ((jugador.suplente / partidos_jugados)).toFixed(2) // 0 decimales
+        ((jugadorVista.suplente / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeJugada =
-      jugador.goles > 0? 
-        ((jugador.tipos_gol.pie_jugada / jugador.goles)).toFixed(2) // 0 decimales
+      jugadorVista.goles > 0? 
+        ((jugadorVista.tipos_gol.pie_jugada / jugadorVista.goles)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeCabeza =
-      jugador.goles > 0? 
-        ((jugador.tipos_gol.cabeza / jugador.goles)).toFixed(2) // 0 decimales
+      jugadorVista.goles > 0? 
+        ((jugadorVista.tipos_gol.cabeza / jugadorVista.goles)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeTiroLibre = 
-      jugador.goles > 0? 
-        ((jugador.tipos_gol.tiro_libre / jugador.goles)).toFixed(2) // 0 decimales
+      jugadorVista.goles > 0? 
+        ((jugadorVista.tipos_gol.tiro_libre / jugadorVista.goles)).toFixed(2) // 0 decimales
         : 0;
   const porcentajePenal =
-      jugador.goles > 0? 
-        ((jugador.tipos_gol.penal / jugador.goles)).toFixed(2) // 0 decimales
+      jugadorVista.goles > 0? 
+        ((jugadorVista.tipos_gol.penal / jugadorVista.goles)).toFixed(2) // 0 decimales
         : 0;
   const promedioGol =
-      jugador.goles > 0? 
-        ((jugador.goles / partidos_jugados)).toFixed(2) // 0 decimales
+      jugadorVista.goles > 0? 
+        ((jugadorVista.goles / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeAsistenciaJugada =
-      jugador.asistencias > 0? 
-        ((jugador.tipos_asistencia.pie_jugada / jugador.asistencias)).toFixed(2) // 0 decimales
+      jugadorVista.asistencias > 0? 
+        ((jugadorVista.tipos_asistencia.pie_jugada / jugadorVista.asistencias)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeAsistenciaCabeza =
-      jugador.asistencias > 0? 
-        ((jugador.tipos_asistencia.cabeza / jugador.asistencias)).toFixed(2) // 0 decimales
+      jugadorVista.asistencias > 0? 
+        ((jugadorVista.tipos_asistencia.cabeza / jugadorVista.asistencias)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeAsistenciaTiroLibre = 
-      jugador.asistencias > 0? 
-        ((jugador.tipos_asistencia.tiro_libre / jugador.asistencias)).toFixed(2) // 0 decimales
+      jugadorVista.asistencias > 0? 
+        ((jugadorVista.tipos_asistencia.tiro_libre / jugadorVista.asistencias)).toFixed(2) // 0 decimales
         : 0;
   const porcentajeAsistenciaCorner =
-      jugador.asistencias > 0? 
-        ((jugador.tipos_asistencia.corner / jugador.asistencias)).toFixed(2) // 0 decimales
+      jugadorVista.asistencias > 0? 
+        ((jugadorVista.tipos_asistencia.corner / jugadorVista.asistencias)).toFixed(2) // 0 decimales
         : 0;
   const promedioAsistencias =
-      jugador.asistencias > 0? 
-        ((jugador.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
+      jugadorVista.asistencias > 0? 
+        ((jugadorVista.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
   const efectividadPresenciasSinJugar =
-      jugador.presencias_sin_jugar > 0? 
-        (((jugador.tipos_presencias_sin_jugar.empatados + 3*jugador.tipos_presencias_sin_jugar.ganados) / (3*jugador.presencias_sin_jugar))).toFixed(2) // 0 decimales
+      jugadorVista.presencias_sin_jugar > 0? 
+        (((jugadorVista.tipos_presencias_sin_jugar.empatados + 3*jugadorVista.tipos_presencias_sin_jugar.ganados) / (3*jugadorVista.presencias_sin_jugar))).toFixed(2) // 0 decimales
         : 0;
   const promedioAmarillas =
-      jugador.amarillas > 0? 
-        ((jugador.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
+      jugadorVista.amarillas > 0? 
+        ((jugadorVista.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
   const promedioRojas =
-      jugador.rojas > 0? 
-        ((jugador.rojas / partidos_jugados)).toFixed(2) // 0 decimales
+      jugadorVista.rojas > 0? 
+        ((jugadorVista.rojas / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
+
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -100,6 +178,25 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                 <span className='nombre'>{jugador.nombre}</span>
             </div>
             <div className='contenedor_estadistica'>
+              <div style={{ paddingBottom: 20, marginTop: 10, display: "flex", justifyContent: "center", alignItems: "center", height: 20 }}>
+                  <label style={{ marginRight: 10, fontWeight: "bold" }}>
+                    Año:
+                  </label>
+                  <select
+                    value={anioSeleccionado ?? ""}
+                    onChange={(e) =>
+                      setAnioSeleccionado(e.target.value ? Number(e.target.value) : null)
+                    }
+                    className='select_anio'
+                  >
+                    <option value="">Todos</option>
+                    {aniosDisponibles.map(anio => (
+                      <option key={anio} value={anio}>
+                        {anio}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               <div className='contenedor_tipo_estadistica'>
                 <div style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
@@ -116,7 +213,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Titular</span>
-                      <span className='estadistica'>{jugador.titular}</span>
+                      <span className='estadistica'>{jugadorVista.titular}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Titular (%)</span>
@@ -124,7 +221,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Suplente</span>
-                      <span className='estadistica'>{jugador.suplente}</span>
+                      <span className='estadistica'>{jugadorVista.suplente}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Suplente (%)</span>
@@ -132,7 +229,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Partidos Totales</span>
-                      <span className='estadistica_clave'>{jugador.titular + jugador.suplente}</span>
+                      <span className='estadistica_clave'>{jugadorVista.titular + jugadorVista.suplente}</span>
                   </div>
                 </div>
                   <div className='contenedor_tipo_estadistica2'>
@@ -142,23 +239,23 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Pie (jugada)</span>
-                      <span className='estadistica'>{jugador.tipos_gol.pie_jugada}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_gol.pie_jugada}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Cabeza</span>
-                      <span className='estadistica'>{jugador.tipos_gol.cabeza}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_gol.cabeza}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Tiro Libre</span>
-                      <span className='estadistica'>{jugador.tipos_gol.tiro_libre}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_gol.tiro_libre}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Penal</span>
-                      <span className='estadistica'>{jugador.tipos_gol.penal}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_gol.penal}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Goles Totales</span>
-                      <span className='estadistica_clave'>{jugador.goles}</span>
+                      <span className='estadistica_clave'>{jugadorVista.goles}</span>
                   </div>
                 </div>
                 <div>
@@ -200,15 +297,15 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>Ganados</span>
-                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.ganados}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.ganados}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>Empatados</span>
-                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.empatados}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.empatados}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>Perdidos</span>
-                      <span className='estadistica'>{jugador.tipos_presencias_sin_jugar.perdidos}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.perdidos}</span>
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>Efectividad (%)</span>
@@ -216,7 +313,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Presencias Totales</span>
-                      <span className='estadistica_clave'>{jugador.presencias_sin_jugar}</span>
+                      <span className='estadistica_clave'>{jugadorVista.presencias_sin_jugar}</span>
                   </div>
                 </div>
                   <div className='contenedor_tipo_estadistica2'>
@@ -226,23 +323,23 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Pie (jugada)</span>
-                      <span className='estadistica'>{jugador.tipos_asistencia.pie_jugada}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_asistencia.pie_jugada}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Cabeza</span>
-                      <span className='estadistica'>{jugador.tipos_asistencia.cabeza}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_asistencia.cabeza}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Tiro Libre</span>
-                      <span className='estadistica'>{jugador.tipos_asistencia.tiro_libre}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_asistencia.tiro_libre}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica'>De Corner</span>
-                      <span className='estadistica'>{jugador.tipos_asistencia.corner}</span>
+                      <span className='estadistica'>{jugadorVista.tipos_asistencia.corner}</span>
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Asistencias Totales</span>
-                      <span className='estadistica_clave'>{jugador.asistencias}</span>
+                      <span className='estadistica_clave'>{jugadorVista.asistencias}</span>
                   </div>
                 </div>
                 <div>
@@ -280,7 +377,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   </div>
                   <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Amarillas Totales</span>
-                      <span className='estadistica_clave'>{jugador.amarillas}</span>
+                      <span className='estadistica_clave'>{jugadorVista.amarillas}</span>
                   </div>
                 </div>
                   <div className='contenedor_tipo_estadistica2'>
@@ -294,7 +391,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                     </div>
                     <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
                       <span className='estadistica_clave'>Rojas Totales</span>
-                      <span className='estadistica_clave'>{jugador.rojas}</span>
+                      <span className='estadistica_clave'>{jugadorVista.rojas}</span>
                   </div>
                 </div>
               </div>
@@ -305,3 +402,12 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   </div>
 );
 };
+
+function valorPorAnio(
+  total: number,
+  mapaPorAnio: Record<number, number> | undefined,
+  anio: number | null
+): number {
+  if (!anio || !mapaPorAnio) return total;
+  return mapaPorAnio[anio] ?? 0;
+}

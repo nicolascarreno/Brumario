@@ -109,6 +109,21 @@
     text-align: center
 }
 
+.select_anio{
+    background-color: #eaeaea;
+    color: #000000;
+    border: 0px solid #4b5563;
+    padding: 6px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transform: translateY(1px)
+}
+
+.select_anio:hover{
+    border-bottom: 4px solid red;
+    border-radius: 3px;
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_general{
