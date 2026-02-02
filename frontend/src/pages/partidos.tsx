@@ -73,7 +73,7 @@ export function Partidos() {
   return (
     <div className="App">
       <div className="encabezado">
-        <img src={'/brumario.png'} alt="brumario" className='logo'/>
+        <img src={'/brumario.png'} alt="brumario" className='logo' onClick={() => navigate("/")} style={{ cursor: "pointer" }}/>
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
 

@@ -142,6 +142,8 @@ export function Jugadores() {
           src={'/brumario.png'}
           alt="brumario"
           className='logo'
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
         />
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>

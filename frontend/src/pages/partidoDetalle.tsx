@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Partido } from "../services/service_utils";
 import { getPartido } from "../services/partidosService";
-
+import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/App.css';
 import '../styles/inicio.css';
@@ -12,6 +12,7 @@ import '../styles/detalles_jugador.css'
 import { DetallesPartido } from "../components/detallesPartido";
 
 export const PartidoDetalle: React.FC = () => {
+  const navigate = useNavigate();
   const { nro } = useParams<{ nro: string }>();
   const [partido, setPartido] = useState<Partido | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ export const PartidoDetalle: React.FC = () => {
     return (
     <div>
       <div className="encabezado">
-        <img src={'/brumario.png'} alt="brumario" className="logo"/>
+        <img src={'/brumario.png'} alt="brumario" className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}/>
         <span className='sitio_web'>Sitio Web Oficial</span>
       </div>
       <div className="contenedor_general_partido">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import '../styles/App.css';
 import '../styles/detalles_jugador.css'
@@ -12,6 +12,7 @@ import { getJugador } from "../services/jugadoresService";
 
 export const DetallesJugador: React.FC = () => {
   const { nombre } = useParams<{ nombre: string }>();
+  const navigate = useNavigate();
   const [jugador, setJugador] = useState<Jugador | null>(null);
   const [loading, setLoading] = useState(true);
   const [opcion, setOpcion] = useState("plantilla");
@@ -64,7 +65,7 @@ export const DetallesJugador: React.FC = () => {
   return (
   <div className="app">
     <div className="encabezado">
-      <img src={'/brumario.png'} alt="brumario" className="logo"/>
+      <img src={'/brumario.png'} alt="brumario" className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}/>
       <span className='sitio_web'>Sitio Web Oficial</span>
     </div>
     <div className="contenedor_general">
