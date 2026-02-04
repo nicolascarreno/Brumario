@@ -90,6 +90,10 @@ export function Jugadores() {
           <TablaGoleadores
             jugadores={jugadores}
             loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
           />
         );
       case "asistidores":
@@ -97,6 +101,10 @@ export function Jugadores() {
           <TablaAsistidores
             jugadores={jugadores}
             loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
           />
         );
       case "amarillas":
@@ -104,6 +112,10 @@ export function Jugadores() {
           <TablaAmarillas
             jugadores={jugadores}
             loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
           />
         );
       case "rojas":
@@ -111,6 +123,10 @@ export function Jugadores() {
           <TablaRojas
             jugadores={jugadores}
             loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}            
           />
         );
       case "presencias sin jugar":
@@ -118,6 +134,10 @@ export function Jugadores() {
           <TablaPresenciasSinJugar
             jugadores={jugadores}
             loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
           />
         );
       default:
