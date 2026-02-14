@@ -1,28 +1,29 @@
-name: Conditional Render Deploy
-
-on:
-  push:
-    branches:
-      - dev
+name: Conditional Deploy Workflow
+on: [push]
 
 jobs:
-  deploy:
+  check_message:
     runs-on: ubuntu-latest
-
+    outputs:
+      should_deploy: ${{ steps.check.outputs.should_deploy }}
     steps:
-      - name: Check commit messages
+      - name: Get commit message
         id: check
         run: |
-          echo "COMMITS:"
-          echo '${{ toJson(github.event.commits) }}'
-
-          if echo '${{ toJson(github.event.commits) }}' | grep -qi "deploy:"; then
-            echo "deploy=true" >> $GITHUB_OUTPUT
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          if [[ "$COMMIT_MESSAGE" == *"[deploy]"* ]]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
           else
-            echo "deploy=false" >> $GITHUB_OUTPUT
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
           fi
-
-      - name: Trigger Render Deploy
-        if: steps.check.outputs.deploy == 'true'
-        run: |
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: check_message
+    if: needs.check_message.outputs.should_deploy == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy application
+        # Your deployment commands go here
+        run: echo "Deployment in progress..."
