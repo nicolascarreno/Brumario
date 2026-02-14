@@ -1,5 +1,9 @@
 name: Conditional Deploy Workflow
-on: [push]
+
+on:
+  push:
+    branches:
+      - dev
 
 jobs:
   check_message:
