@@ -30,8 +30,8 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 }) => {
    const [anioSeleccionado, setAnioSeleccionado] = React.useState<number | null>(null);
   const aniosDisponibles = React.useMemo(() => {
-    const titular = jugador.estadisticas_por_anio?.titular_por_anio || {};
-    const suplente = jugador.estadisticas_por_anio?.suplente_por_anio || {};
+    const titular = jugador.estadisticas_por_anio?.titular_por_anio.total_por_anio || {};
+    const suplente = jugador.estadisticas_por_anio?.suplente_por_anio.total_por_anio || {};
 
     const anios = new Set<number>([
       ...Object.keys(titular).map(Number),
@@ -47,66 +47,66 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 
     titular: valorPorAnio(
       jugador.titular,
-      estadisticas?.titular_por_anio,
+      estadisticas?.titular_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     suplente: valorPorAnio(
       jugador.suplente,
-      estadisticas?.suplente_por_anio,
+      estadisticas?.suplente_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     goles: valorPorAnio(
       jugador.goles,
-      estadisticas?.goles_por_anio,
+      estadisticas?.goles_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     asistencias: valorPorAnio(
       jugador.asistencias,
-      estadisticas?.asistencias_por_anio,
+      estadisticas?.asistencias_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     amarillas: valorPorAnio(
       jugador.amarillas,
-      estadisticas?.amarillas_por_anio,
+      estadisticas?.amarillas_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     rojas: valorPorAnio(
       jugador.rojas,
-      estadisticas?.rojas_por_anio,
+      estadisticas?.rojas_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     presencias_sin_jugar: valorPorAnio(
       jugador.presencias_sin_jugar,
-      estadisticas?.presencias_sin_jugar_por_anio,
+      estadisticas?.presencias_sin_jugar_por_anio.total_por_anio,
       anioSeleccionado
     ),
 
     tipos_presencias_sin_jugar: {
-      perdidos: valorPorAnio(jugador.tipos_presencias_sin_jugar.perdidos, estadisticas?.presencias_sin_jugar_perdidos_por_anio, anioSeleccionado),
-      ganados: valorPorAnio(jugador.tipos_presencias_sin_jugar.ganados, estadisticas?.presencias_sin_jugar_ganados_por_anio, anioSeleccionado),
-      empatados: valorPorAnio(jugador.tipos_presencias_sin_jugar.empatados, estadisticas?.presencias_sin_jugar_empatados_por_anio, anioSeleccionado),
+      perdidos: valorPorAnio(jugador.tipos_presencias_sin_jugar.perdidos, estadisticas?.presencias_sin_jugar_perdidos_por_anio.total_por_anio, anioSeleccionado),
+      ganados: valorPorAnio(jugador.tipos_presencias_sin_jugar.ganados, estadisticas?.presencias_sin_jugar_ganados_por_anio.total_por_anio, anioSeleccionado),
+      empatados: valorPorAnio(jugador.tipos_presencias_sin_jugar.empatados, estadisticas?.presencias_sin_jugar_empatados_por_anio.total_por_anio, anioSeleccionado),
     },
 
     tipos_gol: {
-      cabeza: valorPorAnio(jugador.tipos_gol.cabeza, estadisticas?.goles_cabeza_por_anio, anioSeleccionado),
-      pie_jugada: valorPorAnio(jugador.tipos_gol.pie_jugada, estadisticas?.goles_pie_por_anio, anioSeleccionado),
-      penal: valorPorAnio(jugador.tipos_gol.penal, estadisticas?.goles_penal_por_anio, anioSeleccionado),
-      tiro_libre: valorPorAnio(jugador.tipos_gol.tiro_libre, estadisticas?.goles_tiro_libre_por_anio, anioSeleccionado),
-      otros: valorPorAnio(jugador.tipos_gol.otros, estadisticas?.goles_otro_por_anio, anioSeleccionado),
+      cabeza: valorPorAnio(jugador.tipos_gol.cabeza, estadisticas?.goles_cabeza_por_anio.total_por_anio, anioSeleccionado),
+      pie_jugada: valorPorAnio(jugador.tipos_gol.pie_jugada, estadisticas?.goles_pie_por_anio.total_por_anio, anioSeleccionado),
+      penal: valorPorAnio(jugador.tipos_gol.penal, estadisticas?.goles_penal_por_anio.total_por_anio, anioSeleccionado),
+      tiro_libre: valorPorAnio(jugador.tipos_gol.tiro_libre, estadisticas?.goles_tiro_libre_por_anio.total_por_anio, anioSeleccionado),
+      otros: valorPorAnio(jugador.tipos_gol.otros, estadisticas?.goles_otro_por_anio.total_por_anio, anioSeleccionado),
     },
 
     tipos_asistencia: {
-      cabeza: valorPorAnio(jugador.tipos_asistencia.cabeza, estadisticas?.asistencias_cabeza_por_anio, anioSeleccionado),
-      pie_jugada: valorPorAnio(jugador.tipos_asistencia.pie_jugada, estadisticas?.asistencias_pie_por_anio, anioSeleccionado),
-      tiro_libre: valorPorAnio(jugador.tipos_asistencia.tiro_libre, estadisticas?.asistencias_tiro_libre_por_anio, anioSeleccionado),
-      corner: valorPorAnio(jugador.tipos_asistencia.corner, estadisticas?.asistencias_corner_por_anio, anioSeleccionado),
-      otros: valorPorAnio(jugador.tipos_asistencia.otros, estadisticas?.asistencias_otro_por_anio, anioSeleccionado),
+      cabeza: valorPorAnio(jugador.tipos_asistencia.cabeza, estadisticas?.asistencias_cabeza_por_anio.total_por_anio, anioSeleccionado),
+      pie_jugada: valorPorAnio(jugador.tipos_asistencia.pie_jugada, estadisticas?.asistencias_pie_por_anio.total_por_anio, anioSeleccionado),
+      tiro_libre: valorPorAnio(jugador.tipos_asistencia.tiro_libre, estadisticas?.asistencias_tiro_libre_por_anio.total_por_anio, anioSeleccionado),
+      corner: valorPorAnio(jugador.tipos_asistencia.corner, estadisticas?.asistencias_corner_por_anio.total_por_anio, anioSeleccionado),
+      otros: valorPorAnio(jugador.tipos_asistencia.otros, estadisticas?.asistencias_otro_por_anio.total_por_anio, anioSeleccionado),
     }
 
   }), [jugador, estadisticas, anioSeleccionado]);

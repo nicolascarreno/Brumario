@@ -78,6 +78,22 @@ const DirectorTecnicoSchema = new Schema({
 
 type EstadisticaPorAnio = Record<string, number>;
 
+type EstadisticaDetalladaPorAnio = {
+  total_por_anio: Record<string, number>;
+  oficial_por_anio: Record<string, number>;
+  amistoso_por_anio: Record<string, number>;
+};
+
+export const EstadisticaDetalladaPorAnioSchema = new Schema(
+  {
+    total_por_anio: { type: Map, of: Number, default: {} },
+    oficial_por_anio: { type: Map, of: Number, default: {} },
+    amistoso_por_anio: { type: Map, of: Number, default: {} }
+  },
+  { _id: false }
+);
+
+/*
 interface IEstadisticasPorAnio {
   titular_por_anio: EstadisticaPorAnio;
   suplente_por_anio: EstadisticaPorAnio;
@@ -103,8 +119,36 @@ interface IEstadisticasPorAnio {
   presencias_sin_jugar_ganados_por_anio: EstadisticaPorAnio;
   presencias_sin_jugar_empatados_por_anio: EstadisticaPorAnio;
   presencias_sin_jugar_perdidos_por_anio: EstadisticaPorAnio;
+}*/
+
+interface IEstadisticasPorAnio {
+  titular_por_anio: EstadisticaDetalladaPorAnio;
+  suplente_por_anio: EstadisticaDetalladaPorAnio;
+
+  goles_por_anio: EstadisticaDetalladaPorAnio;
+  goles_cabeza_por_anio: EstadisticaDetalladaPorAnio;
+  goles_pie_por_anio: EstadisticaDetalladaPorAnio;
+  goles_penal_por_anio: EstadisticaDetalladaPorAnio;
+  goles_tiro_libre_por_anio: EstadisticaDetalladaPorAnio;
+  goles_otro_por_anio: EstadisticaDetalladaPorAnio;
+
+  asistencias_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_pie_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_tiro_libre_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_corner_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_cabeza_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_otro_por_anio: EstadisticaDetalladaPorAnio;
+
+  amarillas_por_anio: EstadisticaDetalladaPorAnio;
+  rojas_por_anio: EstadisticaDetalladaPorAnio;
+
+  presencias_sin_jugar_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_ganados_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_empatados_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_perdidos_por_anio: EstadisticaDetalladaPorAnio;
 }
 
+/*
 const estadisticasPorAnioSchema = new Schema(
   {
     titular_por_anio: { type: Map, of: Number, default: {} },
@@ -131,6 +175,36 @@ const estadisticasPorAnioSchema = new Schema(
     presencias_sin_jugar_ganados_por_anio: { type: Map, of: Number, default: {} },
     presencias_sin_jugar_empatados_por_anio: { type: Map, of: Number, default: {} },
     presencias_sin_jugar_perdidos_por_anio: { type: Map, of: Number, default: {} },
+  },
+  { _id: false }
+);
+*/
+export const estadisticasPorAnioSchema = new Schema(
+  {
+    titular_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    suplente_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    
+    goles_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    goles_cabeza_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    goles_pie_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    goles_penal_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    goles_tiro_libre_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    goles_otro_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    
+    asistencias_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    asistencias_pie_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    asistencias_tiro_libre_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    asistencias_corner_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    asistencias_cabeza_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    asistencias_otro_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+
+    amarillas_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    rojas_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+
+    presencias_sin_jugar_por_anio: { type: EstadisticaDetalladaPorAnioSchema,  default: () => ({}) },
+    presencias_sin_jugar_ganados_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    presencias_sin_jugar_empatados_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },
+    presencias_sin_jugar_perdidos_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) }
   },
   { _id: false }
 );

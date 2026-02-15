@@ -7,7 +7,7 @@ import fs from 'fs';
 import mongoose from 'mongoose';
 import connectDB from './db/db';
 
-import { crearEstadisticasBase, excelDateToJSDate, FilaJugador, FilaPartido, formatDateDDMMYYYY } from './db/utils_db';
+import { crearEstadisticasBase, EstadisticaDetalladaPorAnio, excelDateToJSDate, FilaJugador, FilaPartido, formatDateDDMMYYYY } from './db/utils_db';
 
 //type FilaPartido = (string | number | null)[];
 
@@ -175,9 +175,10 @@ export async function cargar_partidos() {
       const hora = fila['Hora']
 
       const fecha: Date = excelDateToJSDate(fila['Fecha']);
+      const tipo_partido = fila['Tipo de partido'];
 
       try {
-        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha);
+        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha, tipo_partido);
         
         const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'], jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
@@ -306,26 +307,26 @@ const estadisticas: Record<string, { goles: number, asistencias: number,
                                     amarillas: number, rojas: number, presencias_sin_jugar: number,
                                     titular: number, suplente: number, tipos_gol: TiposGol,
                                     tipos_asistencia: TiposAsistencia, tipos_presencia_sin_jugar: TiposPresenciasSinJugar,
-                                    director_tecnico: DirectorTecnico, goles_por_anio: Record<number, number>,
-                                    titular_por_anio: Record<number, number>,
-                                    suplente_por_anio: Record<number, number>,
-                                    goles_pie_por_anio: Record<number, number>,
-                                    goles_cabeza_por_anio: Record<number, number>,
-                                    goles_penal_por_anio: Record<number, number>,
-                                    goles_tiro_libre_por_anio: Record<number, number>,
-                                    goles_otro_por_anio: Record<number, number>,
-                                    asistencias_por_anio: Record<number, number>,
-                                    asistencias_pie_por_anio: Record<number, number>,
-                                    asistencias_tiro_libre_por_anio: Record<number, number>,
-                                    asistencias_corner_por_anio: Record<number, number>,
-                                    asistencias_cabeza_por_anio: Record<number, number>,
-                                    asistencias_otro_por_anio: Record<number, number>,
-                                    presencias_sin_jugar_por_anio: Record<number, number>,
-                                    presencias_sin_jugar_ganados_por_anio: Record<number, number>,
-                                    presencias_sin_jugar_empatados_por_anio: Record<number, number>,
-                                    presencias_sin_jugar_perdidos_por_anio: Record<number, number>,
-                                    amarillas_por_anio: Record<number, number>,
-                                    rojas_por_anio: Record<number, number> }> = {};
+                                    director_tecnico: DirectorTecnico, goles_por_anio: EstadisticaDetalladaPorAnio,
+                                    titular_por_anio: EstadisticaDetalladaPorAnio,
+                                    suplente_por_anio: EstadisticaDetalladaPorAnio,
+                                    goles_pie_por_anio: EstadisticaDetalladaPorAnio,
+                                    goles_cabeza_por_anio: EstadisticaDetalladaPorAnio,
+                                    goles_penal_por_anio: EstadisticaDetalladaPorAnio,
+                                    goles_tiro_libre_por_anio: EstadisticaDetalladaPorAnio,
+                                    goles_otro_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_pie_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_tiro_libre_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_corner_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_cabeza_por_anio: EstadisticaDetalladaPorAnio,
+                                    asistencias_otro_por_anio: EstadisticaDetalladaPorAnio,
+                                    presencias_sin_jugar_por_anio: EstadisticaDetalladaPorAnio,
+                                    presencias_sin_jugar_ganados_por_anio: EstadisticaDetalladaPorAnio,
+                                    presencias_sin_jugar_empatados_por_anio: EstadisticaDetalladaPorAnio,
+                                    presencias_sin_jugar_perdidos_por_anio: EstadisticaDetalladaPorAnio,
+                                    amarillas_por_anio: EstadisticaDetalladaPorAnio,
+                                    rojas_por_anio: EstadisticaDetalladaPorAnio }> = {};
 
 function contar_estadisticas(
   resultado: string,
@@ -341,6 +342,7 @@ function contar_estadisticas(
   cantidad_goles_recibidos: string,
   esquema: string,
   fecha: Date,
+  tipo_partido: string
 ) {
   // contar partidos jugados
   for (let nombreJugador of titulares) {
@@ -348,7 +350,13 @@ function contar_estadisticas(
       estadisticas[nombreJugador] = crearEstadisticasBase();
     }
     estadisticas[nombreJugador].titular += 1;
-    estadisticas[nombreJugador].titular_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].titular_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[nombreJugador].titular_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].titular_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+    if (tipo_partido === 'Oficial') {
+      estadisticas[nombreJugador].titular_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].titular_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[nombreJugador].titular_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].titular_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
   }
 
   for (let nombreJugador of suplentes) {
@@ -356,7 +364,14 @@ function contar_estadisticas(
       estadisticas[nombreJugador] = crearEstadisticasBase();
     }
     estadisticas[nombreJugador].suplente += 1;
-    estadisticas[nombreJugador].suplente_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].suplente_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[nombreJugador].suplente_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].suplente_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+
+    if(tipo_partido === 'Oficial') {
+      estadisticas[nombreJugador].suplente_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].suplente_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if(tipo_partido === 'Amistoso') {
+      estadisticas[nombreJugador].suplente_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreJugador].suplente_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
   }
 
   // contar goles
@@ -367,25 +382,62 @@ function contar_estadisticas(
       estadisticas[nombreGoleador] = crearEstadisticasBase();
     }
     estadisticas[nombreGoleador].goles += 1;
-    estadisticas[nombreGoleador].goles_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[nombreGoleador].goles_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+
+    if (tipo_partido === 'Oficial') {
+      estadisticas[nombreGoleador].goles_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[nombreGoleador].goles_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
 
     const clave_gol = tipoGolMap[gol.tipo] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreGoleador].tipos_gol[clave_gol] += 1;
 
     if (clave_gol === 'pie_jugada') {
-      estadisticas[nombreGoleador].goles_pie_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_pie_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreGoleador].goles_pie_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_pie_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreGoleador].goles_pie_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_pie_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreGoleador].goles_pie_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_pie_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_gol === 'cabeza') {
-      estadisticas[nombreGoleador].goles_cabeza_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_cabeza_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreGoleador].goles_cabeza_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_cabeza_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreGoleador].goles_cabeza_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_cabeza_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreGoleador].goles_cabeza_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_cabeza_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_gol === 'penal') {
-      estadisticas[nombreGoleador].goles_penal_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_penal_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreGoleador].goles_penal_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_penal_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreGoleador].goles_penal_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_penal_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreGoleador].goles_penal_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_penal_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_gol === 'tiro_libre') {
-      estadisticas[nombreGoleador].goles_tiro_libre_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_tiro_libre_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreGoleador].goles_tiro_libre_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_tiro_libre_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreGoleador].goles_tiro_libre_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_tiro_libre_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreGoleador].goles_tiro_libre_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_tiro_libre_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else{
-      estadisticas[nombreGoleador].goles_otro_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_otro_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreGoleador].goles_otro_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_otro_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreGoleador].goles_otro_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_otro_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreGoleador].goles_otro_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreGoleador].goles_otro_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
 
     if (!estadisticas[nombreAsistidor]) {
@@ -394,22 +446,52 @@ function contar_estadisticas(
     estadisticas[nombreAsistidor].asistencias += 1;
     const clave_asistencia = tipoAsistenciaMap[gol.tipoAsistencia] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreAsistidor].tipos_asistencia[clave_asistencia] += 1;
-    estadisticas[nombreAsistidor].asistencias_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[nombreAsistidor].asistencias_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
 
     if (clave_asistencia === 'pie_jugada') {
-      estadisticas[nombreAsistidor].asistencias_pie_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreAsistidor].asistencias_pie_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreAsistidor].asistencias_pie_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreAsistidor].asistencias_pie_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_asistencia === 'tiro_libre') {
-      estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_tiro_libre_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_asistencia === 'corner') {
-      estadisticas[nombreAsistidor].asistencias_corner_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_corner_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreAsistidor].asistencias_corner_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_corner_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreAsistidor].asistencias_corner_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_corner_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreAsistidor].asistencias_corner_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_corner_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (clave_asistencia === 'cabeza') {
-      estadisticas[nombreAsistidor].asistencias_cabeza_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_cabeza_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_cabeza_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      } 
     }
     else{
-      estadisticas[nombreAsistidor].asistencias_otro_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_otro_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[nombreAsistidor].asistencias_otro_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_otro_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[nombreAsistidor].asistencias_otro_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_otro_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[nombreAsistidor].asistencias_otro_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_otro_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
   }
 
@@ -418,7 +500,13 @@ function contar_estadisticas(
       estadisticas[jugadorAmarilla] = crearEstadisticasBase();
     }
     estadisticas[jugadorAmarilla].amarillas += 1;
-    estadisticas[jugadorAmarilla].amarillas_por_anio[fecha.getFullYear()] = (estadisticas[jugadorAmarilla].amarillas_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[jugadorAmarilla].amarillas_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorAmarilla].amarillas_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+    if (tipo_partido === 'Oficial') {
+      estadisticas[jugadorAmarilla].amarillas_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorAmarilla].amarillas_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[jugadorAmarilla].amarillas_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorAmarilla].amarillas_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
   }
 
   for (const jugadorRoja of rojas) {
@@ -426,7 +514,13 @@ function contar_estadisticas(
       estadisticas[jugadorRoja] = crearEstadisticasBase();
     }
     estadisticas[jugadorRoja].rojas += 1;
-    estadisticas[jugadorRoja].rojas_por_anio[fecha.getFullYear()] = (estadisticas[jugadorRoja].rojas_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[jugadorRoja].rojas_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorRoja].rojas_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+    if (tipo_partido === 'Oficial') {
+      estadisticas[jugadorRoja].rojas_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorRoja].rojas_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[jugadorRoja].rojas_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorRoja].rojas_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
   }
 
   for (const jugadorSinJugar of presenciasSinJugar) {
@@ -434,18 +528,42 @@ function contar_estadisticas(
       estadisticas[jugadorSinJugar] = crearEstadisticasBase();
     }
     estadisticas[jugadorSinJugar].presencias_sin_jugar += 1;
-    estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio[fecha.getFullYear()] || 0) + 1;
+    estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+    if (tipo_partido === 'Oficial') {
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    } 
     if (resultado == 'Ganado') {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.ganados += 1;
-      estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_ganados_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else if (resultado == 'Empatado') {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.empatados += 1;
-      estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_empatados_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
     else {
       estadisticas[jugadorSinJugar].tipos_presencia_sin_jugar.perdidos += 1;
-      estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio[fecha.getFullYear()] || 0) + 1;
+      estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+      if (tipo_partido === 'Oficial') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+      else if (tipo_partido === 'Amistoso') {
+        estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
     }
   }
   if (director_tecnico) {

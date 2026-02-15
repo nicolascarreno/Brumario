@@ -11,28 +11,43 @@ export function crearEstadisticasBase() {
     tipos_asistencia: { cabeza: 0, pie_jugada: 0, corner: 0, tiro_libre: 0, otros: 0 },
     tipos_presencia_sin_jugar: { ganados: 0, empatados: 0, perdidos: 0 },
     director_tecnico: { ganados: 0, empatados: 0, perdidos: 0, goles_favor: 0, goles_contra: 0, esquemas: {} },
-    goles_por_anio: {},
-    goles_pie_por_anio: {},
-    goles_cabeza_por_anio: {},
-    goles_penal_por_anio: {},
-    goles_tiro_libre_por_anio: {},
-    goles_otro_por_anio: {},
-    asistencias_por_anio: {},
-    asistencias_pie_por_anio: {},
-    asistencias_tiro_libre_por_anio: {},
-    asistencias_corner_por_anio: {},
-    asistencias_cabeza_por_anio: {},
-    asistencias_otro_por_anio: {},
-    titular_por_anio: {},
-    suplente_por_anio: {},
-    presencias_sin_jugar_por_anio: {},
-    presencias_sin_jugar_ganados_por_anio: {},
-    presencias_sin_jugar_empatados_por_anio: {},
-    presencias_sin_jugar_perdidos_por_anio: {},
-    amarillas_por_anio: {},
-    rojas_por_anio: {}
+    goles_por_anio: crearEstadisticaPorAnioVacia(),
+    goles_pie_por_anio: crearEstadisticaPorAnioVacia(),
+    goles_cabeza_por_anio: crearEstadisticaPorAnioVacia(),
+    goles_penal_por_anio: crearEstadisticaPorAnioVacia(),
+    goles_tiro_libre_por_anio: crearEstadisticaPorAnioVacia(),
+    goles_otro_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_pie_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_tiro_libre_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_corner_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_cabeza_por_anio: crearEstadisticaPorAnioVacia(),
+    asistencias_otro_por_anio: crearEstadisticaPorAnioVacia(),
+    titular_por_anio: crearEstadisticaPorAnioVacia(),
+    suplente_por_anio: crearEstadisticaPorAnioVacia(),
+    presencias_sin_jugar_por_anio: crearEstadisticaPorAnioVacia(),
+    presencias_sin_jugar_ganados_por_anio: crearEstadisticaPorAnioVacia(),
+    presencias_sin_jugar_empatados_por_anio: crearEstadisticaPorAnioVacia(),
+    presencias_sin_jugar_perdidos_por_anio: crearEstadisticaPorAnioVacia(),
+    amarillas_por_anio: crearEstadisticaPorAnioVacia(),
+    rojas_por_anio: crearEstadisticaPorAnioVacia()
   };
 }
+
+function crearEstadisticaPorAnioVacia(): EstadisticaDetalladaPorAnio {
+  return {
+    total_por_anio: {},
+    oficial_por_anio: {},
+    amistoso_por_anio: {}
+  };
+}
+
+export type EstadisticaDetalladaPorAnio = {
+  total_por_anio: Record<number, number>;
+  oficial_por_anio: Record<number, number>;
+  amistoso_por_anio: Record<number, number>;
+};
+
 
 export function excelDateToJSDate(serial: number): Date {
   const days = Math.floor(serial);

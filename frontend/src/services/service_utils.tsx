@@ -144,33 +144,39 @@ export interface Hitos {
   debut_oficial: {partido: HitosPartido}
 }
 
-export type EstadisticaPorAnio = Record<string, number>;
+//export type EstadisticaPorAnio = Record<string, number>;
+
+export type EstadisticaDetalladaPorAnio = {
+  total_por_anio: Record<string, number>;
+  oficial_por_anio: Record<string, number>;
+  amistoso_por_anio: Record<string, number>;
+};
 
 export interface IEstadisticasPorAnio {
-  titular_por_anio: EstadisticaPorAnio;
-  suplente_por_anio: EstadisticaPorAnio;
+  titular_por_anio: EstadisticaDetalladaPorAnio;
+  suplente_por_anio: EstadisticaDetalladaPorAnio;
 
-  goles_por_anio: EstadisticaPorAnio;
-  goles_cabeza_por_anio: EstadisticaPorAnio;
-  goles_pie_por_anio: EstadisticaPorAnio;
-  goles_penal_por_anio: EstadisticaPorAnio;
-  goles_tiro_libre_por_anio: EstadisticaPorAnio;
-  goles_otro_por_anio: EstadisticaPorAnio;
+  goles_por_anio: EstadisticaDetalladaPorAnio;
+  goles_cabeza_por_anio: EstadisticaDetalladaPorAnio;
+  goles_pie_por_anio: EstadisticaDetalladaPorAnio;
+  goles_penal_por_anio: EstadisticaDetalladaPorAnio;
+  goles_tiro_libre_por_anio: EstadisticaDetalladaPorAnio;
+  goles_otro_por_anio: EstadisticaDetalladaPorAnio;
 
-  asistencias_por_anio: EstadisticaPorAnio;
-  asistencias_pie_por_anio: EstadisticaPorAnio;
-  asistencias_tiro_libre_por_anio: EstadisticaPorAnio;
-  asistencias_corner_por_anio: EstadisticaPorAnio;
-  asistencias_cabeza_por_anio: EstadisticaPorAnio;
-  asistencias_otro_por_anio: EstadisticaPorAnio;
+  asistencias_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_pie_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_tiro_libre_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_corner_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_cabeza_por_anio: EstadisticaDetalladaPorAnio;
+  asistencias_otro_por_anio: EstadisticaDetalladaPorAnio;
 
-  amarillas_por_anio: EstadisticaPorAnio;
-  rojas_por_anio: EstadisticaPorAnio;
+  amarillas_por_anio: EstadisticaDetalladaPorAnio;
+  rojas_por_anio: EstadisticaDetalladaPorAnio;
 
-  presencias_sin_jugar_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_ganados_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_empatados_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_perdidos_por_anio: EstadisticaPorAnio;
+  presencias_sin_jugar_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_ganados_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_empatados_por_anio: EstadisticaDetalladaPorAnio;
+  presencias_sin_jugar_perdidos_por_anio: EstadisticaDetalladaPorAnio;
 }
 
 export interface Jugador {
