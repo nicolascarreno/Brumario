@@ -124,12 +124,32 @@
     border-radius: 3px;
 }
 
+.select_anio_label{
+    margin-right: 10px; 
+    font-weight: bold
+}
+
 .contenedor_error {
     padding: 40px;
 }
 
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
+    .select_anio{
+        background-color: #eaeaea;
+        color: #000000;
+        border: 0px solid #4b5563;
+        padding: 6px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        transform: translateY(1px) scale(0.95);
+        width: 80px
+    }
+    .select_anio_label{
+        margin-right: 3px; 
+        font-weight: bold;
+        transform: scale(0.95);
+    }
     .contenedor_general{
         flex-direction: column;
         justify-content: center;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar, IEstadisticasPorAnio } from '../services/service_utils';
+import { TiposAsistencia, TiposGol, TiposPresenciasSinJugar, IEstadisticasPorAnio, EstadisticaDetalladaPorAnio } from '../services/service_utils';
 
 interface Jugador {
   nombre: string;
@@ -24,12 +24,15 @@ interface DetallesGeneralJugadorProp {
   loading: boolean;
 }
 
+type TipoPartido = "total" | "oficial" | "amistoso";
+
 export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   jugador,
   loading,
 }) => {
-   const [anioSeleccionado, setAnioSeleccionado] = React.useState<number | null>(null);
-  const aniosDisponibles = React.useMemo(() => {
+    const [tipoPartido, setTipoPartido] = React.useState<TipoPartido>("total");
+    const [anioSeleccionado, setAnioSeleccionado] = React.useState<number | null>(null);
+    const aniosDisponibles = React.useMemo(() => {
     const titular = jugador.estadisticas_por_anio?.titular_por_anio.total_por_anio || {};
     const suplente = jugador.estadisticas_por_anio?.suplente_por_anio.total_por_anio || {};
 
@@ -45,71 +48,78 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   const jugadorVista = React.useMemo(() => ({
     ...jugador,
 
-    titular: valorPorAnio(
+    titular: valorPorAnioYTipo(
       jugador.titular,
-      estadisticas?.titular_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.titular_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    suplente: valorPorAnio(
+    suplente: valorPorAnioYTipo(
       jugador.suplente,
-      estadisticas?.suplente_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.suplente_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    goles: valorPorAnio(
+    goles: valorPorAnioYTipo(
       jugador.goles,
-      estadisticas?.goles_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.goles_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    asistencias: valorPorAnio(
+    asistencias: valorPorAnioYTipo(
       jugador.asistencias,
-      estadisticas?.asistencias_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.asistencias_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    amarillas: valorPorAnio(
+    amarillas: valorPorAnioYTipo(
       jugador.amarillas,
-      estadisticas?.amarillas_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.amarillas_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    rojas: valorPorAnio(
+    rojas: valorPorAnioYTipo(
       jugador.rojas,
-      estadisticas?.rojas_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.rojas_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
-    presencias_sin_jugar: valorPorAnio(
+    presencias_sin_jugar: valorPorAnioYTipo(
       jugador.presencias_sin_jugar,
-      estadisticas?.presencias_sin_jugar_por_anio.total_por_anio,
-      anioSeleccionado
+      estadisticas?.presencias_sin_jugar_por_anio,
+      anioSeleccionado,
+      tipoPartido
     ),
 
     tipos_presencias_sin_jugar: {
-      perdidos: valorPorAnio(jugador.tipos_presencias_sin_jugar.perdidos, estadisticas?.presencias_sin_jugar_perdidos_por_anio.total_por_anio, anioSeleccionado),
-      ganados: valorPorAnio(jugador.tipos_presencias_sin_jugar.ganados, estadisticas?.presencias_sin_jugar_ganados_por_anio.total_por_anio, anioSeleccionado),
-      empatados: valorPorAnio(jugador.tipos_presencias_sin_jugar.empatados, estadisticas?.presencias_sin_jugar_empatados_por_anio.total_por_anio, anioSeleccionado),
+      perdidos: valorPorAnioYTipo(jugador.tipos_presencias_sin_jugar.perdidos, estadisticas?.presencias_sin_jugar_perdidos_por_anio, anioSeleccionado, tipoPartido),
+      ganados: valorPorAnioYTipo(jugador.tipos_presencias_sin_jugar.ganados, estadisticas?.presencias_sin_jugar_ganados_por_anio, anioSeleccionado, tipoPartido),
+      empatados: valorPorAnioYTipo(jugador.tipos_presencias_sin_jugar.empatados, estadisticas?.presencias_sin_jugar_empatados_por_anio, anioSeleccionado, tipoPartido),
     },
 
     tipos_gol: {
-      cabeza: valorPorAnio(jugador.tipos_gol.cabeza, estadisticas?.goles_cabeza_por_anio.total_por_anio, anioSeleccionado),
-      pie_jugada: valorPorAnio(jugador.tipos_gol.pie_jugada, estadisticas?.goles_pie_por_anio.total_por_anio, anioSeleccionado),
-      penal: valorPorAnio(jugador.tipos_gol.penal, estadisticas?.goles_penal_por_anio.total_por_anio, anioSeleccionado),
-      tiro_libre: valorPorAnio(jugador.tipos_gol.tiro_libre, estadisticas?.goles_tiro_libre_por_anio.total_por_anio, anioSeleccionado),
-      otros: valorPorAnio(jugador.tipos_gol.otros, estadisticas?.goles_otro_por_anio.total_por_anio, anioSeleccionado),
+      cabeza: valorPorAnioYTipo(jugador.tipos_gol.cabeza, estadisticas?.goles_cabeza_por_anio, anioSeleccionado, tipoPartido),
+      pie_jugada: valorPorAnioYTipo(jugador.tipos_gol.pie_jugada, estadisticas?.goles_pie_por_anio, anioSeleccionado, tipoPartido),
+      penal: valorPorAnioYTipo(jugador.tipos_gol.penal, estadisticas?.goles_penal_por_anio, anioSeleccionado, tipoPartido),
+      tiro_libre: valorPorAnioYTipo(jugador.tipos_gol.tiro_libre, estadisticas?.goles_tiro_libre_por_anio, anioSeleccionado, tipoPartido),
+      otros: valorPorAnioYTipo(jugador.tipos_gol.otros, estadisticas?.goles_otro_por_anio, anioSeleccionado, tipoPartido),
     },
 
     tipos_asistencia: {
-      cabeza: valorPorAnio(jugador.tipos_asistencia.cabeza, estadisticas?.asistencias_cabeza_por_anio.total_por_anio, anioSeleccionado),
-      pie_jugada: valorPorAnio(jugador.tipos_asistencia.pie_jugada, estadisticas?.asistencias_pie_por_anio.total_por_anio, anioSeleccionado),
-      tiro_libre: valorPorAnio(jugador.tipos_asistencia.tiro_libre, estadisticas?.asistencias_tiro_libre_por_anio.total_por_anio, anioSeleccionado),
-      corner: valorPorAnio(jugador.tipos_asistencia.corner, estadisticas?.asistencias_corner_por_anio.total_por_anio, anioSeleccionado),
-      otros: valorPorAnio(jugador.tipos_asistencia.otros, estadisticas?.asistencias_otro_por_anio.total_por_anio, anioSeleccionado),
+      cabeza: valorPorAnioYTipo(jugador.tipos_asistencia.cabeza, estadisticas?.asistencias_cabeza_por_anio, anioSeleccionado, tipoPartido),
+      pie_jugada: valorPorAnioYTipo(jugador.tipos_asistencia.pie_jugada, estadisticas?.asistencias_pie_por_anio, anioSeleccionado, tipoPartido),
+      tiro_libre: valorPorAnioYTipo(jugador.tipos_asistencia.tiro_libre, estadisticas?.asistencias_tiro_libre_por_anio, anioSeleccionado, tipoPartido),
+      corner: valorPorAnioYTipo(jugador.tipos_asistencia.corner, estadisticas?.asistencias_corner_por_anio, anioSeleccionado, tipoPartido),
+      otros: valorPorAnioYTipo(jugador.tipos_asistencia.otros, estadisticas?.asistencias_otro_por_anio, anioSeleccionado, tipoPartido),
     }
 
-  }), [jugador, estadisticas, anioSeleccionado]);
+  }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
   const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
   const porcentajeTitular =
       partidos_jugados > 0? 
@@ -185,7 +195,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
             </div>
             <div className='contenedor_estadistica'>
               <div style={{ paddingBottom: 20, marginTop: 10, display: "flex", justifyContent: "center", alignItems: "center", height: 20 }}>
-                  <label style={{ marginRight: 10, fontWeight: "bold" }}>
+                  <label className='select_anio_label'>
                     Año:
                   </label>
                   <select
@@ -202,6 +212,20 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                       </option>
                     ))}
                   </select>
+                    <label className='select_anio_label' style={{ marginLeft: 20 }}>
+                      Partidos:
+                    </label>
+
+                    <select
+                      value={tipoPartido}
+                      onChange={(e) => setTipoPartido(e.target.value as TipoPartido)}
+                      className="select_anio"
+                    >
+                      <option value="total">Todos</option>
+                      <option value="oficial">Oficiales</option>
+                      <option value="amistoso">Amistosos</option>
+                    </select>
+                  
                 </div>
               <div className='contenedor_tipo_estadistica'>
                 <div style={{paddingBottom: 10}}>
@@ -409,7 +433,30 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 );
 };
 
-function valorPorAnio(
+function valorPorAnioYTipo(
+  total: number,
+  estadistica: EstadisticaDetalladaPorAnio | undefined,
+  anio: number | null,
+  tipo: TipoPartido
+): number {
+  if (!estadistica) return total;
+
+  if (!anio && tipo === "total") {
+    return total;
+  }
+
+  const key = `${tipo}_por_anio` as const;
+  const mapa = estadistica[key];
+
+  if (!anio) {
+    // todos los años pero filtrado por tipo
+    return Object.values(mapa).reduce((acc, v) => acc + v, 0);
+  }
+
+  return mapa[anio] ?? 0;
+}
+
+function valorPorAnio2(
   total: number,
   mapaPorAnio: Record<number, number> | undefined,
   anio: number | null
