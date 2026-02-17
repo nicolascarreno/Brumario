@@ -76,7 +76,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                   ) : (
                     <Link to={`/partidos/${hitos?.mayorVictoriaLibres.partido.nro}`} style={{textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
                       <span style={{ color: '#434343' }}>
-                        (BRUMARIO {hitos?.mayorVictoriaLibres.partido.golesBrumario} - 
+                        (BRUMARIO {hitos?.mayorVictoriaLibres.partido.golesBrumario} - {" "}
                         {hitos?.mayorVictoriaLibres.partido.golesRecibidos}{" "}
                         {hitos?.mayorVictoriaLibres.partido.rival},{" "}
                         {hitos?.mayorVictoriaLibres.partido.competicion},{" "}
@@ -105,7 +105,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                       }}
                     >
                       <span style={{ color: '#434343' }}>
-                        (BRUMARIO {hitos?.mayorDerrotaLibres.partido.golesBrumario} - 
+                        (BRUMARIO {hitos?.mayorDerrotaLibres.partido.golesBrumario} - {" "}
                         {hitos?.mayorDerrotaLibres.partido.golesRecibidos}{" "}
                         {hitos?.mayorDerrotaLibres.partido.rival},{" "}
                         {hitos?.mayorDerrotaLibres.partido.competicion},{" "}
@@ -134,7 +134,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                       }}
                     >
                       <span style={{ color: '#434343' }}>
-                        (BRUMARIO {hitos?.masGolesLibres.partido.golesBrumario} - 
+                        (BRUMARIO {hitos?.masGolesLibres.partido.golesBrumario} - {" "}
                         {hitos?.masGolesLibres.partido.golesRecibidos}{" "}
                         {hitos?.masGolesLibres.partido.rival},{" "}
                         {hitos?.masGolesLibres.partido.competicion},{" "}
@@ -164,7 +164,7 @@ export const PartidosHitos: React.FC<HitosPartidosProp> = ({
                     >
                       <span style={{ color: '#434343' }}>
                         {hitos?.masPresenciasSinJugarLibres.cantidad}{" "}
-                        (BRUMARIO {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario} - 
+                        (BRUMARIO {hitos?.masPresenciasSinJugarLibres.partido.golesBrumario} - {" "}
                         {hitos?.masPresenciasSinJugarLibres.partido.golesRecibidos}{" "}
                         {hitos?.masPresenciasSinJugarLibres.partido.rival},{" "}
                         {hitos?.masPresenciasSinJugarLibres.partido.competicion},{" "}
