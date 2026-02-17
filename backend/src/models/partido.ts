@@ -39,6 +39,20 @@ const golRecibidoSchema = new Schema({
   resultadoParcial: String,
 }, { _id: false });
 
+export interface Reemplazo {
+  entra: string;
+  sale: string;
+}
+
+const reemplazoSchema = new Schema(
+  {
+    entra: { type: String, required: true },
+    sale: { type: String, required: true },
+  },
+  { _id: false } // importante: no crea _id por cada reemplazo
+);
+
+
 export interface IPartido extends Document {
     nro: string;
     categoria: string;
@@ -53,6 +67,7 @@ export interface IPartido extends Document {
     goles_contra: string;
     titulares: string[];
     suplentes: string[];
+    reemplazos: Reemplazo[];
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
     golesRecibidos: GolRecibido[];
@@ -81,6 +96,7 @@ const partidoSchema: Schema = new Schema({
   goles_contra: { type: String, required: true },
   titulares: [{ type: String }],
   suplentes: [{ type: String }],
+  reemplazos: [reemplazoSchema],
   golesFavor: [golFavorSchema],
   golesEnContra: [golEnContraSchema],
   golesRecibidos: [golRecibidoSchema],

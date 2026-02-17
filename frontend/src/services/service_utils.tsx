@@ -12,6 +12,7 @@ export interface Partido {
     goles_contra: string;
     titulares: string[];
     suplentes: string[];
+    reemplazos: Reemplazo[];
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
     golesRecibidos: GolRecibido[];
@@ -23,6 +24,11 @@ export interface Partido {
     hora: string;
     resultado: string;
     esquema_tactico: string;
+}
+
+export interface Reemplazo {
+  entra: string;
+  sale: string;
 }
 
 export interface GolFavor {

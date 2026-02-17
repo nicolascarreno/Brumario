@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 import Persona from './models/persona';
-import Partido, { GolEnContra, GolFavor, GolRecibido } from './models/partido';
+import Partido, { GolEnContra, GolFavor, GolRecibido, Reemplazo } from './models/partido';
 import path from 'path';
 import fs from 'fs';
 
@@ -109,6 +109,28 @@ export async function cargar_partidos() {
                         fila['Suplente 7'], fila['Suplente 8'], fila['Suplente 9'], fila['Suplente 10'], fila['Suplente 11'],
                         fila['Suplente 12'], fila['Suplente 13'], fila['Suplente 14'], fila['Suplente 15'] ].filter(Boolean).filter(jugador => !titulares.includes(jugador));
 
+      const suplentes_sin_filtrar = [fila['Suplente 1'], fila['Suplente 2'], fila['Suplente 3'], fila['Suplente 4'], fila['Suplente 5'], fila['Suplente 6'],
+                        fila['Suplente 7'], fila['Suplente 8'], fila['Suplente 9'], fila['Suplente 10'], fila['Suplente 11'],
+                        fila['Suplente 12'], fila['Suplente 13'], fila['Suplente 14'], fila['Suplente 15'] ].filter(Boolean)                   
+
+      const reemplazos = [fila['Reemplazo 1'], fila['Reemplazo 2'], fila['Reemplazo 3'], fila['Reemplazo 4'], fila['Reemplazo 5'],
+                          fila['Reemplazo 6'], fila['Reemplazo 7'], fila['Reemplazo 8'], fila['Reemplazo 9'], fila['Reemplazo 10'],
+                          fila['Reemplazo 11'], fila['Reemplazo 12'], fila['Reemplazo 13'], fila['Reemplazo 14'], fila['Reemplazo 15'] ].filter(Boolean);
+
+      const reemplazosPartido: Reemplazo[] = suplentes_sin_filtrar
+        .map((entra, index) => {
+          const sale = reemplazos[index];
+
+          if (!sale || !entra) return null;
+
+          return {
+            sale: sale.trim(),
+            entra: entra.trim(),
+          };
+        })
+        .filter((r): r is Reemplazo => r !== null);
+        
+
       const golesFavor: GolFavor[] = [];
       for (let i = 1; i <= 7; i++) {
         const gol = fila[`Gol a favor ${i}`];
@@ -180,7 +202,7 @@ export async function cargar_partidos() {
       try {
         contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha, tipo_partido);
         
-        const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'].trimEnd(), jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
+        const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'].trimEnd(), jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, reemplazos: reemplazosPartido, golesFavor: golesFavor, golesEnContra: golesEnContra, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
         partidosGuardados++;
         
