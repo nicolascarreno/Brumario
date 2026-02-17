@@ -122,6 +122,22 @@ export interface FilaPartido {
     'Suplente 14': string;
     'Suplente 15': string;
 
+    'Reemplazo 1': string;
+    'Reemplazo 2': string;
+    'Reemplazo 3': string;
+    'Reemplazo 4': string;
+    'Reemplazo 5': string;
+    'Reemplazo 6': string;
+    'Reemplazo 7': string;
+    'Reemplazo 8': string;
+    'Reemplazo 9': string;
+    'Reemplazo 10': string;
+    'Reemplazo 11': string;
+    'Reemplazo 12': string;
+    'Reemplazo 13': string;
+    'Reemplazo 14': string;
+    'Reemplazo 15': string;
+
     'Gol a favor 1': string;
     'Tipo de gol 1': string;
     'Resultado parcial gol 1': string;
