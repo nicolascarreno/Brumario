@@ -31,10 +31,10 @@ GMAIL -----> ncarreno
 
 ## DEV
 
-curl -i https://brumario-app-3t0y.onrender.com/api/hello
-curl -i -X POST https://brumario-app-3t0y.onrender.com/api/database/reset
+curl -k -i https://brumario-app-3t0y.onrender.com/api/hello
+curl -k -i -X POST https://brumario-app-3t0y.onrender.com/api/database/reset
 
 ## PROD
 
-curl -i https://brumario-app.onrender.com/api/hello
-curl -i -X POST https://brumario-app.onrender.com/api/database/reset
+curl -k -i https://brumario-app.onrender.com/api/hello
+curl -k -i -X POST https://brumario-app.onrender.com/api/database/reset
