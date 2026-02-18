@@ -104,6 +104,9 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                             ? partido.rojas.filter(r => r === nombreBackend).length
                             : 0;
 
+                          const entra = partido.reemplazos.some(r => r.entra === nombreBackend);
+                          const sale = partido.reemplazos.some(r => r.sale === nombreBackend);
+
                           // 🔹 Usamos React.ReactNode[] en vez de string[] | JSX.Element[]
                           const partes: React.ReactNode[] = [];
 
@@ -147,6 +150,30 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                                 {rojas > 1 ? `(${rojas})` : ""}
                               </>
                             );
+                          }
+
+                          if (sale) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/sale_sin_fondo.png"
+                                  alt="Sale"
+                                  style={{ width: 7, height: 13, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                              </>
+                            );  
+                          }
+
+                          if (entra) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/entra_sin_fondo.png"
+                                  alt="Entra"
+                                  style={{ width: 7, height: 13, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                              </>
+                            );  
                           }
 
                           return (
@@ -200,6 +227,9 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                             ? partido.rojas.filter(r => r === nombreBackend).length
                             : 0;
 
+                          const entra = partido.reemplazos.some(r => r.entra === nombreBackend);
+                          const sale = partido.reemplazos.some(r => r.sale === nombreBackend);
+
                           // 🔹 Usamos React.ReactNode[] en vez de string[] | JSX.Element[]
                           const partes: React.ReactNode[] = [];
 
@@ -243,6 +273,30 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                                 {rojas > 1 ? `(${rojas})` : ""}
                               </>
                             );
+                          }
+
+                          if (entra) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/entra_sin_fondo.png"
+                                  alt="Entra"
+                                  style={{ width: 7, height: 13, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                              </>
+                            );  
+                          }
+
+                          if (sale) {
+                            partes.push(
+                              <>
+                                <img
+                                  src="/sale_sin_fondo.png"
+                                  alt="Sale"
+                                  style={{ width: 7, height: 13, verticalAlign: "middle", marginLeft: 5 }}
+                                />
+                              </>
+                            );  
                           }
 
                           return (
@@ -416,6 +470,22 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
 
                   );
                 })()}
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 25 }}>
+                  {partido.reemplazos.map((cambio, index) => (
+                    <div key={index} style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src="/cambio4.png"
+                        alt="Cambio"
+                        width="20"
+                        height="20"
+                        style={{ marginRight: 5, transform: "translateY(2px)", marginLeft: -4 }}
+                      />
+                      <span className="estadistica">
+                        {formatearNombre(cambio.entra)} (Entra) || {formatearNombre(cambio.sale)} (Sale)
+                      </span>
+                    </div>
+                  ))}
+                </div>
                 </div>
                 <div className='contenedor_presencias_sin_jugar'>
                   <div className='contenedor_estadistica_presencias_sin_jugar'>
@@ -464,3 +534,10 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
   </div>
 );
 };
+
+function formatearNombre(nombre: string): string {
+  const partes = nombre.split(',').map(p => p.trim());
+  if (partes.length !== 2) return nombre;
+  const [apellido, nombrePropio] = partes;
+  return `${nombrePropio} ${apellido}`;
+}
