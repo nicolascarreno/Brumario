@@ -180,6 +180,8 @@ export interface FilaPartido {
     'Asistencia de gol 7': string;
     'Tipo de asistencia de gol 7': string;
 
+    'Valla invicta': string;
+
     'Gol en contra': string;
     'Tipo de gol en contra': string;
 

@@ -76,8 +76,6 @@ const DirectorTecnicoSchema = new Schema({
   },
 }, { _id: false });
 
-type EstadisticaPorAnio = Record<string, number>;
-
 type EstadisticaDetalladaPorAnio = {
   total_por_anio: Record<string, number>;
   oficial_por_anio: Record<string, number>;
@@ -91,35 +89,7 @@ export const EstadisticaDetalladaPorAnioSchema = new Schema(
     amistoso_por_anio: { type: Map, of: Number, default: {} }
   },
   { _id: false }
-);
-
-/*
-interface IEstadisticasPorAnio {
-  titular_por_anio: EstadisticaPorAnio;
-  suplente_por_anio: EstadisticaPorAnio;
-
-  goles_por_anio: EstadisticaPorAnio;
-  goles_cabeza_por_anio: EstadisticaPorAnio;
-  goles_pie_por_anio: EstadisticaPorAnio;
-  goles_penal_por_anio: EstadisticaPorAnio;
-  goles_tiro_libre_por_anio: EstadisticaPorAnio;
-  goles_otro_por_anio: EstadisticaPorAnio;
-
-  asistencias_por_anio: EstadisticaPorAnio;
-  asistencias_pie_por_anio: EstadisticaPorAnio;
-  asistencias_tiro_libre_por_anio: EstadisticaPorAnio;
-  asistencias_corner_por_anio: EstadisticaPorAnio;
-  asistencias_cabeza_por_anio: EstadisticaPorAnio;
-  asistencias_otro_por_anio: EstadisticaPorAnio;
-
-  amarillas_por_anio: EstadisticaPorAnio;
-  rojas_por_anio: EstadisticaPorAnio;
-
-  presencias_sin_jugar_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_ganados_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_empatados_por_anio: EstadisticaPorAnio;
-  presencias_sin_jugar_perdidos_por_anio: EstadisticaPorAnio;
-}*/
+)
 
 interface IEstadisticasPorAnio {
   titular_por_anio: EstadisticaDetalladaPorAnio;
@@ -148,37 +118,6 @@ interface IEstadisticasPorAnio {
   presencias_sin_jugar_perdidos_por_anio: EstadisticaDetalladaPorAnio;
 }
 
-/*
-const estadisticasPorAnioSchema = new Schema(
-  {
-    titular_por_anio: { type: Map, of: Number, default: {} },
-    suplente_por_anio: { type: Map, of: Number, default: {} },
-
-    goles_por_anio: { type: Map, of: Number, default: {} },
-    goles_cabeza_por_anio: { type: Map, of: Number, default: {} },
-    goles_pie_por_anio: { type: Map, of: Number, default: {} },
-    goles_penal_por_anio: { type: Map, of: Number, default: {} },
-    goles_tiro_libre_por_anio: { type: Map, of: Number, default: {} },
-    goles_otro_por_anio: { type: Map, of: Number, default: {} },
-
-    asistencias_por_anio: { type: Map, of: Number, default: {} },
-    asistencias_pie_por_anio: { type: Map, of: Number, default: {} },
-    asistencias_tiro_libre_por_anio: { type: Map, of: Number, default: {} },
-    asistencias_corner_por_anio: { type: Map, of: Number, default: {} },
-    asistencias_cabeza_por_anio: { type: Map, of: Number, default: {} },
-    asistencias_otro_por_anio: { type: Map, of: Number, default: {} },
-
-    amarillas_por_anio: { type: Map, of: Number, default: {} },
-    rojas_por_anio: { type: Map, of: Number, default: {} },
-
-    presencias_sin_jugar_por_anio: { type: Map, of: Number, default: {} },
-    presencias_sin_jugar_ganados_por_anio: { type: Map, of: Number, default: {} },
-    presencias_sin_jugar_empatados_por_anio: { type: Map, of: Number, default: {} },
-    presencias_sin_jugar_perdidos_por_anio: { type: Map, of: Number, default: {} },
-  },
-  { _id: false }
-);
-*/
 export const estadisticasPorAnioSchema = new Schema(
   {
     titular_por_anio: { type: EstadisticaDetalladaPorAnioSchema, default: () => ({}) },

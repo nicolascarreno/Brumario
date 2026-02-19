@@ -71,6 +71,7 @@ export interface IPartido extends Document {
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
     golesRecibidos: GolRecibido[];
+    vallaInvicta: string;
     amarillas: string[];
     rojas: string[];
     presencia_sin_jugar: string[];
@@ -100,6 +101,7 @@ const partidoSchema: Schema = new Schema({
   golesFavor: [golFavorSchema],
   golesEnContra: [golEnContraSchema],
   golesRecibidos: [golRecibidoSchema],
+  vallaInvicta: { type: String, required: false },
   amarillas: [{ type: String }],
   rojas: [{ type: String }],
   presencia_sin_jugar: [{ type: String }],

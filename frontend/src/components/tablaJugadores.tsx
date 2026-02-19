@@ -79,7 +79,7 @@ export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
           </table>
 
           {/* Paginación */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
             {/* Columna izquierda */}
             <div style={{ width: '50px', textAlign: 'center' }}>
               {pagina > 1 && (

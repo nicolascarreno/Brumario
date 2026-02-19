@@ -16,6 +16,7 @@ export interface Partido {
     golesFavor: GolFavor[];
     golesEnContra: GolEnContra[];
     golesRecibidos: GolRecibido[];
+    vallaInvicta: string;
     amarillas: string[];
     rojas: string[];
     presencia_sin_jugar: string[];
