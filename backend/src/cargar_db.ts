@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import connectDB from './db/db';
 
 import { crearEstadisticasBase, EstadisticaDetalladaPorAnio, excelDateToJSDate, FilaJugador, FilaPartido, formatDateDDMMYYYY } from './db/utils_db';
-
+import { Arquero, TiposGolesRecibidos, TandasPenales } from './models/persona';
 //type FilaPartido = (string | number | null)[];
 
 // Función helper para encontrar el archivo Excel en diferentes ubicaciones
@@ -104,6 +104,7 @@ export async function cargar_partidos() {
       const fila = datos[index];      
       const titulares = [ fila['Titular 1'], fila['Titular 2'], fila['Titular 3'], fila['Titular 4'], fila['Titular 5'], fila['Titular 6'], 
                         fila['Titular 7'], fila['Titular 8'], fila['Titular 9'], fila['Titular 10'], fila['Titular 11'] ].filter(Boolean);
+      const arquero_titular = fila['Titular 1'] || "";
 
       const suplentes = [fila['Suplente 1'], fila['Suplente 2'], fila['Suplente 3'], fila['Suplente 4'], fila['Suplente 5'], fila['Suplente 6'],
                         fila['Suplente 7'], fila['Suplente 8'], fila['Suplente 9'], fila['Suplente 10'], fila['Suplente 11'],
@@ -159,7 +160,6 @@ export async function cargar_partidos() {
 
       const vallaInvicta = fila['Valla invicta'] ?? "";
 
-
       const golesEnContra: GolEnContra[] = [];
       if (fila['Gol en contra']) {
         golesEnContra.push({
@@ -202,7 +202,7 @@ export async function cargar_partidos() {
       const tipo_partido = fila['Tipo de partido'];
 
       try {
-        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha, tipo_partido);
+        contar_estadisticas(resultado, golesFavor, amarillas, rojas, presencia_sin_jugar, titulares, suplentes, director_tecnico, golesEnContra, String(cantidad_goles_anotados), String(cantidad_goles_recibidos), esquema, fecha, tipo_partido, golesRecibidos, arquero_titular, vallaInvicta);
         
         const nuevoPartido = new Partido({ nro: fila['Partido'], golesRecibidos: golesRecibidos, esquema_tactico: esquema, fecha: fecha, hora: hora, resultado: resultado, categoria: fila['Categoria'], director_tecnico: director_tecnico, tipo_partido: fila['Tipo de partido'], competicion: fila['Competicion'].trimEnd(), jornada: fila['Jornada'], cancha: fila['Cancha'], predio: fila['Predio'], ubicacion: fila['Ubicacion'], rival: fila['Rival'], goles_favor: fila['Goles Brumario'], goles_contra: fila['Goles Recibidos'], titulares: titulares, suplentes: suplentes, reemplazos: reemplazosPartido, golesFavor: golesFavor, golesEnContra: golesEnContra, vallaInvicta: vallaInvicta, amarillas: amarillas, rojas: rojas, presencia_sin_jugar: presencia_sin_jugar });
         await nuevoPartido.save();
@@ -327,11 +327,12 @@ interface DirectorTecnico {
   esquemas: { [formacion: string]: EsquemaInfo };
 }
 
+
 const estadisticas: Record<string, { goles: number, asistencias: number, 
                                     amarillas: number, rojas: number, presencias_sin_jugar: number,
                                     titular: number, suplente: number, tipos_gol: TiposGol,
                                     tipos_asistencia: TiposAsistencia, tipos_presencia_sin_jugar: TiposPresenciasSinJugar,
-                                    director_tecnico: DirectorTecnico, goles_por_anio: EstadisticaDetalladaPorAnio,
+                                    director_tecnico: DirectorTecnico, arquero: Arquero, goles_por_anio: EstadisticaDetalladaPorAnio,
                                     titular_por_anio: EstadisticaDetalladaPorAnio,
                                     suplente_por_anio: EstadisticaDetalladaPorAnio,
                                     goles_pie_por_anio: EstadisticaDetalladaPorAnio,
@@ -366,7 +367,10 @@ function contar_estadisticas(
   cantidad_goles_recibidos: string,
   esquema: string,
   fecha: Date,
-  tipo_partido: string
+  tipo_partido: string,
+  golesRecibidos: GolRecibido[],
+  arquero_titular: string,
+  valla_invicta: string
 ) {
   // contar partidos jugados
   for (let nombreJugador of titulares) {
@@ -471,6 +475,14 @@ function contar_estadisticas(
     const clave_asistencia = tipoAsistenciaMap[gol.tipoAsistencia] ?? "otros"; // si no existe, va a "otros"
     estadisticas[nombreAsistidor].tipos_asistencia[clave_asistencia] += 1;
     estadisticas[nombreAsistidor].asistencias_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
+
+    if (tipo_partido === 'Oficial') {
+      estadisticas[nombreAsistidor].asistencias_por_anio.oficial_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio.oficial_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
+
+    else if (tipo_partido === 'Amistoso') {
+      estadisticas[nombreAsistidor].asistencias_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+    }
 
     if (clave_asistencia === 'pie_jugada') {
       estadisticas[nombreAsistidor].asistencias_pie_por_anio.total_por_anio[fecha.getFullYear()] = (estadisticas[nombreAsistidor].asistencias_pie_por_anio.total_por_anio[fecha.getFullYear()] || 0) + 1;
@@ -587,6 +599,33 @@ function contar_estadisticas(
       }
       else if (tipo_partido === 'Amistoso') {
         estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.amistoso_por_anio[fecha.getFullYear()] = (estadisticas[jugadorSinJugar].presencias_sin_jugar_perdidos_por_anio.amistoso_por_anio[fecha.getFullYear()] || 0) + 1;
+      }
+    }
+  }
+  if (arquero_titular !== "") {
+    if (!estadisticas[arquero_titular]) {
+      estadisticas[arquero_titular] = crearEstadisticasBase();
+    }
+    estadisticas[arquero_titular].arquero.partidos += 1;
+    if (resultado == 'Ganado') {
+      estadisticas[arquero_titular].arquero.ganados += 1;
+    }
+    else if (resultado == 'Empatado') {
+      estadisticas[arquero_titular].arquero.empatados += 1;
+    }
+    else {
+      estadisticas[arquero_titular].arquero.perdidos += 1;
+    }
+    if (valla_invicta === arquero_titular) {
+      estadisticas[arquero_titular].arquero.vallas_invictas += 1;
+    }
+    for (const golRecibido of golesRecibidos) {
+      const clave_gol = tipoGolMap[golRecibido.tipo] ?? "otros";
+      if (golRecibido.arquero === arquero_titular) {
+        estadisticas[arquero_titular].arquero.goles_recibidos += 1;
+        if (golRecibido.tipo === 'penal') {
+          estadisticas[arquero_titular].arquero.tipos_goles_recibidos.penal += 1;
+        }
       }
     }
   }

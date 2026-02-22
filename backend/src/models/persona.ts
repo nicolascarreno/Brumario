@@ -76,6 +76,54 @@ const DirectorTecnicoSchema = new Schema({
   },
 }, { _id: false });
 
+export interface TiposGolesRecibidos {
+  cabeza: number;
+  pie_jugada: number;
+  penal: number;
+  tiro_libre: number;
+  otros: number;
+}
+
+const tiposGolesRecibidosSchema = new Schema({
+  cabeza: Number,
+  pie_jugada: Number,
+  penal: Number,
+  tiro_libre: Number,
+  otros: Number,
+}, { _id: false });
+
+export interface TandasPenales {
+  ganados: number;
+  perdidos: number;
+}
+
+const tandasPenalesSchema = new Schema({
+  ganados: Number,
+  perdidos: Number
+})
+
+export interface Arquero {
+  partidos: number;
+  ganados: number;
+  empatados: number;
+  perdidos: number;
+  goles_recibidos: number;
+  tipos_goles_recibidos: TiposGolesRecibidos;
+  vallas_invictas: number;
+  tandas_penales: TandasPenales;
+}
+
+const arqueroSchema = new Schema({
+  partidos: {type: Number, required: true},
+  ganados: {type: Number, required: true},
+  empatados: {type: Number, required: true},
+  perdidos: {type: Number, required: true},
+  goles_recibidos: {type: Number, required: true},
+  tipos_goles_recibidos: tiposGolesRecibidosSchema,
+  vallas_invictas: {type: Number, required: true},
+  tandas_penales: tandasPenalesSchema
+})
+
 type EstadisticaDetalladaPorAnio = {
   total_por_anio: Record<string, number>;
   oficial_por_anio: Record<string, number>;
@@ -165,6 +213,7 @@ interface IPersona extends Document {
     debut_oficial: Date;
     dorsal: number;
     estadisticas_por_anio: IEstadisticasPorAnio;
+    arquero: Arquero;
     createdAt: Date;
 }
 
@@ -185,6 +234,7 @@ const personaSchema: Schema = new Schema({
     debut_oficial: { type: Date, required: true },
     dorsal: { type: Number, required: false },
     estadisticas_por_anio: { type: estadisticasPorAnioSchema, default: {} },
+    arquero: arqueroSchema,
     createdAt: { type: Date, default: Date.now }
 });
 

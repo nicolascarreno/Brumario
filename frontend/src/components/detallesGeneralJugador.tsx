@@ -455,12 +455,3 @@ function valorPorAnioYTipo(
 
   return mapa[anio] ?? 0;
 }
-
-function valorPorAnio2(
-  total: number,
-  mapaPorAnio: Record<number, number> | undefined,
-  anio: number | null
-): number {
-  if (!anio || !mapaPorAnio) return total;
-  return mapaPorAnio[anio] ?? 0;
-}

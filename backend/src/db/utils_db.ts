@@ -1,3 +1,5 @@
+import { Arquero } from "../models/persona";
+
 export function crearEstadisticasBase() {
   return {
     goles: 0,
@@ -11,6 +13,7 @@ export function crearEstadisticasBase() {
     tipos_asistencia: { cabeza: 0, pie_jugada: 0, corner: 0, tiro_libre: 0, otros: 0 },
     tipos_presencia_sin_jugar: { ganados: 0, empatados: 0, perdidos: 0 },
     director_tecnico: { ganados: 0, empatados: 0, perdidos: 0, goles_favor: 0, goles_contra: 0, esquemas: {} },
+    arquero: crearEstadisticasArqueroBase(),
     goles_por_anio: crearEstadisticaPorAnioVacia(),
     goles_pie_por_anio: crearEstadisticaPorAnioVacia(),
     goles_cabeza_por_anio: crearEstadisticaPorAnioVacia(),
@@ -31,6 +34,22 @@ export function crearEstadisticasBase() {
     presencias_sin_jugar_perdidos_por_anio: crearEstadisticaPorAnioVacia(),
     amarillas_por_anio: crearEstadisticaPorAnioVacia(),
     rojas_por_anio: crearEstadisticaPorAnioVacia()
+  };
+}
+
+function crearEstadisticasArqueroBase(): Arquero {
+  return {
+    partidos: 0,
+    ganados: 0,
+    empatados: 0,
+    perdidos: 0,
+    goles_recibidos: 0,
+    tipos_goles_recibidos: { cabeza: 0, pie_jugada: 0, penal: 0, tiro_libre: 0, otros: 0 },
+    vallas_invictas: 0,
+    tandas_penales: {
+      ganados: 0,
+      perdidos: 0
+    }
   };
 }
 
