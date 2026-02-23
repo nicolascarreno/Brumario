@@ -6,6 +6,7 @@ import '../styles/detalles_jugador.css'
 import { BarraOpcionesJugador } from "../components/barraOpcionesJugador";
 import { DetallesGeneralJugador } from "../components/detallesGeneralJugador";
 import { DetallesTecnico } from "../components/detallesDirectorTecnico";
+import { DetallesArquero } from "../components/detallesArquero";
 import { Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
 import { getJugador } from "../services/jugadoresService";
@@ -48,6 +49,13 @@ export const DetallesJugador: React.FC = () => {
         case "hitos":
           return (
             <DetallesHitos
+              jugador={jugador}
+              loading={loading}
+            />
+          );
+        case "arquero":
+          return (
+            <DetallesArquero
               jugador={jugador}
               loading={loading}
             />

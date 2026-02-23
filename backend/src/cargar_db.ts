@@ -230,7 +230,7 @@ export async function cargar_partidos() {
     let estadisticasActualizadas = 0;
     let estadisticasConError = 0;
     
-    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol, tipos_asistencia, tipos_presencia_sin_jugar, director_tecnico,
+    for (const [nombre, { goles, asistencias, amarillas, rojas, presencias_sin_jugar, titular, suplente, tipos_gol, tipos_asistencia, tipos_presencia_sin_jugar, director_tecnico, arquero,
                           titular_por_anio, suplente_por_anio, goles_por_anio, goles_cabeza_por_anio,
                           goles_tiro_libre_por_anio, goles_penal_por_anio, goles_otro_por_anio, goles_pie_por_anio,
                           asistencias_por_anio, asistencias_cabeza_por_anio, asistencias_corner_por_anio,
@@ -261,6 +261,7 @@ export async function cargar_partidos() {
               "director_tecnico.empatados": director_tecnico.empatados,
               "director_tecnico.goles_favor": director_tecnico.goles_favor,
               "director_tecnico.goles_contra": director_tecnico.goles_contra},
+              "arquero": arquero,
             $set: { "director_tecnico.esquemas": director_tecnico.esquemas },
                     estadisticas_por_anio},     
           { new: true }
@@ -623,11 +624,32 @@ function contar_estadisticas(
       const clave_gol = tipoGolMap[golRecibido.tipo] ?? "otros";
       if (golRecibido.arquero === arquero_titular) {
         estadisticas[arquero_titular].arquero.goles_recibidos += 1;
-        if (golRecibido.tipo === 'penal') {
+        if (clave_gol === 'penal') {
           estadisticas[arquero_titular].arquero.tipos_goles_recibidos.penal += 1;
+        }
+        else if (clave_gol === 'tiro_libre') {
+          estadisticas[arquero_titular].arquero.tipos_goles_recibidos.tiro_libre += 1;
+        }
+        else if (clave_gol === 'cabeza') {
+          estadisticas[arquero_titular].arquero.tipos_goles_recibidos.cabeza += 1;
+        }
+        else if (clave_gol === 'pie_jugada') {
+          estadisticas[arquero_titular].arquero.tipos_goles_recibidos.pie_jugada += 1;
+        }
+        else {
+          estadisticas[arquero_titular].arquero.tipos_goles_recibidos.otros += 1;
         }
       }
     }
+    if (cantidad_goles_anotados.includes('(')) {
+      if (brumario_gana_tanda(cantidad_goles_anotados, cantidad_goles_recibidos)) {
+        estadisticas[arquero_titular].arquero.tandas_penales.ganados += 1;
+      }
+      else{
+        estadisticas[arquero_titular].arquero.tandas_penales.perdidos += 1;
+      }
+    }
+
   }
   if (director_tecnico) {
     if (!estadisticas[director_tecnico]) {
@@ -692,6 +714,12 @@ function contar_estadisticas(
  
 }
 
+//Devuelve TRUE si Brumario gana la tanda de penales, FALSE si pierde
+function brumario_gana_tanda(golesBrumario: string, golesRival: string): boolean {
+  let penalesBrumario = golesBrumario.split('(')[1].split(')')[0]
+  let penalesRival = golesRival.split('(')[1].split(')')[0]
+  return Number(penalesBrumario) > Number(penalesRival);
+}
 
 async function main() {
   try {

@@ -66,10 +66,23 @@
     padding-left: 50px;
 }
 
+.contenedor_tipo_estadistica3{
+    padding-left: 70px;
+}
+
 .contenedor_estadistica_segunda_columna{
     display: flex; 
     padding-left: 10px; 
     padding-top: 65px;
+    justify-content: space-between; 
+    width: 220px; 
+    margin-left: 25px
+}
+
+.contenedor_estadistica_arquero_segunda_columna{
+    display: flex; 
+    padding-left: 10px; 
+    padding-top: 5px;
     justify-content: space-between; 
     width: 220px; 
     margin-left: 25px
@@ -131,6 +144,10 @@
 
 .contenedor_error {
     padding: 40px;
+}
+
+.contenedor_arquero {
+    display: flex;
 }
 
 /* 🔹 Estilos responsivos para celular */
@@ -195,6 +212,15 @@
         margin-left: 25px
     }
 
+    .contenedor_estadistica_arquero_segunda_columna{
+        display: flex; 
+        padding-left: 10px; 
+        padding-top: 15px;
+        justify-content: space-between; 
+        width: 220px; 
+        margin-left: 25px
+    }
+
     .contenedor_jugadores_preferidos{
         padding-bottom: 10px;
         padding-left: 0px;
@@ -246,5 +272,11 @@
         align-items: center;
         padding-right: 0px;
         margin-left: 25px;
+    }
+    .contenedor_arquero {
+        display: grid
+    }
+    .contenedor_tipo_estadistica3{
+        padding-left: 0px;
     }
 }

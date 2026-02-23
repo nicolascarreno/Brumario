@@ -76,6 +76,11 @@
     width: 30px;
 }
 
+.icono2{
+    height: 25px;
+    width: 30px;
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_barra_opciones_general{

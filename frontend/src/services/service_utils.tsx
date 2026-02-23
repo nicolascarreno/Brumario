@@ -186,6 +186,30 @@ export interface IEstadisticasPorAnio {
   presencias_sin_jugar_perdidos_por_anio: EstadisticaDetalladaPorAnio;
 }
 
+export interface TiposGolesRecibidos {
+  cabeza: number;
+  pie_jugada: number;
+  penal: number;
+  tiro_libre: number;
+  otros: number;
+}
+
+export interface TandasPenales {
+  ganados: number;
+  perdidos: number;
+}
+
+export interface Arquero {
+  partidos: number;
+  ganados: number;
+  empatados: number;
+  perdidos: number;
+  goles_recibidos: number;
+  tipos_goles_recibidos: TiposGolesRecibidos;
+  vallas_invictas: number;
+  tandas_penales: TandasPenales;
+}
+
 export interface Jugador {
   nombre: string;
   goles: number;
@@ -204,4 +228,5 @@ export interface Jugador {
   dorsal: number;
   hitos: Hitos;
   estadisticas_por_anio: IEstadisticasPorAnio;
+  arquero: Arquero;
 }
