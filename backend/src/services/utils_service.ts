@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { GolFavor, IPartido } from "../models/partido";
+import { parse } from "path";
 
 export interface HitoPartido {
   nro: number;
@@ -56,6 +57,9 @@ export interface Anio {
   rojas: number;
   presencias_sin_jugar: number;
   presencias: number;
+  arquero_goles_recibidos: number;
+  arquero_vallas_invictas: number;
+  arquero_partidos: number;
 }
 
 export function crearAnioBase(anio: number) {
@@ -67,6 +71,9 @@ export function crearAnioBase(anio: number) {
     rojas: 0,
     presencias_sin_jugar: 0,
     presencias: 0,
+    arquero_goles_recibidos: 0,
+    arquero_vallas_invictas: 0,
+    arquero_partidos: 0,
   }
 }
 
@@ -113,6 +120,29 @@ export function procesarGolesYAsistencias(
   }
 
   return { golesPartidoActual, asistenciasPartidoActual, ultimoGolInfo };
+}
+
+export function procesarArquero(
+  nombreArquero: string,
+  partido: IPartido,
+  estadisticas: Anio 
+) {
+  let golesRecibidosPartidoActual = -1;
+  if (partido.titulares[0] === nombreArquero) {
+    golesRecibidosPartidoActual = 0;
+    estadisticas.arquero_partidos += 1;
+    if (parseGoles(partido.goles_contra) === 0) {
+      estadisticas.arquero_vallas_invictas += 1;
+    }
+    for (const goles of partido.golesRecibidos) {
+      if (goles.arquero === nombreArquero) {
+        golesRecibidosPartidoActual += 1;
+        estadisticas.arquero_goles_recibidos += 1;
+      }
+    }
+  }
+  
+  return golesRecibidosPartidoActual;
 }
 
 export function procesarTarjetas(
@@ -162,6 +192,23 @@ export function encontrarMaximoPorAnio(
   return { anio: anioMax, cantidad: maxCantidad };
 }
 
+export function encontrarMinimoPorAnio(
+  anios: Anio[],
+  campo: keyof Anio
+): { anio: number; cantidad: number } {
+  let minCantidad = Infinity;
+  let anioMin = 0;
+
+  for (const anio of anios) {
+    if (anio[campo] < minCantidad) {
+      minCantidad = anio[campo];
+      anioMin = anio.anio;
+    }
+  }
+
+  return { anio: anioMin, cantidad: minCantidad };
+}
+
 export function crearPartidoBase(): IPartido {
   return {
     _id: new mongoose.Types.ObjectId(), // si lo necesitás porque hereda de Document
@@ -188,6 +235,62 @@ export function crearPartidoBase(): IPartido {
     createdAt: new Date(0), // idem
   } as unknown as IPartido;
 }
+
+// Función modularizada para actualizar la racha de vallas invictas
+export function actualizarRachaVallaInvicta(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (parseGoles(partido.goles_contra) === 0) {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }
+
+// Función modularizada para actualizar de goles recibidos
+export function actualizarRachaGolesRecibidos(
+  rachaInvictaActual: HitoRacha,
+  rachaInvictaDirigido: HitoRacha,
+  partido: IPartido
+): { rachaActual: HitoRacha; rachaMaxima: HitoRacha } {
+  if (parseGoles(partido.goles_contra) > 0) {
+      if(rachaInvictaActual.duracionPartidos == 0) {
+        rachaInvictaActual = {inicio: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              fin: {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha}, 
+                              duracionPartidos: 0}
+      }
+      rachaInvictaActual.duracionPartidos += 1;
+      rachaInvictaActual.fin = {nro: 0, rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      if (rachaInvictaActual.duracionPartidos > rachaInvictaDirigido.duracionPartidos) {
+        rachaInvictaDirigido = {
+          inicio: { ...rachaInvictaActual.inicio },
+          fin: { ...rachaInvictaActual.fin },
+          duracionPartidos: rachaInvictaActual.duracionPartidos,
+        };
+      }
+    }
+    else {
+      rachaInvictaActual = crearHitoRachaBase();
+    }
+    return { rachaActual: rachaInvictaActual, rachaMaxima: rachaInvictaDirigido}
+  }
 
 // Función modularizada para actualizar la racha invicta
 export function actualizarRachaInvicta(

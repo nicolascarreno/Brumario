@@ -1,7 +1,7 @@
 import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
 import Persona from "../models/persona"; // tu modelo de Mongoose
-import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
+import { actualizarRachaGanados, actualizarRachaGolesRecibidos, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, actualizarRachaVallaInvicta, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, encontrarMinimoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarArquero, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 
 export const getJugadores = async () => {
   try {
@@ -112,6 +112,10 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let rachaPerdidosDirigido: HitoRacha = crearHitoRachaBase();
   let ultimoGol: GolFavor = crearGolFavorBase();
   let ultimoGolPartido: HitoPartido = crearHitoBase();
+  let arquero_mas_goles_recibidos = 0
+  let arquero_mas_goles_recibidos_partido: HitoPartido = crearHitoBase();
+  let arquero_racha_vallas_invictas: HitoRacha = crearHitoRachaBase();
+  let arquero_racha_goles_recibidos: HitoRacha = crearHitoRachaBase();
   let anios: Anio[] = [];
 
   let debut_partido = debut.length > 0 
@@ -121,6 +125,9 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let debut_oficial_partido = debut_oficial.length > 0 
     ? {rival: debut_oficial[0].rival, competicion: debut_oficial[0].competicion, tipo_partido: debut_oficial[0].tipo_partido, golesBrumario: debut_oficial[0].goles_favor, golesRecibidos: debut_oficial[0].goles_contra, fecha: debut_oficial[0].fecha}       
     : crearHitoBase(); 
+
+  let rachaGolesRecibidosActual: HitoRacha = crearHitoRachaBase();
+  let rachaVallaInvictaActual: HitoRacha = crearHitoRachaBase();
 
   for (const partido of partidos) {
     const anio = partido.fecha.getFullYear()
@@ -134,6 +141,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
       procesarGolesYAsistencias(nombreJugador, partido, estadisticas_anio!);
     procesarTarjetas(nombreJugador, partido, estadisticas_anio!);
     procesarPresenciasSinJugar(nombreJugador, partido, estadisticas_anio!);
+    const arqueroGolesRecibidos = procesarArquero(nombreJugador, partido, estadisticas_anio!);
 
     if (golesPartidoActual > masGoles) {
       masGoles = golesPartidoActual;
@@ -151,6 +159,29 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
       masContribucionesGoles = golesPartidoActual;
       masContribucionesAsistencias = asistenciasPartidoActual;
       masContribucionesPartido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+    }
+    if (partido.titulares[0] === nombreJugador) {
+      if (arqueroGolesRecibidos > arquero_mas_goles_recibidos) {
+        arquero_mas_goles_recibidos = arqueroGolesRecibidos;
+        arquero_mas_goles_recibidos_partido = {nro: Number(partido.nro), rival: partido.rival, competicion: partido.competicion, tipo_partido: partido.tipo_partido, golesBrumario: partido.goles_favor, golesRecibidos: partido.goles_contra, fecha: partido.fecha};
+      }
+
+      const resultadoRachaVallaInvicta = actualizarRachaVallaInvicta(
+        { ...rachaVallaInvictaActual },
+        { ...arquero_racha_vallas_invictas },
+        partido
+      )
+
+      rachaVallaInvictaActual = resultadoRachaVallaInvicta.rachaActual;
+      arquero_racha_vallas_invictas = resultadoRachaVallaInvicta.rachaMaxima;
+
+      const resultadoRachaGolesRecibidos = actualizarRachaGolesRecibidos(
+        { ...rachaGolesRecibidosActual },
+        { ...arquero_racha_goles_recibidos },
+        partido
+      )
+      rachaGolesRecibidosActual = resultadoRachaGolesRecibidos.rachaActual;
+      arquero_racha_goles_recibidos = resultadoRachaGolesRecibidos.rachaMaxima;
     }
   }
 
@@ -227,6 +258,13 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido},
     ultimoGol: {partido: ultimoGolPartido, gol: ultimoGol},
     debut: {partido: debut_oficial_partido},
-    debut_oficial: {partido: debut_oficial_partido}
+    debut_oficial: {partido: debut_oficial_partido},
+    arqueroMasGolesRecibidos: {cantidad: arquero_mas_goles_recibidos, partido: arquero_mas_goles_recibidos_partido},
+    arqueroMasVallasInvictasAnio: encontrarMaximoPorAnio(anios, "arquero_vallas_invictas"),
+    arqueroMasPartidosAnio: encontrarMaximoPorAnio(anios, "arquero_partidos"),
+    arqueroMasGolesRecibidosAnio: encontrarMaximoPorAnio(anios, "arquero_goles_recibidos"),
+    arqueroMenosGolesRecibidosAnio: encontrarMinimoPorAnio(anios, "arquero_goles_recibidos"),
+    arqueroRachaVallasInvictas: {racha: arquero_racha_vallas_invictas},
+    arqueroRachaGolesRecibidos: {racha: arquero_racha_goles_recibidos},
   };  
 }

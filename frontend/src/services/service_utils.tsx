@@ -148,7 +148,14 @@ export interface Hitos {
   tecnicoRachaPerdidos: {racha: HitoRacha},
   ultimoGol: {partido: HitosPartido, gol: GolFavor},
   debut: {partido: HitosPartido},
-  debut_oficial: {partido: HitosPartido}
+  debut_oficial: {partido: HitosPartido},
+  arqueroMasGolesRecibidos: {cantidad: number, partido: HitosPartido},
+  arqueroMasVallasInvictasAnio: {cantidad: number, anio: number},
+  arqueroMasPartidosAnio: {cantidad: number, anio: number},
+  arqueroMasGolesRecibidosAnio: {cantidad: number, anio: number},
+  arqueroMenosGolesRecibidosAnio: {cantidad: number, anio: number},
+  arqueroRachaVallasInvictas: {racha: HitoRacha},
+  arqueroRachaGolesRecibidos: {racha: HitoRacha},
 }
 
 //export type EstadisticaPorAnio = Record<string, number>;

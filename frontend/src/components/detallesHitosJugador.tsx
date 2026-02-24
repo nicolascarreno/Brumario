@@ -360,6 +360,91 @@ export const DetallesHitos: React.FC<DetallesHitosProp> = ({
                 }
                 </span>
               </div>
+
+              <div style={{display: 'flex'}}>
+                <div style={{paddingBottom: 10}}>
+                  <div className='contenedor_estadistica_nombre'>
+                      <img
+                          src={'/arquero3_sin_fondo.png'}
+                          alt="App Logo"
+                          width="40"
+                          height="40"
+                          style={{ marginLeft: 10, marginRight: 5 }}
+                      />
+                      <span className='nombre_estadistica'>
+                          Hitos Como Arquero
+                      </span>   
+                  </div>
+                </div>            
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                  <span style={{ color: 'black' }}>Más goles recibidos en un partido:</span>{" "}
+                  {jugador.hitos.arqueroMasGolesRecibidos.cantidad === 0 ? (
+                    <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>
+                      No tiene goles recibidos
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/partidos/${jugador.hitos.arqueroMasGolesRecibidos.partido.nro}`}
+                      style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                    >
+                      <span style={{ color: '#434343' }}>
+                        {jugador.hitos.arqueroMasGolesRecibidos.cantidad} (BRUMARIO {jugador.hitos.arqueroMasGolesRecibidos.partido.golesBrumario} -{" "}
+                        {jugador.hitos.arqueroMasGolesRecibidos.partido.golesRecibidos}{" "}
+                        {jugador.hitos.arqueroMasGolesRecibidos.partido.rival},{" "}
+                        {jugador.hitos.arqueroMasGolesRecibidos.partido.competicion},{" "}
+                        {formatDateDDMMYYYY(jugador.hitos.arqueroMasGolesRecibidos.partido.fecha)})
+                      </span>
+                    </Link>
+                  )}
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos con valla invicta:</span>{" "}
+                {jugador.hitos.arqueroRachaVallasInvictas.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene vallas invictas</span>
+                  : `${jugador.hitos.arqueroRachaVallasInvictas.racha.duracionPartidos} (${diasEntre(jugador.hitos.arqueroRachaVallasInvictas.racha.inicio.fecha, jugador.hitos.arqueroRachaVallasInvictas.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.arqueroRachaVallasInvictas.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.arqueroRachaVallasInvictas.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos consecutivos recibiendo goles:</span>{" "}
+                {jugador.hitos.arqueroRachaGolesRecibidos.racha.duracionPartidos === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles recibidos</span>
+                  : `${jugador.hitos.arqueroRachaGolesRecibidos.racha.duracionPartidos} (${diasEntre(jugador.hitos.arqueroRachaGolesRecibidos.racha.inicio.fecha, jugador.hitos.arqueroRachaGolesRecibidos.racha.fin.fecha)} días) (Inicia el ${formatDateDDMMYYYY(jugador.hitos.arqueroRachaGolesRecibidos.racha.inicio.fecha)}, Finaliza el ${formatDateDDMMYYYY(jugador.hitos.arqueroRachaGolesRecibidos.racha.fin.fecha)})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas partidos atajados en un año calendario:</span>{" "}
+                {jugador.hitos.arqueroMasPartidosAnio.cantidad === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene partidos atajados</span>
+                  : `${jugador.hitos.arqueroMasPartidosAnio.cantidad} (${jugador.hitos.arqueroMasPartidosAnio.anio})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas vallas invictas en un año calendario:</span>{" "}
+                {jugador.hitos.arqueroMasVallasInvictasAnio.cantidad === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene vallas invictas</span>
+                  : `${jugador.hitos.arqueroMasVallasInvictasAnio.cantidad} (${jugador.hitos.arqueroMasVallasInvictasAnio.anio})`
+                }
+                </span>
+              </div>
+              <div style={{ paddingLeft: 15 }} className='contenedor_estadistica_nombre'>
+                <span style={{ textIndent: 20 }} className="estadistica">
+                <span style={{ color: 'black' }}>Mas goles recibidos en un año calendario:</span>{" "}
+                {jugador.hitos.arqueroMasGolesRecibidosAnio.cantidad === 0
+                  ? <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: 'black' }}>No tiene goles recibidos</span>
+                  : `${jugador.hitos.arqueroMasGolesRecibidosAnio.cantidad} (${jugador.hitos.arqueroMasGolesRecibidosAnio.anio})`
+                }
+                </span>
+              </div>
           </div>
         </div>
       </>
