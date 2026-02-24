@@ -119,11 +119,11 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
   let anios: Anio[] = [];
 
   let debut_partido = debut.length > 0 
-    ? {rival: debut[0].rival, competicion: debut[0].competicion, tipo_partido: debut[0].tipo_partido, golesBrumario: debut[0].goles_favor, golesRecibidos: debut[0].goles_contra, fecha: debut[0].fecha}       
+    ? {rival: debut[0].rival, competicion: debut[0].competicion, tipo_partido: debut[0].tipo_partido, golesBrumario: debut[0].goles_favor, golesRecibidos: debut[0].goles_contra, fecha: debut[0].fecha, nro: debut[0].nro}       
     : crearHitoBase(); 
 
   let debut_oficial_partido = debut_oficial.length > 0 
-    ? {rival: debut_oficial[0].rival, competicion: debut_oficial[0].competicion, tipo_partido: debut_oficial[0].tipo_partido, golesBrumario: debut_oficial[0].goles_favor, golesRecibidos: debut_oficial[0].goles_contra, fecha: debut_oficial[0].fecha}       
+    ? {rival: debut_oficial[0].rival, competicion: debut_oficial[0].competicion, tipo_partido: debut_oficial[0].tipo_partido, golesBrumario: debut_oficial[0].goles_favor, golesRecibidos: debut_oficial[0].goles_contra, fecha: debut_oficial[0].fecha, nro: debut_oficial[0].nro}       
     : crearHitoBase(); 
 
   let rachaGolesRecibidosActual: HitoRacha = crearHitoRachaBase();
@@ -257,7 +257,7 @@ function hitos (nombreJugador: string, partidos: IPartido[], partidosDirigidos: 
     tecnicoRachaSinGanar: {racha: rachaSinGanarDirigido},
     tecnicoRachaPerdidos: {racha: rachaPerdidosDirigido},
     ultimoGol: {partido: ultimoGolPartido, gol: ultimoGol},
-    debut: {partido: debut_oficial_partido},
+    debut: {partido: debut_partido},
     debut_oficial: {partido: debut_oficial_partido},
     arqueroMasGolesRecibidos: {cantidad: arquero_mas_goles_recibidos, partido: arquero_mas_goles_recibidos_partido},
     arqueroMasVallasInvictasAnio: encontrarMaximoPorAnio(anios, "arquero_vallas_invictas"),
