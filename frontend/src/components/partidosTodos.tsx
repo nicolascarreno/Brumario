@@ -19,6 +19,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
   const [selectedCategoria, setSelectedCategoria] = useState<string>("");
   const [selectedDT, setSelectedDT] = useState<string>("");
   const [selectedRival, setSelectedRival] = useState<string>("");
+  const [selectedTipo, setSelectedTipo] = useState<string>("");
   const navigate = useNavigate();
 
   const iconosEstado = {
@@ -77,9 +78,12 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
       const matchRival = selectedRival
         ? p.rival === selectedRival
         : true;
-      return matchYear && matchCategoria && matchDT && matchRival;
+      const matchTipo = selectedTipo
+      ? p.tipo_partido === selectedTipo
+      : true;
+      return matchYear && matchCategoria && matchDT && matchRival && matchTipo;
     });
-  }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival]);
+  }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival, selectedTipo]);
 
   // calcular la cantidad total de páginas
   const totalPaginas = Math.ceil(filteredPartidos.length / partidosPorPagina);
@@ -106,6 +110,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
     setSelectedCategoria("");
     setSelectedDT("");
     setSelectedRival("");
+    setSelectedTipo("");
   };
 
   return (
@@ -177,7 +182,21 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                     ))}
                   </select>
                 </div>
-
+                {/* Tipo de Partido */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>
+                    Tipo:
+                  </label>
+                  <select
+                    value={selectedTipo}
+                    onChange={(e) => setSelectedTipo(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todos</option>
+                    <option value="Oficial">Oficial</option>
+                    <option value="Amistoso">Amistoso</option>
+                  </select>
+                </div>
                 {/* Botón limpiar */}
                 <div>
                   <button
