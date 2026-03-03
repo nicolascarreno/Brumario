@@ -481,7 +481,20 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                         style={{ marginRight: 5, transform: "translateY(2px)", marginLeft: -4 }}
                       />
                       <span className="estadistica">
-                        {formatearNombre(cambio.entra)} (Entra) || {formatearNombre(cambio.sale)} (Sale)
+                        <Link 
+                          to={`/jugador/${encodeURIComponent(cambio.entra)}`} 
+                          style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                        >
+                          {formatearNombre(cambio.entra)}
+                        </Link>
+                        {" (Entra) || "}
+                        <Link 
+                          to={`/jugador/${encodeURIComponent(cambio.sale)}`} 
+                          style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                        >
+                          {formatearNombre(cambio.sale)}
+                        </Link>
+                        {" (Sale)"}
                       </span>
                     </div>
                   ))}
