@@ -2,12 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/jugadores_barra_opciones.css';
 import '../styles/detalles_jugador_barra.css';
+import { BarraBusqueda2 } from "./barra_busqueda2";
+import { Jugador } from "../services/service_utils";
 
 interface BarraOpcionesJugador {
   onSelect: (opcion: string) => void; // callback para avisar qué botón fue clickeado
+  jugadores: { nombre: string }[]; // lista de jugadores para la barra de búsqueda
 }
 
-export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect }) => {
+export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect, jugadores }) => {
   const navigate = useNavigate();
   return (
     <div className='contendor_barra_opciones_general'>
@@ -21,6 +24,7 @@ export const BarraOpcionesJugador: React.FC<BarraOpcionesJugador> = ({ onSelect 
           <span>Ir a Partidos</span>
         </button>
       </div>
+      <BarraBusqueda2 jugadores={jugadores} onSelect={(jugador) => navigate(`/jugador/${jugador.nombre}`)}/>
       <div className="contenedor_barra_opciones">
         <button className="primer_boton_barra_opciones" onClick={() => onSelect("general")}>
           <img src={'/brumario_escudo_sin_fondo.png'} alt="App Logo" className="icono"/>

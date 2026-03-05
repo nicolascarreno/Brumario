@@ -18,6 +18,24 @@ export async function getJugadores(): Promise<Jugador[]> {
   return data.jugadores;
 }
 
+export async function getJugadoresSinDetalles(): Promise<{ nombre: string }[]> {
+  const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
+  const response = await fetch(`${API_URL}/api/jugadores/sin-detalles`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Error al obtener los jugadores sin detalles");
+  }
+
+  const data = await response.json();
+  console.log(data)
+  return data.jugadores;
+}
+
 export async function getJugador(nombre: string): Promise<Jugador | null> {
   const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
   try {

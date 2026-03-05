@@ -6,6 +6,14 @@
     margin-top: 40px;
 }
 
+.contenedor_busqueda2{
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    width: 300px;
+    margin-top: 40px;
+}
+
 .contenedor_jugadores{
     border: 2px solid black;
     border-radius: 6px;
@@ -18,6 +26,19 @@
     overflow: hidden;
 }
 
+.contenedor_jugadores2{
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 0px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: #dddddd;
+    position: relative;
+    overflow: hidden;
+    margin-left: 40px;
+}
+
 .buscar{
     font-size: 15px;
     padding: 10px;
@@ -26,6 +47,18 @@
     border-radius: 4px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
 }
+
+.buscar2{
+    font-size: 15px;
+    padding: 10px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 4px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    width: 235px;
+    margin-left: 40px;
+}
+
 
 .nombre_jugador{
     font-size: 15px;
@@ -47,5 +80,36 @@
     .contenedor_busqueda{
         margin-top: 0px;
         margin-bottom: 30px;
+    }
+    .contenedor_busqueda2{
+        display: flex;
+        flex-direction: column; 
+        gap: 10px;
+        width: 300px;
+        margin-top: 40px;
+    }
+
+    .contenedor_jugadores2{
+        border: 2px solid black;
+        border-radius: 6px;
+        padding: 0px;
+        max-height: 400px;
+        overflow-y: auto;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        background-color: #dddddd;
+        position: relative;
+        overflow: hidden;
+        margin-left: 40px;
+        width: 275px
+    }
+    .buscar2{
+        font-size: 15px;
+        padding: 10px;
+        font-weight: bold;
+        border: 2px solid black;
+        border-radius: 4px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        width: 255px;
+        margin-left: 40px;
     }
 }

@@ -13,6 +13,16 @@ export const getJugadores = async () => {
   }
 };
 
+export const getJugadoresSinDetalles = async () => {
+  try {
+    const jugadores = await Persona.find({}, { nombre: 1, _id: 0 });
+    console.log(jugadores)
+    return jugadores;
+  } catch (error) {
+    throw new Error("Error al obtener jugadores: " + error);
+  }
+};
+
 export const getJugadoresDetalles = async (nombre: string) => {
   try {
     const jugador = await Persona.findOne(

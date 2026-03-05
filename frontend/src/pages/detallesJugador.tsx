@@ -9,7 +9,7 @@ import { DetallesTecnico } from "../components/detallesDirectorTecnico";
 import { DetallesArquero } from "../components/detallesArquero";
 import { Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
-import { getJugador } from "../services/jugadoresService";
+import { getJugador, getJugadoresSinDetalles } from "../services/jugadoresService";
 
 export const DetallesJugador: React.FC = () => {
   const { nombre } = useParams<{ nombre: string }>();
@@ -17,9 +17,19 @@ export const DetallesJugador: React.FC = () => {
   const [jugador, setJugador] = useState<Jugador | null>(null);
   const [loading, setLoading] = useState(true);
   const [opcion, setOpcion] = useState("plantilla");
+  const [jugadores, setJugadores] = useState<{ nombre: string }[]>([]);
+
+  useEffect(() => {
+    const fetchJugadores = async () => {
+      const data = await getJugadoresSinDetalles();
+      setJugadores(data);
+    };
+    fetchJugadores();
+  }, []);
 
   useEffect(() => {
     const fetchJugador = async () => {
+      setLoading(true);
       const data = await getJugador(nombre!);
       setJugador(data);
       setLoading(false);
@@ -28,7 +38,8 @@ export const DetallesJugador: React.FC = () => {
   }, [nombre]);
 
   console.log(jugador);
-
+  console.log(jugadores);
+  
   const renderContenido = () => {
       if (!jugador) return <div className="contenedor_error"><span className="nombre_estadistica">¡Ups! No se encontró el jugador buscado</span></div>;
       switch (opcion) {
@@ -78,7 +89,7 @@ export const DetallesJugador: React.FC = () => {
     </div>
     <div className="contenedor_general">
       {/* Columna izquierda → contenedor de botones */}
-      <BarraOpcionesJugador onSelect={setOpcion}/>  
+      <BarraOpcionesJugador onSelect={setOpcion} jugadores={jugadores}/>  
 
       {/* Render del contenido */}
       {loading ? (
