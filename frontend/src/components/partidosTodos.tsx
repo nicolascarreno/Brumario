@@ -96,8 +96,12 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
     if (pagina > 1) setPagina(pagina - 1);
   };
 
+  const partidosOrdenados = [...filteredPartidos].sort(
+    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  );
+
   const inicio = (pagina - 1) * partidosPorPagina;
-  const partidosPaginados = filteredPartidos.slice(inicio, inicio + partidosPorPagina);
+  const partidosPaginados = partidosOrdenados.slice(inicio, inicio + partidosPorPagina);
 
   useEffect(() => {
     setPagina(1);
@@ -222,7 +226,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                 <tbody>
                   {Array.isArray(partidosPaginados) && partidosPaginados.length > 0 ? (
                     [...partidosPaginados]
-                      .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
+                      .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
                       .map((partido, i) => (
                         <tr key={i}>
                           <td style={{ paddingBottom: 0, height: 50 }}>
