@@ -5,6 +5,7 @@ import '../styles/detalles_jugador.css'
 import '../styles/detalles_partido.css'
 import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Hitos, Partido } from '../services/service_utils';
 import { formatDateDDMMYYYY } from './partidosTodos';
+import { formaciones } from '../utils/formaciones';
 
 
 interface DetallesPartidoProp {
@@ -22,6 +23,8 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
     Empatado: "/empate3.png",
     Perdido: "/derrota2.png"
   };
+  const [mostrarCancha, setMostrarCancha] = React.useState(true);
+  const posiciones = formaciones[partido.esquema_tactico] || formaciones["4-4-2"];
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
     {loading ? (
@@ -58,6 +61,51 @@ export const DetallesPartido: React.FC<DetallesPartidoProp> = ({
                 <span className='metadata_partido'>Cancha: {partido.cancha}</span>
                 <span className='metadata_partido'>Jornada: {partido.jornada}</span>
               </div>
+              <div style={{ display: "flex", justifyContent: "center", marginTop: 15 }}>
+                <button
+                  onClick={() => setMostrarCancha(!mostrarCancha)}
+                  className={"mostrar_cancha"}
+                >
+                  <span className={"mostrar_cancha_label"}>
+                    {mostrarCancha ? "Ocultar Alineación" : "Ver Alineación"}
+                  </span>
+                </button>
+              </div>
+              <div
+                className={`contenedor_cancha ${mostrarCancha ? "abierta" : ""}`}
+                style={{ display: "flex", justifyContent: "center", marginTop: 15 }}
+              >
+                <div className="cancha_container">
+                  <img
+                    src="/cancha6.jpg"
+                    alt="Cancha"
+                    className="imagen_cancha"
+                  />
+
+                  {partido.titulares.map((jugador, i) => {
+                    let [apellido, nombre] = jugador.split(",").map(s => s.trim());
+                    return (
+                      <div
+                        key={i}
+                        className="jugador_container"
+                        style={{
+                          top: posiciones[i]?.top,
+                          left: posiciones[i]?.left
+                        }}
+                      >
+                        <Link
+                          to={`/jugador/${apellido}, ${nombre}`}
+                          className="jugador_link"
+                        >
+                          <img src={i === 0 ? '/camiseta_arquero.png' : '/camiseta.png'} alt={nombre} className="camiseta"/>
+                          <span className="jugador_nombre">{apellido}</span>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <hr className="linea"/>
               <div className='contenedor_general_partido'>
                 <div className='contenedor_formacion'>
                   <div className='contenedor_estadistica_nombre'>

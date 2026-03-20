@@ -1,7 +1,7 @@
 .contenedor_barra_opciones{
     background-color: #d7d7d7;
     margin-top: 40px;
-    margin-left: 40px;
+    margin: 40px auto 0 auto;
     width: 260px;
     border-radius: 8px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
@@ -81,12 +81,21 @@
     width: 30px;
 }
 
+@media (min-width: 600px) {
+  .contenedor_barra_opciones{
+    margin: 40px 0 0 40px;
+  }
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_barra_opciones_general{
         justify-content: center;
         width: 100%;
-        overflow: hidden; 
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;   /* 🔹 una barra debajo de la otra */
+        align-items: center; 
     }
   .contenedor_barra_opciones {
     display: flex;

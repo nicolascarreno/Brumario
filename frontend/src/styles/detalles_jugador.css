@@ -125,7 +125,7 @@
 .select_anio{
     background-color: #eaeaea;
     color: #000000;
-    border: 0px solid #4b5563;
+    border: 1px solid #4b5563;
     padding: 6px 10px;
     border-radius: 3px;
     cursor: pointer;
@@ -155,7 +155,7 @@
     .select_anio{
         background-color: #eaeaea;
         color: #000000;
-        border: 0px solid #4b5563;
+        border: 1px solid #4b5563;
         padding: 6px 10px;
         border-radius: 3px;
         cursor: pointer;
@@ -235,7 +235,7 @@
         margin-left: 25px
     }
     .contenedor_loading_jugador{
-        width: 350px; 
+        width: 100%; 
         display: flex; 
         flex-direction: column; 
         align-items: center; 

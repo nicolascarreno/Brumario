@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/jugadores_barra_opciones.css';
-import '../styles/detalles_jugador_barra.css';
 
 interface BarraOpcionesPartidos {
   onSelect: (opcion: string) => void; // callback para avisar qué botón fue clickeado

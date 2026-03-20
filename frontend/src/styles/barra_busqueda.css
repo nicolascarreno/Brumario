@@ -10,8 +10,9 @@
     display: flex;
     flex-direction: column; 
     gap: 10px;
-    width: 300px;
+    width:260px;
     margin-top: 40px;
+    margin: 40px auto 0 auto;
 }
 
 .contenedor_jugadores{
@@ -36,7 +37,8 @@
     background-color: #dddddd;
     position: relative;
     overflow: hidden;
-    margin-left: 40px;
+    margin-left: 0 auto;
+    
 }
 
 .buscar{
@@ -56,7 +58,7 @@
     border-radius: 4px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
     width: 235px;
-    margin-left: 40px;
+    margin-left: 0 auto;
 }
 
 
@@ -75,6 +77,12 @@
     border-bottom: 3px solid red;
 }
 
+@media (min-width: 600px) {
+    .contenedor_busqueda2{
+        margin-left: 40px;
+    }
+}
+
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
     .contenedor_busqueda{
@@ -85,7 +93,7 @@
         display: flex;
         flex-direction: column; 
         gap: 10px;
-        width: 300px;
+        width: 278px;
         margin-top: 40px;
     }
 
@@ -99,7 +107,6 @@
         background-color: #dddddd;
         position: relative;
         overflow: hidden;
-        margin-left: 40px;
         width: 275px
     }
     .buscar2{
@@ -110,6 +117,5 @@
         border-radius: 4px;
         box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
         width: 255px;
-        margin-left: 40px;
     }
 }
