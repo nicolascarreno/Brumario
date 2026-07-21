@@ -228,6 +228,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                     value={selectedCompeticion}
                     onChange={(e) => setSelectedCompeticion(e.target.value)}
                     style={{ padding: "5px", borderRadius: "5px" }}
+                    className="filtrar_competicion"
                   >
                     <option value="">Todos</option>
                     {competiciones.map((competicion) => (
