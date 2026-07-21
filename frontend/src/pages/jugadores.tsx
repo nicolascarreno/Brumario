@@ -13,6 +13,7 @@ import { TablaAsistidores } from '../components/tablaAsistidores';
 import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
 import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
+import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
 import { BarraOpciones } from "../components/barraOpciones";
 import { BarraBusqueda } from "../components/barra_busqueda";
 
@@ -132,6 +133,17 @@ export function Jugadores() {
       case "presencias sin jugar":
         return (
           <TablaPresenciasSinJugar
+            jugadores={jugadores}
+            loading={loading}
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            handleAnterior={handleAnterior}
+            handleSiguiente={handleSiguiente}
+          />
+        );
+      case "presencias totales":
+        return (
+          <TablaPresenciasTotales
             jugadores={jugadores}
             loading={loading}
             pagina={pagina}
