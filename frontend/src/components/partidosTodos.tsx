@@ -365,9 +365,9 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
 
 export function formatDateDDMMYYYY(date?: Date | string): string {
   if (!date) return "";
-  const d = new Date(date);
-  const dia = String(d.getDate()).padStart(2, "0");
-  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  let d = new Date(date);
+  const dia = String(d.getUTCDate()).padStart(2, "0");
+  const mes = String(d.getUTCMonth() + 1).padStart(2, "0");
   const anio = d.getFullYear();
   return `${dia}/${mes}/${anio}`;
 }
@@ -375,8 +375,6 @@ export function formatDateDDMMYYYY(date?: Date | string): string {
 export function partidoAnio(date?: Date | string): string {
   if (!date) return "";
   const d = new Date(date);
-  const dia = String(d.getDate()).padStart(2, "0");
-  const mes = String(d.getMonth() + 1).padStart(2, "0");
   const anio = d.getFullYear();
   return anio.toString();
 }
