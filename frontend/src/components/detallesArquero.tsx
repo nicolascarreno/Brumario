@@ -211,7 +211,7 @@ export const DetallesArquero: React.FC<DetallesArqueroProp> = ({
                           style={{ marginLeft: 10, marginRight: 5 }}
                       />
                       <span className='nombre_estadistica'>
-                          Porterias Imbatidas
+                          Vallas Invictas
                       </span>   
                     </div>
                     <div style={{display: "flex"}}>
@@ -221,7 +221,7 @@ export const DetallesArquero: React.FC<DetallesArqueroProp> = ({
                                 <span className='estadistica'>{PorcentajeVallasInvictas}</span>
                             </div>
                             <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                                <span className='estadistica_clave'>Porterias Imbatidas</span>
+                                <span className='estadistica_clave'>Vallas Invictas</span>
                                 <span className='estadistica_clave'>{jugador.arquero.vallas_invictas}</span>
                             </div>
                         </div>
