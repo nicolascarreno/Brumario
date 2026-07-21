@@ -20,6 +20,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
   const [selectedDT, setSelectedDT] = useState<string>("");
   const [selectedRival, setSelectedRival] = useState<string>("");
   const [selectedTipo, setSelectedTipo] = useState<string>("");
+  const [selectedCompeticion, setSelectedCompeticion] = useState<string>("");
   const navigate = useNavigate();
 
   const iconosEstado = {
@@ -63,6 +64,19 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
       .sort((a, b) => a.localeCompare(b));
   }, [partidos]);
 
+  // 🔹 Competiciones
+  const competiciones = useMemo(() => {
+    const uniqueCompeticiones = new Set<string>()
+    for (const partido of partidos) {
+      if (partido.competicion === "Amistoso") continue;
+      if (!uniqueCompeticiones.has(partido.competicion + partidoAnio(partido.fecha))) {
+        uniqueCompeticiones.add(partido.competicion + " (" + partidoAnio(partido.fecha) + ")")
+      }
+    }
+    return Array.from(uniqueCompeticiones)
+  }, [partidos]);
+  
+
   // 🔹 Filtrado combinado
   const filteredPartidos = useMemo(() => {
     return partidos.filter((p) => {
@@ -81,9 +95,12 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
       const matchTipo = selectedTipo
       ? p.tipo_partido === selectedTipo
       : true;
-      return matchYear && matchCategoria && matchDT && matchRival && matchTipo;
+      const matchCompeticion = selectedCompeticion
+      ? p.competicion + " (" + partidoAnio(p.fecha) + ")" === selectedCompeticion
+      : true;
+      return matchYear && matchCategoria && matchDT && matchRival && matchTipo && matchCompeticion;
     });
-  }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival, selectedTipo]);
+  }, [partidos, selectedYear, selectedCategoria, selectedDT, selectedRival, selectedTipo, selectedCompeticion]);
 
   // calcular la cantidad total de páginas
   const totalPaginas = Math.ceil(filteredPartidos.length / partidosPorPagina);
@@ -105,7 +122,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
 
   useEffect(() => {
     setPagina(1);
-  }, [selectedYear, selectedCategoria, selectedDT, selectedRival]);
+  }, [selectedYear, selectedCategoria, selectedDT, selectedRival, selectedCompeticion]);
 
 
   // 🔹 Función para limpiar filtros
@@ -115,6 +132,7 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
     setSelectedDT("");
     setSelectedRival("");
     setSelectedTipo("");
+    setSelectedCompeticion("");
   };
 
   return (
@@ -199,6 +217,22 @@ export const PartidosTodos: React.FC<PartidosTodosProp> = ({
                     <option value="">Todos</option>
                     <option value="Oficial">Oficial</option>
                     <option value="Amistoso">Amistoso</option>
+                  </select>
+                </div>
+                {/* Competicion */}
+                <div>
+                  <label style={{ marginRight: "10px", fontWeight: "bold" }}>
+                    Competición:
+                  </label>
+                  <select
+                    value={selectedCompeticion}
+                    onChange={(e) => setSelectedCompeticion(e.target.value)}
+                    style={{ padding: "5px", borderRadius: "5px" }}
+                  >
+                    <option value="">Todos</option>
+                    {competiciones.map((competicion) => (
+                      <option key={competicion} value={competicion}>{competicion}</option>
+                    ))}
                   </select>
                 </div>
                 {/* Botón limpiar */}
@@ -336,6 +370,15 @@ export function formatDateDDMMYYYY(date?: Date | string): string {
   const mes = String(d.getMonth() + 1).padStart(2, "0");
   const anio = d.getFullYear();
   return `${dia}/${mes}/${anio}`;
+}
+
+export function partidoAnio(date?: Date | string): string {
+  if (!date) return "";
+  const d = new Date(date);
+  const dia = String(d.getDate()).padStart(2, "0");
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const anio = d.getFullYear();
+  return anio.toString();
 }
 
 function calcularHistorial(partidos: Partido[]) {
