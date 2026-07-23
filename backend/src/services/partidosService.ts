@@ -4,7 +4,7 @@ import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos
 
 export const getPartidos = async () => {
   try {
-    const partidos = await Partido.find({}, { _id: 0, createdAt: 0 });
+    const partidos = await Partido.find({}, { _id: 0, fecha: 1, hora: 1, categoria: 1, director_tecnico: 1, rival: 1, competicion: 1, tipo_partido: 1, goles_favor: 1, goles_contra: 1, resultado: 1, golesFavor: 1, nro: 1 });
     const partidosLibres = await Partido.find({ categoria: "Libres" }, { _id: 0, createdAt: 0 });
     const partidosSenior = await Partido.find({ categoria: "Senior" }, { _id: 0, createdAt: 0 });
     console.log(partidos)
