@@ -5,7 +5,7 @@ import { actualizarRachaGanados, actualizarRachaGolesRecibidos, actualizarRachaI
 
 export const getJugadores = async () => {
   try {
-    const jugadores = await Persona.find({}, { _id: 0 });
+    const jugadores = await Persona.find({}, { _id: 0, nombre: 1, titular: 1, suplente: 1, goles: 1, asistencias: 1, amarillas: 1, rojas: 1, presencias_sin_jugar: 1 });
     console.log(jugadores)
     return jugadores;
   } catch (error) {
