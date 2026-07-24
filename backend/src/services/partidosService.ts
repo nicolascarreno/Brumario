@@ -1,16 +1,7 @@
 import Partido from "../models/partido";
 import { IPartido } from "../models/partido";
 import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, crearHitoBase, crearHitoRachaBase, HitoPartido, HitoRacha, parseGoles } from "./utils_service";
-import "../config/env"
-import { Redis } from "@upstash/redis";
- 
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
-const NULL_SENTINEL = "__null__";
+import { redis, NULL_SENTINEL } from "../config/redis"
 
 export const getPartidos = async () => {
   console.log("========== getPartidos ==========");

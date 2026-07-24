@@ -30,7 +30,7 @@ export const jugadorDetalleController = async (req: Request, res: Response) => {
   try {
         console.log("Jugador Detalles controller called");
         const jugador = await getJugadoresDetalles(nombre);
-        console.log(jugador)
+        //console.log(jugador)
         return res.status(200).json({ jugador });
     } catch (error) {
         console.error(error);

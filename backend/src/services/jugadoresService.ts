@@ -2,6 +2,7 @@ import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
 import Persona from "../models/persona"; // tu modelo de Mongoose
 import { actualizarRachaGanados, actualizarRachaGolesRecibidos, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, actualizarRachaVallaInvicta, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, encontrarMinimoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarArquero, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
+import { redis, NULL_SENTINEL } from "../config/redis"
 
 export const getJugadores = async () => {
   try {
@@ -24,7 +25,17 @@ export const getJugadoresSinDetalles = async () => {
 };
 
 export const getJugadoresDetalles = async (nombre: string) => {
+  console.log("========== getJugadoresDetalles ==========");
   try {
+    const key = 'jugador:' + nombre;
+    const cached = await redis.get<string>(key);
+
+    if (cached == NULL_SENTINEL) throw new Error("No se encontró el jugador en la cache");
+    if (cached != null) { 
+      console.log("Jugador obtenido del cache");
+      return cached;
+    }
+
     const jugador = await Persona.findOne(
       { nombre },
       { _id: 0 },
@@ -68,14 +79,19 @@ export const getJugadoresDetalles = async (nombre: string) => {
       { _id: 0 } // 🎯 proyección, devolvés todos los campos o los que quieras
     );
 
-    const jugadoresPreferidos = calcularTopJugadores(jugadores.map(j => j.toObject()), partidosDirigidos);    
+    const jugadoresPreferidos = calcularTopJugadores(jugadores.map(j => j.toObject()), partidosDirigidos);   
+    const hitosJugador = hitos(nombre, partidosJugados, partidosDirigidos, debut, debut_oficial);
+    const estadisticasDirectorTecnico = {
+      ...JSON.parse(JSON.stringify(jugador.director_tecnico)),
+      jugadoresPreferidos,
+    }
+
+    await redis.set(key, { ...jugador.toObject({ flattenMaps: true }), director_tecnico: estadisticasDirectorTecnico, hitos: hitosJugador })
+
     return {
       ...jugador.toObject({ flattenMaps: true }),
-      director_tecnico: {
-        ...JSON.parse(JSON.stringify(jugador.director_tecnico)),
-        jugadoresPreferidos,
-      },
-      hitos: hitos(nombre, partidosJugados, partidosDirigidos, debut, debut_oficial),
+      director_tecnico: estadisticasDirectorTecnico,
+      hitos: hitosJugador,
     };
   } catch (error) {
     throw new Error("Error al obtener jugador: " + error);
