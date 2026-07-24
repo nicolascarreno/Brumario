@@ -7,6 +7,8 @@ import { cargar_jugadores, cargar_partidos, encontrarArchivoExcel } from './carg
 import { FilaJugador, FilaPartido } from './db/utils_db';
 import { llenarCache } from './llenar-cache'
 
+import { redis, NULL_SENTINEL } from "./config/redis"
+
 function contar_partidos () {
   const filePath = encontrarArchivoExcel('Once_Historico.xlsx');
   console.log(`📂 Leyendo archivo desde: ${filePath}`);
@@ -68,6 +70,10 @@ async function inicializarBaseDatos() {
     console.log('🗑️  Vaciando colección de Partidos...');
     const partidosEliminados = await Partido.deleteMany({});
     console.log(`✅ ${partidosEliminados.deletedCount} partidos eliminados`);
+
+    // Vaciar cache
+    await redis.flushdb();
+    console.log('✅ Redis cache vaciada correctamente');
     
     // Cargar datos
     console.log('📥 Cargando jugadores...');
