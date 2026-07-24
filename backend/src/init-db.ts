@@ -5,6 +5,7 @@ import Persona from './models/persona';
 import Partido from './models/partido';
 import { cargar_jugadores, cargar_partidos, encontrarArchivoExcel } from './cargar_db';
 import { FilaJugador, FilaPartido } from './db/utils_db';
+import { llenarCache } from './llenar-cache'
 
 function contar_partidos () {
   const filePath = encontrarArchivoExcel('Once_Historico.xlsx');
@@ -107,10 +108,9 @@ export { inicializarBaseDatos };
 // Ejecutar automáticamente cuando se importa en producción
 if (process.env.NODE_ENV === 'production') {
   // Esperar un poco antes de ejecutar para que el servidor esté listo
-  setTimeout(() => {
-    inicializarBaseDatos().catch(err => {
-      console.error('Error en inicialización de BD:', err);
-    });
+  setTimeout(async () => {
+    await inicializarBaseDatos();
+    await llenarCache();
   }, 10000); // Esperar 10 segundos para que el servidor esté completamente listo
 }
 
