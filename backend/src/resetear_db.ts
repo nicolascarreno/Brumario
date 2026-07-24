@@ -4,6 +4,15 @@ import Persona from './models/persona';
 import Partido from './models/partido';
 import { cargar_jugadores, cargar_partidos } from './cargar_db';
 
+import "./config/env"
+import { Redis } from "@upstash/redis";
+ 
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
+
 async function resetearBaseDatos() {
   try {
     await connectDB(); // esperar conexión antes de resetear datos
@@ -18,7 +27,10 @@ async function resetearBaseDatos() {
     console.log('🗑️  Vaciando colección de Partidos...');
     const partidosEliminados = await Partido.deleteMany({});
     console.log(`✅ ${partidosEliminados.deletedCount} partidos eliminados`);
-    
+
+    await redis.flushdb();
+    console.log('✅ Redis cache vaciada correctamente');
+
     // Cargar datos
     console.log('📥 Cargando jugadores...');
     try {

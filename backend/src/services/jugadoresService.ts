@@ -91,7 +91,7 @@ const calcularTopJugadores = (
     partidos: 0,
   }));
 
-  console.log(partidos.length)
+  //console.log(partidos.length)
   for (const partido of partidos) {
     for (const jugador of jugadoresConPartidos) {
       if (partido.titulares.includes(jugador.nombre)) {

@@ -4,6 +4,9 @@ import jugadoresRouter from "./routes/jugadoresRoutes";
 import partidosRouter from "./routes/partidosRoutes";
 import databaseRouter from "./routes/databaseRoutes";
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;

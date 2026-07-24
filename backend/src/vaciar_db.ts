@@ -3,6 +3,15 @@ import connectDB from './db/db';
 import Persona from './models/persona';
 import Partido from './models/partido';
 
+import "./config/env"
+import { Redis } from "@upstash/redis";
+ 
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
+
 async function vaciarBaseDatos() {
   try {
     await connectDB(); // esperar conexión antes de vaciar datos
@@ -16,6 +25,8 @@ async function vaciarBaseDatos() {
     console.log(`✅ ${partidosEliminados.deletedCount} partidos eliminados`);
     
     console.log('✅ Base de datos vaciada correctamente.');
+
+    await redis.flushdb();
   } catch (error) {
     console.error('❌ Error vaciando la base de datos:', error);
     throw error;

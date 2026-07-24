@@ -22,16 +22,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "mongoose": "^8.17.1",
-    "xlsx": "^0.18.5",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.1",
     "@types/xlsx": "^0.0.36",
-    "typescript": "^5.9.2"
+    "@upstash/redis": "^1.38.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.1",
+    "redis": "^6.1.0",
+    "typescript": "^5.9.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "env-cmd": "^11.0.0",
