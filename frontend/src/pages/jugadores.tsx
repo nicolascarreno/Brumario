@@ -31,6 +31,7 @@ export function Jugadores() {
       try {
         setLoading(true);
         const data = await getJugadores();
+        console.log(data)
         setJugadores(data);
       } catch (err: any) {
         setError(err.message);

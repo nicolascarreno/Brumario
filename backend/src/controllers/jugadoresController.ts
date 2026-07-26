@@ -5,7 +5,7 @@ export const jugadoresController = async (req: Request, res: Response): Promise<
     try {
         console.log("Jugadores controller called");
         const jugadores = await getJugadores();
-        console.log(jugadores)
+        //console.log(jugadores)
         return res.status(200).json({ jugadores });
     } catch (error) {
         console.error(error);
