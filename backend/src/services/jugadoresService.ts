@@ -1,6 +1,6 @@
 import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
-import Persona from "../models/persona"; // tu modelo de Mongoose
+import Persona from "../models/persona";
 import { actualizarRachaGanados, actualizarRachaGolesRecibidos, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, actualizarRachaVallaInvicta, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, encontrarMinimoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarArquero, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
 import { redis, NULL_SENTINEL } from "../config/redis"
 

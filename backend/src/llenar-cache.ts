@@ -1,7 +1,8 @@
 import { getPartidoDetalles, getPartidos } from "./services/partidosService";
 import { getJugadores, getJugadoresDetalles } from "./services/jugadoresService";
+import Persona from "./models/persona";
 
-const jugadores = [ "Alberto, Gustavo",
+const jugadoresPredeterminado = [ "Alberto, Gustavo",
                     "Appe, Pablo", 
                     "Bassedas, Santiago",
                     "Cáceres Monges, José Luis",
@@ -37,7 +38,19 @@ const jugadores = [ "Alberto, Gustavo",
                     "Yafar, Yamil", 
                     "Zenobi, Laureano"]
 
+
 export async function llenarCache() {
+    let jugadores: string[] = [];
+    try {
+        const jugadoresCompleto = await Persona.find({}, {nombre: 1, _id: 0});
+        for (const jugador of jugadoresCompleto) {
+            jugadores.push(jugador.nombre)
+        }
+        console.log("Cargando todos los jugadores de la base de datos...")    
+    }catch (error) {
+        jugadores = jugadoresPredeterminado
+        console.log("Error: no se pudieron obtener los jugadores de la base de datos para cargarlos a la cache, se usará la lista predeterminada")    
+    }
     try {
         await getPartidos();
         console.log("getPartidos cargado al cache") 
