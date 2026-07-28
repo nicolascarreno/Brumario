@@ -1,5 +1,5 @@
 import { getPartidoDetalles, getPartidos } from "./services/partidosService";
-import { getJugadores } from "./services/jugadoresService";
+import { getJugadores, getJugadoresDetalles } from "./services/jugadoresService";
 
 export async function llenarCache() {
     try {
@@ -16,5 +16,12 @@ export async function llenarCache() {
     }
     catch (error) { 
         console.log("Error al llenar getJugadores: ", error) 
+    }
+    try {
+        await getJugadoresDetalles("Herjo, Facundo");
+        console.log("getJugadoresDetalles: Herjo, Facundo cargado al cache") 
+    }
+    catch (error) { 
+        console.log("Error al llenar getJugadoresDetalles: Herjo, Facundo", error) 
     }
 }
