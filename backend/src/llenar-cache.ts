@@ -1,7 +1,8 @@
 import { getPartidoDetalles, getPartidos } from "./services/partidosService";
 import { getJugadores, getJugadoresDetalles } from "./services/jugadoresService";
 
-const jugadores = [ "Appe, Pablo", 
+const jugadores = [ "Alberto, Gustavo",
+                    "Appe, Pablo", 
                     "Bassedas, Santiago",
                     "Cáceres Monges, José Luis",
                     "Carballo, Leandro",
