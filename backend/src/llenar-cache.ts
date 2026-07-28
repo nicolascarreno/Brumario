@@ -23,14 +23,14 @@ const jugadores = [ "Appe, Pablo",
                     "Mayada Fabbri, Gastón",
                     "Montenegro Fabbri, Bautista",
                     "Mulfetti, Matías",
-                    "Palacion, Federico",
+                    "Palacios, Federico",
                     "Pensotti, Tomás",
-                    "Prado, Demían Gabriel",
+                    "Prado, Demián Gabriel",
                     "Raspall, Tomás",
                     "Revale, Andrés",
                     "Rodríguez, Agustín",
                     "Vilariño, Manuel",
-                    "Villarreal, Adrían",
+                    "Villarreal, Adrián",
                     "Villarreal, Pablo",
                     "Villaverde, Martín",
                     "Yafar, Yamil", 
@@ -51,13 +51,6 @@ export async function llenarCache() {
     }
     catch (error) { 
         console.log("Error al llenar getJugadores: ", error) 
-    }
-    try {
-        await getJugadoresDetalles("Herjo, Facundo");
-        console.log("getJugadoresDetalles: Herjo, Facundo cargado al cache") 
-    }
-    catch (error) { 
-        console.log("Error al llenar getJugadoresDetalles: Herjo, Facundo", error) 
     }
     for (const jugador of jugadores) {
         try {
