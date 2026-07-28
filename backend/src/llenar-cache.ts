@@ -1,6 +1,41 @@
 import { getPartidoDetalles, getPartidos } from "./services/partidosService";
 import { getJugadores, getJugadoresDetalles } from "./services/jugadoresService";
 
+const jugadores = [ "Appe, Pablo", 
+                    "Bassedas, Santiago",
+                    "Cáceres Monges, José Luis",
+                    "Carballo, Leandro",
+                    "Carreño, Nicolás",
+                    "Carvalho, Martín",
+                    "Córdoba, Darío",
+                    "Cuevas, Matías Santiago",
+                    "Dall' Armellina, Alejandro",
+                    "Daneluk, Octavio",
+                    "Danilov, Mariano",
+                    "De Bernardi, Nahuel",
+                    "De Marco, Adriano",
+                    "De Marco, Augusto",
+                    "Herjo, Facundo",
+                    "Kitroser, Ariel",
+                    "Labiaguerre, Julián",
+                    "Lacava, Hernán",
+                    "Lacava, Valentino",
+                    "Mayada Fabbri, Gastón",
+                    "Montenegro Fabbri, Bautista",
+                    "Mulfetti, Matías",
+                    "Palacion, Federico",
+                    "Pensotti, Tomás",
+                    "Prado, Demían Gabriel",
+                    "Raspall, Tomás",
+                    "Revale, Andrés",
+                    "Rodríguez, Agustín",
+                    "Vilariño, Manuel",
+                    "Villarreal, Adrían",
+                    "Villarreal, Pablo",
+                    "Villaverde, Martín",
+                    "Yafar, Yamil", 
+                    "Zenobi, Laureano"]
+
 export async function llenarCache() {
     try {
         await getPartidos();
@@ -23,5 +58,14 @@ export async function llenarCache() {
     }
     catch (error) { 
         console.log("Error al llenar getJugadoresDetalles: Herjo, Facundo", error) 
+    }
+    for (const jugador of jugadores) {
+        try {
+            await getJugadoresDetalles(jugador);
+            console.log("getJugadoresDetalles: ", jugador, " cargado al cache") 
+        }
+        catch (error) { 
+            console.log("Error al llenar getJugadoresDetalles: ", jugador, error) 
+        }    
     }
 }
