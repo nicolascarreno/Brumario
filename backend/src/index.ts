@@ -16,7 +16,7 @@ connectDB();
 
 // Inicializar base de datos en background después de conectar
 // Esto se ejecuta después de que el servidor esté listo, evitando timeouts en el build
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
   // Importar el módulo - se ejecutará automáticamente después de 10 segundos
   import('./init-db').then(() => {
     console.log('✅ Módulo de inicialización de BD cargado, se ejecutará automáticamente...');

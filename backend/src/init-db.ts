@@ -112,7 +112,7 @@ async function inicializarBaseDatos() {
 export { inicializarBaseDatos };
 
 // Ejecutar automáticamente cuando se importa en producción
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
   // Esperar un poco antes de ejecutar para que el servidor esté listo
   setTimeout(async () => {
     await inicializarBaseDatos();

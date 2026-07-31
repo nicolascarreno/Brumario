@@ -10,6 +10,7 @@ import { DetallesArquero } from "../components/detallesArquero";
 import { Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
 import { getJugador, getJugadoresSinDetalles } from "../services/jugadoresService";
+import { log } from "../logger/logger";
 
 export const DetallesJugador: React.FC = () => {
   const { nombre } = useParams<{ nombre: string }>();
@@ -37,8 +38,8 @@ export const DetallesJugador: React.FC = () => {
     fetchJugador();
   }, [nombre]);
 
-  console.log(jugador);
-  console.log(jugadores);
+  log(jugador);
+  log(jugadores);
   
   const renderContenido = () => {
       if (!jugador) return <div className="contenedor_error"><span className="nombre_estadistica">¡Ups! No se encontró el jugador buscado</span></div>;
