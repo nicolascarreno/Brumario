@@ -16,6 +16,7 @@ import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
 import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
 import { BarraOpciones } from "../components/barraOpciones";
 import { BarraBusqueda } from "../components/barra_busqueda";
+import { log } from "../logger/logger";
 
 export function Jugadores() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export function Jugadores() {
       try {
         setLoading(true);
         const data = await getJugadores();
-        console.log(data)
+        log(data);
         setJugadores(data);
       } catch (err: any) {
         setError(err.message);

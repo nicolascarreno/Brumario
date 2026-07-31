@@ -1,4 +1,5 @@
 import { Jugador } from "./service_utils";
+import { log } from "../logger/logger";
 
 export async function getJugadores(): Promise<Jugador[]> {
   const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
@@ -14,7 +15,6 @@ export async function getJugadores(): Promise<Jugador[]> {
   }
 
   const data = await response.json();
-  console.log(data)
   return data.jugadores;
 }
 
@@ -32,7 +32,6 @@ export async function getJugadoresSinDetalles(): Promise<{ nombre: string }[]> {
   }
 
   const data = await response.json();
-  console.log(data)
   return data.jugadores;
 }
 
@@ -44,7 +43,7 @@ export async function getJugador(nombre: string): Promise<Jugador | null> {
       throw new Error("Error al traer jugador");
     }
     const data = await res.json();
-    console.log(data);
+    log(data);
     return data.jugador as Jugador;
   } catch (err) {
     console.error("Error cargando jugador:", err);
