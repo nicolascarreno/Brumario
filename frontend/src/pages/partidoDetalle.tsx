@@ -10,6 +10,7 @@ import { BarraOpcionesPartido } from "../components/barraOpcionesPartido";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import { DetallesPartido } from "../components/detallesPartido";
+import { log } from '../logger/logger';
 
 export const PartidoDetalle: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export const PartidoDetalle: React.FC = () => {
 
   useEffect(() => {
     const fetchPartido = async () => {
-      console.log(nro);
+      log(nro);
       const data = await getPartido(nro!);
       setPartido(data);
       setLoading(false);

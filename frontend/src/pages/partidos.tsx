@@ -11,6 +11,7 @@ import { PartidosTodos } from '../components/partidosTodos';
 import { BarraOpcionesPartidos } from "../components/barraOpcionesPartidos";
 import CircularProgress from '@mui/material/CircularProgress';
 import { PartidosHitos } from '../components/partidosHitos';
+import { log } from '../logger/logger';
 
 export function Partidos() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export function Partidos() {
         const data = await getPartidos();
         setPartidos(data.partidos.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime()));
         setHitos(data.hitos);
-        console.log(data)
+        log(data)
       } catch (err: any) {
         setError(err.message);
       } finally {
