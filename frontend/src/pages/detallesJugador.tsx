@@ -9,7 +9,7 @@ import { DetallesTecnico } from "../components/detallesDirectorTecnico";
 import { DetallesArquero } from "../components/detallesArquero";
 import { Jugador } from "../services/service_utils";
 import { DetallesHitos } from "../components/detallesHitosJugador";
-import { getJugador, getJugadoresSinDetalles } from "../services/jugadoresService";
+import { getJugador, getJugadoresSinDetalles, getJugadores } from "../services/jugadoresService";
 import { log } from "../logger/logger";
 
 export const DetallesJugador: React.FC = () => {
@@ -22,7 +22,7 @@ export const DetallesJugador: React.FC = () => {
 
   useEffect(() => {
     const fetchJugadores = async () => {
-      const data = await getJugadoresSinDetalles();
+      const data = await getJugadores();
       setJugadores(data);
     };
     fetchJugadores();

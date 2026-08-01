@@ -2,32 +2,20 @@ import Partido, { GolFavor } from "../models/partido";
 import { IPartido } from "../models/partido";
 import Persona from "../models/persona";
 import { actualizarRachaGanados, actualizarRachaGolesRecibidos, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, actualizarRachaVallaInvicta, Anio, crearAnioBase, crearGolFavorBase, crearHitoBase, crearHitoRachaBase, encontrarMaximoPorAnio, encontrarMinimoPorAnio, HitoPartido, HitoRacha, parseGoles, procesarArquero, procesarGolesYAsistencias, procesarPresencias, procesarPresenciasSinJugar, procesarTarjetas } from "./utils_service";
-import { redis, NULL_SENTINEL } from "../config/redis"
+import { guardarEnCache, obtenerDeCache } from "../config/redis"
 
 export const getJugadores = async () => {
   console.log("========== getJugadores ==========");
   try {
     const key = 'jugadores'
-    const cached = await redis.get<string>(key);
-    if (cached == NULL_SENTINEL) throw new Error("No se encontró el jugador");
-    if (cached != null) { 
+    const cached = await obtenerDeCache(key);
+    if (cached) {
       console.log("Jugadores obtenidos del cache");
       return cached;
     }
     
     const jugadores = await Persona.find({}, { _id: 0, nombre: 1, titular: 1, suplente: 1, goles: 1, asistencias: 1, amarillas: 1, rojas: 1, presencias_sin_jugar: 1 });
-    //console.log(jugadores)
-    redis.set(key, jugadores) 
-    return jugadores;
-  } catch (error) {
-    throw new Error("Error al obtener jugadores: " + error);
-  }
-};
-
-export const getJugadoresSinDetalles = async () => {
-  try {
-    const jugadores = await Persona.find({}, { nombre: 1, _id: 0 });
-    console.log(jugadores)
+    await guardarEnCache(key, jugadores);
     return jugadores;
   } catch (error) {
     throw new Error("Error al obtener jugadores: " + error);
@@ -38,13 +26,12 @@ export const getJugadoresDetalles = async (nombre: string) => {
   console.log("========== getJugadoresDetalles ==========");
   try {
     const key = 'jugador:' + nombre;
-    const cached = await redis.get<string>(key);
-
-    if (cached == NULL_SENTINEL) throw new Error("No se encontró el jugador");
-    if (cached != null) { 
+    const cached = await obtenerDeCache(key);
+    if (cached) {
       console.log("Jugador obtenido del cache");
       return cached;
     }
+
 
     const jugador = await Persona.findOne(
       { nombre },
@@ -96,8 +83,8 @@ export const getJugadoresDetalles = async (nombre: string) => {
       jugadoresPreferidos,
     }
 
-    await redis.set(key, { ...jugador.toObject({ flattenMaps: true }), director_tecnico: estadisticasDirectorTecnico, hitos: hitosJugador })
-
+    await guardarEnCache(key, { ...jugador.toObject({ flattenMaps: true }), director_tecnico: estadisticasDirectorTecnico, hitos: hitosJugador })
+    
     return {
       ...jugador.toObject({ flattenMaps: true }),
       director_tecnico: estadisticasDirectorTecnico,

@@ -1,7 +1,7 @@
 import Partido from "../models/partido";
 import { IPartido } from "../models/partido";
 import { actualizarRachaGanados, actualizarRachaInvicta, actualizarRachaPerdidos, actualizarRachaSinGanar, crearHitoBase, crearHitoRachaBase, HitoPartido, HitoRacha, parseGoles } from "./utils_service";
-import { redis, NULL_SENTINEL } from "../config/redis"
+import { redis, NULL_SENTINEL, guardarEnCache, obtenerDeCache } from "../config/redis"
 
 export const getPartidos = async () => {
   console.log("========== getPartidos ==========");
@@ -9,9 +9,7 @@ export const getPartidos = async () => {
 
     const key = 'partidos';
     const cached = await redis.get<string>(key);
-
-    if (cached == NULL_SENTINEL) throw new Error("No se encontraron partidos en la cache");
-    if (cached != null) { 
+    if (cached) {
       console.log("Partidos obtenidos de la cache");
       return cached;
     }
@@ -19,10 +17,9 @@ export const getPartidos = async () => {
     const partidos = await Partido.find({}, { _id: 0, fecha: 1, hora: 1, categoria: 1, director_tecnico: 1, rival: 1, competicion: 1, tipo_partido: 1, goles_favor: 1, goles_contra: 1, resultado: 1, golesFavor: 1, nro: 1 });
     const partidosLibres = await Partido.find({ categoria: "Libres" }, { _id: 0, createdAt: 0 });
     const partidosSenior = await Partido.find({ categoria: "Senior" }, { _id: 0, createdAt: 0 });
-    //console.log(partidos);
 
     const hitosPartidos = hitos(partidosLibres, partidosSenior);
-    await redis.set(key, { partidos, hitos: hitosPartidos })
+    await guardarEnCache(key, { partidos, hitos: hitosPartidos })
 
     return {
       partidos,
