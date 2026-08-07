@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { GolFavor, IPartido } from "../models/partido";
+import { GolFavor, IPartido } from "../../models/partido";
 import { parse } from "path";
 
 export interface HitoPartido {

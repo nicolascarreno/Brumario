@@ -14,14 +14,12 @@ export async function guardarEnCache(key: string, value: any, ttl?: number) {
     await redis.set(key, value, { ex: ttl } ) 
   }
   else {
-    console.log("Guardando en cache sin TTL: " + key);
     await redis.set(key, value);
   }
 }
 
 export async function obtenerDeCache(key: string) {
   const value = await redis.get(key); //SI NO LO ENCUENTRA, VALUE ES null
-  console.log("Obteniendo de cache: " + key + " => " + value);
   if (value === NULL_SENTINEL) {
     throw new Error("Null Sentinel value found in cache for key: " + key);
   }

@@ -196,7 +196,7 @@ export const estadisticasPorAnioSchema = new Schema(
   { _id: false }
 );
 
-interface IPersona extends Document {
+export interface IPersona extends Document {
     nombre: string;
     titular: number;
     suplente: number;
