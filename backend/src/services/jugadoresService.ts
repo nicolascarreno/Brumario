@@ -68,7 +68,6 @@ const calcularTopJugadores = (
   jugadores: { nombre: string }[],
   partidos: IPartido[],
 ) => {
-  console.log(jugadores)
   const jugadoresConPartidos = jugadores.map(j => ({
     ...j,
     partidos: 0,
