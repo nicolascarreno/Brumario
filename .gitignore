@@ -108,4 +108,5 @@ frontend/.env.dev_celular
 frontend/.env.dev_celular
 *.dev_celular
 frontend/.env.dev_celular
-
+frontend/.env.dev_pc
+frontend/.env.dev.prod
