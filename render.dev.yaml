@@ -10,7 +10,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: mongodb+srv://ncarreno_db_user:Kj0CEGNVXNyFT8Zi@brumario.exqorlm.mongodb.net/?appName=brumario
+        value: ${MONGODB_URI}
       - key: PORT
         value: 10000
     healthCheckPath: /api/hello
