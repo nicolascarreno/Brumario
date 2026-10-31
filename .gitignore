@@ -105,7 +105,7 @@ Thumbs.db
 # TypeScript cache
 *.tsbuildinfo
 frontend/.env.dev_celular
-frontend/.env.dev_celular
+frontend/.env_pc
 *.dev_celular
 frontend/.env.dev_celular
 frontend/.env.dev_pc

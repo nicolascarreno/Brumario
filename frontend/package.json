@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:pc": "env-cmd -f .env.dev_pc react-scripts start",
+    "start:pc": "env-cmd -f .env_pc react-scripts start",
     "start:celu": "env-cmd -f .env.dev_celular react-scripts start",
     "build": "set REACT_APP_API_URL= && react-scripts build",
     "test": "react-scripts test",

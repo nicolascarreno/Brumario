@@ -15,7 +15,8 @@ export async function getJugadores(): Promise<Jugador[]> {
   }
 
   const data = await response.json();
-  return data.jugadores;
+  const jugadores = data.jugadores.map((j: any) => ({...j, partidos: j.titular + j.suplente}));
+  return jugadores;
 }
 
 export async function getJugadoresSinDetalles(): Promise<{ nombre: string }[]> {

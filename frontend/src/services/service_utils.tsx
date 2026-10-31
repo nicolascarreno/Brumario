@@ -226,6 +226,7 @@ export interface Jugador {
   presencias_sin_jugar: number;
   titular: number;
   suplente: number;
+  partidos: number;
   tipos_gol: TiposGol;
   tipos_asistencia: TiposAsistencia;
   tipos_presencias_sin_jugar: TiposPresenciasSinJugar;

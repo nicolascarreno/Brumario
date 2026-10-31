@@ -17,6 +17,8 @@ import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
 import { BarraOpciones } from "../components/barraOpciones";
 import { BarraBusqueda } from "../components/barra_busqueda";
 import { log } from "../logger/logger";
+import { TablaEstadisticas } from '../components/tablaEstadisticas';
+import { obtenerEstadistica } from '../utils/helpers';
 
 export function Jugadores() {
   const navigate = useNavigate();
@@ -79,10 +81,11 @@ export function Jugadores() {
         );
       case "presencias":
         return (
-          <TablaPresencias
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "partidos")}
             loading={loading}
             pagina={pagina}
+            titulo="MAYORES PRESENCIAS"
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}
@@ -183,7 +186,6 @@ export function Jugadores() {
       </div>
 
       <div className='contenido_jugadores'>
-        {/* Columna izquierda → contenedor de botones */}
         <BarraOpciones onSelect={setOpcion} />  
         {renderContenido()}
         <BarraBusqueda jugadores={jugadores} onSelect={(jugador) => navigate(`/jugador/${jugador.nombre}`)}/>
