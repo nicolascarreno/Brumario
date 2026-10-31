@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaRojas } from '../components/tablaRojas';
 import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
 import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
 import { BarraOpciones } from "../components/barraOpciones";
@@ -125,10 +124,11 @@ export function Jugadores() {
         );
       case "rojas":
         return (
-          <TablaRojas
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "rojas")}
             loading={loading}
             pagina={pagina}
+            titulo={"MÁS TARJETAS ROJAS"}
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}            
