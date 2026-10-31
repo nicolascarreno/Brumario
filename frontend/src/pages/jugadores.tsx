@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaGoleadores } from '../components/tablaGoleadores';
 import { TablaAsistidores } from '../components/tablaAsistidores';
 import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
@@ -92,10 +91,11 @@ export function Jugadores() {
         );
       case "goleadores":
         return (
-          <TablaGoleadores
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "goles")}
             loading={loading}
             pagina={pagina}
+            titulo={"MÁXIMOS GOLEADORES"}
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}
