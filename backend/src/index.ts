@@ -44,6 +44,10 @@ app.get(/^(?!\/api).*/, (_, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor backend escuchando en puerto ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Servidor backend escuchando en puerto ${PORT}`);
+  });
+}
+
+export default app;

@@ -3,7 +3,10 @@
   "services": {
     "backend": {
       "root": "backend",
-      "framework": "express"
+      "framework": "express",
+      "entrypoint": "src/index.ts",
+      "installCommand": "npm ci",
+      "buildCommand": "npm run build"
     },
     "frontend": {
       "root": "frontend",
