@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaAsistidores } from '../components/tablaAsistidores';
 import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
 import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
@@ -103,10 +102,11 @@ export function Jugadores() {
         );
       case "asistidores":
         return (
-          <TablaAsistidores
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "asistencias")}
             loading={loading}
             pagina={pagina}
+            titulo={"MÁXIMOS ASISTIDORES"}
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}
