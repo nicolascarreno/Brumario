@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
 import { BarraOpciones } from "../components/barraOpciones";
 import { BarraBusqueda } from "../components/barra_busqueda";
 import { log } from "../logger/logger";
@@ -147,10 +146,11 @@ export function Jugadores() {
         );
       case "presencias totales":
         return (
-          <TablaPresenciasTotales
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "presencias_totales")}
             loading={loading}
             pagina={pagina}
+            titulo={"MAYORES PRESENCIAS TOTALES"}
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}

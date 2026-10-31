@@ -15,7 +15,7 @@ export async function getJugadores(): Promise<Jugador[]> {
   }
 
   const data = await response.json();
-  const jugadores = data.jugadores.map((j: any) => ({...j, partidos: j.titular + j.suplente}));
+  const jugadores = data.jugadores.map((j: any) => ({...j, partidos: j.titular + j.suplente, presencias_totales: j.titular + j.suplente + j.presencias_sin_jugar}));
   return jugadores;
 }
 
