@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaPresencias } from '../components/tablaPresencias';
 import { TablaGoleadores } from '../components/tablaGoleadores';
 import { TablaAsistidores } from '../components/tablaAsistidores';
 import { TablaAmarillas } from '../components/tablaAmarillas';
