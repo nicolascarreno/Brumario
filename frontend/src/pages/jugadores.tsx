@@ -7,7 +7,6 @@ import '../styles/jugadores_barra_opciones.css';
 import { getJugadores } from "../services/jugadoresService";
 import { Jugador } from "../services/service_utils";
 import { TablaJugadores } from '../components/tablaJugadores';
-import { TablaAmarillas } from '../components/tablaAmarillas';
 import { TablaRojas } from '../components/tablaRojas';
 import { TablaPresenciasSinJugar } from '../components/tablaPresenciasSinJugar';
 import { TablaPresenciasTotales } from '../components/tablaPresenciasTotales';
@@ -114,10 +113,11 @@ export function Jugadores() {
         );
       case "amarillas":
         return (
-          <TablaAmarillas
-            jugadores={jugadores}
+          <TablaEstadisticas
+            jugadores={obtenerEstadistica(jugadores, "amarillas")}
             loading={loading}
             pagina={pagina}
+            titulo={"MÁS TARJETAS AMARILLAS"}
             totalPaginas={totalPaginas}
             handleAnterior={handleAnterior}
             handleSiguiente={handleSiguiente}
