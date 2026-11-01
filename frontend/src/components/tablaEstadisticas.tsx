@@ -4,12 +4,6 @@ import '../styles/jugadores.css';
 import { EstadisticaJugador } from "../interfaces/jugadorInterface";
 import CircularProgress from '@mui/material/CircularProgress';
 
-
-//  interface EstadisticaJugador {
-//    nombre: string;
-//    estadistica: number;
-//  }
-
 interface TablaEstadisticasProps {
   jugadores: EstadisticaJugador[];
   loading: boolean;
