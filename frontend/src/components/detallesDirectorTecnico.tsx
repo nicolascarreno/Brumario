@@ -3,31 +3,15 @@ import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from '../services/service_utils';
+import { Jugador } from "../services/service_utils"
 
-interface Jugador {
-  nombre: string;
-  titular: number;
-  suplente: number;
-  goles: number;
-  asistencias: number;
-  amarillas: number;
-  rojas: number;
-  presencias_sin_jugar: number;
-  tipos_gol: TiposGol;
-  tipos_asistencia: TiposAsistencia;
-  tipos_presencias_sin_jugar: TiposPresenciasSinJugar;
-  director_tecnico: DirectorTecnico;
-}
 
 interface DetallesTecnicoProp {
   jugador: Jugador;
   loading: boolean;
 }
 
-export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({
-  jugador,
-  loading,
-}) => {
+export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({ jugador, loading }) => {
   const partidos_dirgidos = jugador.director_tecnico.ganados + 
                             jugador.director_tecnico.empatados +
                             jugador.director_tecnico.perdidos;
