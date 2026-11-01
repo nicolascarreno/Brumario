@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import '../styles/detalles_partido.css'
-import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar, Hitos, Partido } from '../services/service_utils';
+import { Partido } from '../services/service_utils';
 import { formatDateDDMMYYYY } from './partidosTodos';
 import { formaciones } from '../utils/formaciones';
 
