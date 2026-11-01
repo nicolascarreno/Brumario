@@ -2,9 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import '../styles/App.css';
 import '../styles/inicio.css';
-//import escudo from '../../public/brumario_escudo.jpeg';
-//import diego from '../../public/diego.png';
-//import brumario from '../../public/brumario.png';
 
 export function Inicio() {
   const navigate = useNavigate();
