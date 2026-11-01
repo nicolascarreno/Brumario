@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
+import { Jugador } from "../services/service_utils"
 import CircularProgress from '@mui/material/CircularProgress';
 
-interface Jugador {
+/*interface Jugador {
   nombre: string;
-}
+}*/
 
 interface TablaJugadoresProps {
   jugadores: Jugador[];
