@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import { Jugador } from "../services/service_utils"
@@ -10,25 +10,31 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 interface TablaJugadoresProps {
   jugadores: Jugador[];
-  jugadoresMostrados: Jugador[];
   loading: boolean;
-  pagina: number;
-  totalPaginas: number;
-  handleAnterior: () => void;
-  handleSiguiente: () => void;
 }
 
 export const TablaJugadores: React.FC<TablaJugadoresProps> = ({
   jugadores,
-  jugadoresMostrados,
   loading,
-  pagina,
-  totalPaginas,
-  handleAnterior,
-  handleSiguiente
 }) => {
 
-  
+  const [pagina, setPagina] = useState<number>(1);
+  const jugadoresPorPagina = 8;
+  const totalPaginas = Math.ceil(jugadores.length / jugadoresPorPagina);
+
+  const jugadoresMostrados = jugadores.slice(
+    (pagina - 1) * jugadoresPorPagina,
+    pagina * jugadoresPorPagina
+  );
+
+  const handleAnterior = () => {
+    if (pagina > 1) setPagina(pagina - 1);
+  };
+
+  const handleSiguiente = () => {
+    if (pagina < totalPaginas) setPagina(pagina + 1);
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
       {loading ? (

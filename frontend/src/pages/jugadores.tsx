@@ -18,9 +18,7 @@ export function Jugadores() {
   const [jugadores, setJugadores] = useState<Jugador[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [pagina, setPagina] = useState<number>(1);
   const [opcion, setOpcion] = useState("plantilla");
-  const jugadoresPorPagina = 8;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,21 +37,6 @@ export function Jugadores() {
     fetchData();
   }, []);
 
-  const totalPaginas = Math.ceil(jugadores.length / jugadoresPorPagina);
-
-  const jugadoresMostrados = jugadores.slice(
-    (pagina - 1) * jugadoresPorPagina,
-    pagina * jugadoresPorPagina
-  );
-
-  const handleAnterior = () => {
-    if (pagina > 1) setPagina(pagina - 1);
-  };
-
-  const handleSiguiente = () => {
-    if (pagina < totalPaginas) setPagina(pagina + 1);
-  };
-
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -64,12 +47,7 @@ export function Jugadores() {
         return (
           <TablaJugadores
             jugadores={jugadores}
-            jugadoresMostrados={jugadoresMostrados}
             loading={loading}
-            pagina={pagina}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "presencias":
@@ -77,11 +55,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "partidos")}
             loading={loading}
-            pagina={pagina}
             titulo="MAYORES PRESENCIAS"
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "goleadores":
@@ -89,11 +63,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "goles")}
             loading={loading}
-            pagina={pagina}
             titulo={"MÁXIMOS GOLEADORES"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "asistidores":
@@ -101,11 +71,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "asistencias")}
             loading={loading}
-            pagina={pagina}
             titulo={"MÁXIMOS ASISTIDORES"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "amarillas":
@@ -113,11 +79,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "amarillas")}
             loading={loading}
-            pagina={pagina}
             titulo={"MÁS TARJETAS AMARILLAS"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "rojas":
@@ -125,11 +87,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "rojas")}
             loading={loading}
-            pagina={pagina}
-            titulo={"MÁS TARJETAS ROJAS"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}            
+            titulo={"MÁS TARJETAS ROJAS"}   
           />
         );
       case "presencias sin jugar":
@@ -137,11 +95,7 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "presencias_sin_jugar")}
             loading={loading}
-            pagina={pagina}
             titulo={"MÁS PRESENCIAS SIN JUGAR"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       case "presencias totales":
@@ -149,23 +103,14 @@ export function Jugadores() {
           <TablaEstadisticas
             jugadores={obtenerEstadistica(jugadores, "presencias_totales")}
             loading={loading}
-            pagina={pagina}
             titulo={"MAYORES PRESENCIAS TOTALES"}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
       default:
         return (
           <TablaJugadores
             jugadores={jugadores}
-            jugadoresMostrados={jugadoresMostrados}
             loading={loading}
-            pagina={pagina}
-            totalPaginas={totalPaginas}
-            handleAnterior={handleAnterior}
-            handleSiguiente={handleSiguiente}
           />
         );
     }

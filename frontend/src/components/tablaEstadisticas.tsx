@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css';
 import { EstadisticaJugador } from "../interfaces/jugadorInterface";
@@ -7,34 +7,41 @@ import CircularProgress from '@mui/material/CircularProgress';
 interface TablaEstadisticasProps {
   jugadores: EstadisticaJugador[];
   loading: boolean;
-  pagina: number;
-  totalPaginas: number;
   titulo: string;
-  handleAnterior: () => void;
-  handleSiguiente: () => void;
 }
 
 export const TablaEstadisticas: React.FC<TablaEstadisticasProps> = ({
   jugadores,
   loading,
-  pagina,
-  totalPaginas,
   titulo,
-  handleAnterior,
-  handleSiguiente
 }) => {
 
+const [pagina, setPagina] = useState<number>(1);
   const jugadoresOrdenados = React.useMemo(() => {
   return jugadores
     .slice()
     .sort((a, b) => (b.estadistica) - (a.estadistica));
 }, [jugadores]);
 
+useEffect(() => {
+  setPagina(1);
+}, [titulo])
+
 const jugadoresPorPagina = 8;
 const inicio = (pagina - 1) * jugadoresPorPagina;
 const fin = inicio + jugadoresPorPagina;
 
 const jugadoresPaginaActual = jugadoresOrdenados.slice(inicio, fin);
+
+const totalPaginas = Math.ceil(jugadores.length / jugadoresPorPagina);
+
+const handleAnterior = () => {
+  if (pagina > 1) setPagina(pagina - 1);
+};
+
+const handleSiguiente = () => {
+  if (pagina < totalPaginas) setPagina(pagina + 1);
+};
 
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
