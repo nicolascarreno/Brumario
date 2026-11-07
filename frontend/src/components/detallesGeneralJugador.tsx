@@ -6,6 +6,7 @@ import { EstadisticaDetalladaPorAnio } from '../services/service_utils';
 import { Jugador } from "../services/service_utils"
 import { PartidosJugador } from "./estadisticasJugador/partidosJugador" 
 import { GolesJugador } from './estadisticasJugador/golesJugador';
+import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -109,26 +110,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 
   }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
   const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
-  const porcentajeJugada =
-      jugadorVista.goles > 0? 
-        ((jugadorVista.tipos_gol.pie_jugada / jugadorVista.goles)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeCabeza =
-      jugadorVista.goles > 0? 
-        ((jugadorVista.tipos_gol.cabeza / jugadorVista.goles)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeTiroLibre = 
-      jugadorVista.goles > 0? 
-        ((jugadorVista.tipos_gol.tiro_libre / jugadorVista.goles)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajePenal =
-      jugadorVista.goles > 0? 
-        ((jugadorVista.tipos_gol.penal / jugadorVista.goles)).toFixed(2) // 0 decimales
-        : 0;
-  const promedioGol =
-      jugadorVista.goles > 0? 
-        ((jugadorVista.goles / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
   const porcentajeAsistenciaJugada =
       jugadorVista.asistencias > 0? 
         ((jugadorVista.tipos_asistencia.pie_jugada / jugadorVista.asistencias)).toFixed(2) // 0 decimales
@@ -210,28 +191,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
               <div className='contenedor_tipo_estadistica'>
                   <PartidosJugador jugador={jugadorVista} />
                   <GolesJugador jugador={jugadorVista} />
-                <div>
-                    <div className='contenedor_estadistica_segunda_columna'>
-                      <span className='estadistica'>De Pie (jugada) (%)</span>
-                      <span className='estadistica'>{porcentajeJugada}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Cabeza (%)</span>
-                      <span className='estadistica'>{porcentajeCabeza}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Tiro Libre (%)</span>
-                      <span className='estadistica'>{porcentajeTiroLibre}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Penal (%)</span>
-                      <span className='estadistica'>{porcentajePenal}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Goles x Partido</span>
-                      <span className='estadistica_clave'>{promedioGol}</span>
-                  </div>
-                </div>
+                  <GolesPorcentajeJugador jugador={jugadorVista} />
               </div>
               <div className='contenedor_tipo_estadistica'>
                 <div>
