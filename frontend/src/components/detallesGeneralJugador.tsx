@@ -4,6 +4,7 @@ import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import { EstadisticaDetalladaPorAnio } from '../services/service_utils';
 import { Jugador } from "../services/service_utils"
+import { PartidosJugador } from "./estadisticasJugador/partidosJugador" 
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -107,14 +108,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 
   }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
   const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
-  const porcentajeTitular =
-      partidos_jugados > 0? 
-        ((jugadorVista.titular / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeSuplente =
-      partidos_jugados > 0? 
-        ((jugadorVista.suplente / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
   const porcentajeJugada =
       jugadorVista.goles > 0? 
         ((jugadorVista.tipos_gol.pie_jugada / jugadorVista.goles)).toFixed(2) // 0 decimales
@@ -214,40 +207,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   
                 </div>
               <div className='contenedor_tipo_estadistica'>
-                <div style={{paddingBottom: 10}}>
-                  <div className='contenedor_estadistica_nombre'>
-                      <img
-                          src={'/jugador_sin_fondo.png'}
-                          alt="App Logo"
-                          width="30"
-                          height="40"
-                          style={{ marginLeft: 10, marginRight: 5 }}
-                      />
-                      <span className='nombre_estadistica'>
-                          Partidos Jugados
-                      </span>   
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Titular</span>
-                      <span className='estadistica'>{jugadorVista.titular}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Titular (%)</span>
-                      <span className='estadistica'>{porcentajeTitular}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Suplente</span>
-                      <span className='estadistica'>{jugadorVista.suplente}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Suplente (%)</span>
-                      <span className='estadistica'>{porcentajeSuplente}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Partidos Totales</span>
-                      <span className='estadistica_clave'>{jugadorVista.titular + jugadorVista.suplente}</span>
-                  </div>
-                </div>
+                  <PartidosJugador jugador={jugadorVista} />
                   <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/goleadors_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
