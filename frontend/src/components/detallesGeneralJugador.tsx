@@ -10,6 +10,7 @@ import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJug
 import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJugarJugador';
 import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
 import { AsistenciasPorcentajeJugador } from './estadisticasJugador/asistenciasPorcentajeJugador';
+import { AmarillasJugador } from './estadisticasJugador/amarillasJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -113,11 +114,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 
   }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
   const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
-  
-  const promedioAmarillas =
-      jugadorVista.amarillas > 0? 
-        ((jugadorVista.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
   const promedioRojas =
       jugadorVista.rojas > 0? 
         ((jugadorVista.rojas / partidos_jugados)).toFixed(2) // 0 decimales
@@ -179,20 +175,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   <AsistenciasPorcentajeJugador jugador={jugadorVista} />
               </div>
               <div className='contenedor_tipo_estadistica'>
-                <div>
-                  <div className='contenedor_estadistica_nombre'>
-                      <img src={'/amarilla_sin_fondo2.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
-                      <span className='nombre_estadistica'>Amarillas</span>   
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Amarillas x Partido</span>
-                      <span className='estadistica'>{promedioAmarillas}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Amarillas Totales</span>
-                      <span className='estadistica_clave'>{jugadorVista.amarillas}</span>
-                  </div>
-                </div>
+                  <AmarillasJugador jugador={jugadorVista} />
                   <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/roja_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
