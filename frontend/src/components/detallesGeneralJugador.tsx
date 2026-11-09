@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import { Jugador } from "../services/service_utils"
-import { PartidosJugador } from "./estadisticasJugador/partidosJugador" 
-import { GolesJugador } from './estadisticasJugador/golesJugador';
-import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJugador';
-import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJugarJugador';
-import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
-import { AsistenciasPorcentajeJugador } from './estadisticasJugador/asistenciasPorcentajeJugador';
-import { AmarillasJugador } from './estadisticasJugador/amarillasJugador';
-import { RojasJugador } from './estadisticasJugador/rojasJugador';
+import { PartidosJugador } from "./estadisticas/estadisticasJugador/partidosJugador" 
+import { GolesJugador } from './estadisticas/estadisticasJugador/golesJugador';
+import { GolesPorcentajeJugador } from './estadisticas/estadisticasJugador/golesPorcentajeJugador';
+import { PresenciasSinJugarJugador } from './estadisticas/estadisticasJugador/presenciasSinJugarJugador';
+import AsistenciasJugador from './estadisticas/estadisticasJugador/asistenciasJugador';
+import { AsistenciasPorcentajeJugador } from './estadisticas/estadisticasJugador/asistenciasPorcentajeJugador';
+import { AmarillasJugador } from './estadisticas/estadisticasJugador/amarillasJugador';
+import { RojasJugador } from './estadisticas/estadisticasJugador/rojasJugador';
 import { valorPorAnioYTipo } from "../utils/helpers"
 
 interface DetallesGeneralJugadorProp {

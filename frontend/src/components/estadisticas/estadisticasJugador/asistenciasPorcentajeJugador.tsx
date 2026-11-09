@@ -1,5 +1,5 @@
 import React from 'react'
-import { Jugador } from '../../services/service_utils'
+import { Jugador } from '../../../services/service_utils'
 
 interface Props {
     jugador: Jugador

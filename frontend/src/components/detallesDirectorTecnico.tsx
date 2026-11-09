@@ -4,6 +4,7 @@ import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
 import { DirectorTecnico, TiposAsistencia, TiposGol, TiposPresenciasSinJugar } from '../services/service_utils';
 import { Jugador } from "../services/service_utils"
+import { PartidosDirigidosDT } from './estadisticas/estadisticasDirectorTecnico/partidosDirigidosDT';
 
 
 interface DetallesTecnicoProp {
@@ -41,40 +42,7 @@ export const DetallesTecnico: React.FC<DetallesTecnicoProp> = ({ jugador, loadin
             </div>
             <div className='contenedor_estadistica'>
               <div className='contenedor_tipo_estadistica'>
-                <div style={{paddingBottom: 10}}>
-                  <div className='contenedor_estadistica_nombre'>
-                      <img
-                          src={'/dt3_sin_fondo.png'}
-                          alt="App Logo"
-                          width="40"
-                          height="40"
-                          style={{ marginLeft: 10, marginRight: 5 }}
-                      />
-                      <span className='nombre_estadistica'>
-                          Partidos Dirigidos
-                      </span>   
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Ganados</span>
-                      <span className='estadistica'>{jugador.director_tecnico.ganados}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Empatados</span>
-                      <span className='estadistica'>{jugador.director_tecnico.empatados}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Perdidos</span>
-                      <span className='estadistica'>{jugador.director_tecnico.perdidos}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Efectividad (%)</span>
-                      <span className='estadistica'>{Efectividad}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Partidos Totales</span>
-                      <span className='estadistica_clave'>{partidos_dirgidos}</span>
-                  </div>
-                </div>
+                <PartidosDirigidosDT jugador={jugador} />
                 <div className='contenedor_tipo_estadistica2' style={{paddingBottom: 10}}>
                   <div className='contenedor_estadistica_nombre'>
                       <img
