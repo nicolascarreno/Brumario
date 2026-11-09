@@ -9,6 +9,7 @@ import { GolesJugador } from './estadisticasJugador/golesJugador';
 import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJugador';
 import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJugarJugador';
 import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
+import { AsistenciasPorcentajeJugador } from './estadisticasJugador/asistenciasPorcentajeJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -175,7 +176,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
               <div className='contenedor_tipo_estadistica'>
                   <PresenciasSinJugarJugador jugador={jugadorVista} />
                   <AsistenciasJugador jugador={jugadorVista} />
-                
+                  <AsistenciasPorcentajeJugador jugador={jugadorVista} />
               </div>
               <div className='contenedor_tipo_estadistica'>
                 <div>
