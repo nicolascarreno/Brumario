@@ -5,7 +5,7 @@ interface Props {
     jugador: Jugador
 }
 
-const DiferenciaGolDT = ({ jugador }: Props) => {
+export const DiferenciaGolDT = ({ jugador }: Props) => {
 
 
   const partidos_dirgidos = jugador.director_tecnico.ganados + jugador.director_tecnico.empatados + jugador.director_tecnico.perdidos;
@@ -56,5 +56,3 @@ const DiferenciaGolDT = ({ jugador }: Props) => {
     </div>
   )
 }
-
-export default DiferenciaGolDT
