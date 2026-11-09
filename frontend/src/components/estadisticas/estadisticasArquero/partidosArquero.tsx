@@ -14,7 +14,7 @@ const PartidosArquero = ({ jugador }: Props) => {
             : 0;
 
   return (
-    <div style={{paddingBottom: 10}}>
+    <div>
         <div className='contenedor_estadistica_nombre'>
             <img
                 src={'/arquero3_sin_fondo.png'}
