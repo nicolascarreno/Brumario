@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/jugadores.css'
 import '../styles/detalles_jugador.css'
-import { EstadisticaDetalladaPorAnio } from '../services/service_utils';
 import { Jugador } from "../services/service_utils"
 import { PartidosJugador } from "./estadisticasJugador/partidosJugador" 
 import { GolesJugador } from './estadisticasJugador/golesJugador';
@@ -12,6 +11,7 @@ import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
 import { AsistenciasPorcentajeJugador } from './estadisticasJugador/asistenciasPorcentajeJugador';
 import { AmarillasJugador } from './estadisticasJugador/amarillasJugador';
 import { RojasJugador } from './estadisticasJugador/rojasJugador';
+import { valorPorAnioYTipo } from "../utils/helpers"
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -181,26 +181,3 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
   </div>
 );
 };
-
-function valorPorAnioYTipo(
-  total: number,
-  estadistica: EstadisticaDetalladaPorAnio | undefined,
-  anio: number | null,
-  tipo: TipoPartido
-): number {
-  if (!estadistica) return total;
-
-  if (!anio && tipo === "total") {
-    return total;
-  }
-
-  const key = `${tipo}_por_anio` as const;
-  const mapa = estadistica[key];
-
-  if (!anio) {
-    // todos los años pero filtrado por tipo
-    return Object.values(mapa).reduce((acc, v) => acc + v, 0);
-  }
-
-  return mapa[anio] ?? 0;
-}
