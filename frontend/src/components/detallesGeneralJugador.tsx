@@ -7,6 +7,7 @@ import { Jugador } from "../services/service_utils"
 import { PartidosJugador } from "./estadisticasJugador/partidosJugador" 
 import { GolesJugador } from './estadisticasJugador/golesJugador';
 import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJugador';
+import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJugarJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -130,10 +131,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
       jugadorVista.asistencias > 0? 
         ((jugadorVista.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
         : 0;
-  const efectividadPresenciasSinJugar =
-      jugadorVista.presencias_sin_jugar > 0? 
-        (((jugadorVista.tipos_presencias_sin_jugar.empatados + 3*jugadorVista.tipos_presencias_sin_jugar.ganados) / (3*jugadorVista.presencias_sin_jugar))).toFixed(2) // 0 decimales
-        : 0;
   const promedioAmarillas =
       jugadorVista.amarillas > 0? 
         ((jugadorVista.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
@@ -194,40 +191,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
                   <GolesPorcentajeJugador jugador={jugadorVista} />
               </div>
               <div className='contenedor_tipo_estadistica'>
-                <div>
-                  <div className='contenedor_estadistica_nombre'>
-                      <img
-                          src={'/cerveza_sin_fondo.png'}
-                          alt="App Logo"
-                          width="35"
-                          height="35"
-                          style={{ marginLeft: 10, marginRight: 5 }}
-                      />
-                      <span className='nombre_estadistica'>
-                          Presen. Sin Jugar
-                      </span>   
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Ganados</span>
-                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.ganados}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Empatados</span>
-                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.empatados}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Perdidos</span>
-                      <span className='estadistica'>{jugadorVista.tipos_presencias_sin_jugar.perdidos}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Efectividad (%)</span>
-                      <span className='estadistica'>{efectividadPresenciasSinJugar}</span>
-                  </div>
-                  <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Presencias Totales</span>
-                      <span className='estadistica_clave'>{jugadorVista.presencias_sin_jugar}</span>
-                  </div>
-                </div>
+                  <PresenciasSinJugarJugador jugador={jugadorVista} />
                   <div className='contenedor_tipo_estadistica2'>
                     <div className='contenedor_estadistica_nombre'>
                       <img src={'/asistencia6.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
