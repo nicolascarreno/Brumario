@@ -11,6 +11,7 @@ import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJu
 import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
 import { AsistenciasPorcentajeJugador } from './estadisticasJugador/asistenciasPorcentajeJugador';
 import { AmarillasJugador } from './estadisticasJugador/amarillasJugador';
+import { RojasJugador } from './estadisticasJugador/rojasJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -113,11 +114,6 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
     }
 
   }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
-  const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
-  const promedioRojas =
-      jugadorVista.rojas > 0? 
-        ((jugadorVista.rojas / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
 
   return (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
@@ -176,20 +172,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
               </div>
               <div className='contenedor_tipo_estadistica'>
                   <AmarillasJugador jugador={jugadorVista} />
-                  <div className='contenedor_tipo_estadistica2'>
-                    <div className='contenedor_estadistica_nombre'>
-                      <img src={'/roja_sin_fondo.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
-                      <span className='nombre_estadistica'>Rojas</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>Rojas x Partido</span>
-                      <span className='estadistica'>{promedioRojas}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Rojas Totales</span>
-                      <span className='estadistica_clave'>{jugadorVista.rojas}</span>
-                  </div>
-                </div>
+                  <RojasJugador jugador={jugadorVista} />
               </div>
           </div>
         </div>
