@@ -8,6 +8,7 @@ import { PartidosJugador } from "./estadisticasJugador/partidosJugador"
 import { GolesJugador } from './estadisticasJugador/golesJugador';
 import { GolesPorcentajeJugador } from './estadisticasJugador/golesPorcentajeJugador';
 import { PresenciasSinJugarJugador } from './estadisticasJugador/presenciasSinJugarJugador';
+import AsistenciasJugador from './estadisticasJugador/asistenciasJugador';
 
 interface DetallesGeneralJugadorProp {
   jugador: Jugador;
@@ -111,26 +112,7 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
 
   }), [jugador, estadisticas, anioSeleccionado, tipoPartido]);
   const partidos_jugados = jugadorVista.titular + jugadorVista.suplente;
-  const porcentajeAsistenciaJugada =
-      jugadorVista.asistencias > 0? 
-        ((jugadorVista.tipos_asistencia.pie_jugada / jugadorVista.asistencias)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeAsistenciaCabeza =
-      jugadorVista.asistencias > 0? 
-        ((jugadorVista.tipos_asistencia.cabeza / jugadorVista.asistencias)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeAsistenciaTiroLibre = 
-      jugadorVista.asistencias > 0? 
-        ((jugadorVista.tipos_asistencia.tiro_libre / jugadorVista.asistencias)).toFixed(2) // 0 decimales
-        : 0;
-  const porcentajeAsistenciaCorner =
-      jugadorVista.asistencias > 0? 
-        ((jugadorVista.tipos_asistencia.corner / jugadorVista.asistencias)).toFixed(2) // 0 decimales
-        : 0;
-  const promedioAsistencias =
-      jugadorVista.asistencias > 0? 
-        ((jugadorVista.asistencias / partidos_jugados)).toFixed(2) // 0 decimales
-        : 0;
+  
   const promedioAmarillas =
       jugadorVista.amarillas > 0? 
         ((jugadorVista.amarillas / partidos_jugados)).toFixed(2) // 0 decimales
@@ -192,54 +174,8 @@ export const DetallesGeneralJugador: React.FC<DetallesGeneralJugadorProp> = ({
               </div>
               <div className='contenedor_tipo_estadistica'>
                   <PresenciasSinJugarJugador jugador={jugadorVista} />
-                  <div className='contenedor_tipo_estadistica2'>
-                    <div className='contenedor_estadistica_nombre'>
-                      <img src={'/asistencia6.png'} alt="App Logo" width="40" height="40" style={{ marginLeft: 10, marginRight: 5 }}/>
-                      <span className='nombre_estadistica'>Asistencias</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Pie (jugada)</span>
-                      <span className='estadistica'>{jugadorVista.tipos_asistencia.pie_jugada}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Cabeza</span>
-                      <span className='estadistica'>{jugadorVista.tipos_asistencia.cabeza}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Tiro Libre</span>
-                      <span className='estadistica'>{jugadorVista.tipos_asistencia.tiro_libre}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Corner</span>
-                      <span className='estadistica'>{jugadorVista.tipos_asistencia.corner}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Asistencias Totales</span>
-                      <span className='estadistica_clave'>{jugadorVista.asistencias}</span>
-                  </div>
-                </div>
-                <div>
-                    <div className='contenedor_estadistica_segunda_columna'>
-                      <span className='estadistica'>De Pie (jugada) (%)</span>
-                      <span className='estadistica'>{porcentajeAsistenciaJugada}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Cabeza (%)</span>
-                      <span className='estadistica'>{porcentajeAsistenciaCabeza}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Tiro Libre (%)</span>
-                      <span className='estadistica'>{porcentajeAsistenciaTiroLibre}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '5px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica'>De Corner (%)</span>
-                      <span className='estadistica'>{porcentajeAsistenciaCorner}</span>
-                    </div>
-                    <div style={{display: 'flex', paddingLeft: '10px', paddingTop: '20px', paddingBottom: '10px', justifyContent: 'space-between', width: 220, marginLeft: 25}}>
-                      <span className='estadistica_clave'>Asistencias x Partido</span>
-                      <span className='estadistica_clave'>{promedioAsistencias}</span>
-                  </div>
-                </div>
+                  <AsistenciasJugador jugador={jugadorVista} />
+                
               </div>
               <div className='contenedor_tipo_estadistica'>
                 <div>
