@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:pc": "env-cmd -f .env.pc react-scripts start",
-    "start:celu": "env-cmd -f .env.dev_celular react-scripts start",
+    "start:celular": "env-cmd -f .env.celular react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

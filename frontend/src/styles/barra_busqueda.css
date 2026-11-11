@@ -1,4 +1,4 @@
-.contenedor_busqueda{
+.contenedor_busqueda_ancho{
     display: flex;
     flex-direction: column; 
     gap: 10px;
@@ -6,7 +6,7 @@
     margin-top: 40px;
 }
 
-.contenedor_busqueda2{
+.contenedor_busqueda_angosto{
     display: flex;
     flex-direction: column; 
     gap: 10px;
@@ -15,7 +15,7 @@
     margin: 40px auto 0 auto;
 }
 
-.contenedor_jugadores{
+.contenedor_jugadores_ancho{
     border: 2px solid black;
     border-radius: 6px;
     padding: 0px;
@@ -27,7 +27,7 @@
     overflow: hidden;
 }
 
-.contenedor_jugadores2{
+.contenedor_jugadores_angosto{
     border: 2px solid black;
     border-radius: 6px;
     padding: 0px;
@@ -41,7 +41,7 @@
     
 }
 
-.buscar{
+.buscar_ancho{
     font-size: 15px;
     padding: 10px;
     font-weight: bold;
@@ -50,7 +50,7 @@
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.buscar2{
+.buscar_angosto{
     font-size: 15px;
     padding: 10px;
     font-weight: bold;
@@ -78,18 +78,18 @@
 }
 
 @media (min-width: 600px) {
-    .contenedor_busqueda2{
+    .contenedor_busqueda_angosto{
         margin-left: 40px;
     }
 }
 
 /* 🔹 Estilos responsivos para celular */
 @media (max-width: 600px) {
-    .contenedor_busqueda{
+    .contenedor_busqueda_ancho{
         margin-top: 0px;
         margin-bottom: 30px;
     }
-    .contenedor_busqueda2{
+    .contenedor_busqueda_angosto{
         display: flex;
         flex-direction: column; 
         gap: 10px;
@@ -97,7 +97,7 @@
         margin-top: 40px;
     }
 
-    .contenedor_jugadores2{
+    .contenedor_jugadores_angosto{
         border: 2px solid black;
         border-radius: 6px;
         padding: 0px;
@@ -109,7 +109,7 @@
         overflow: hidden;
         width: 275px
     }
-    .buscar2{
+    .buscar_angosto{
         font-size: 15px;
         padding: 10px;
         font-weight: bold;
