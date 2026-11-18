@@ -132,9 +132,8 @@ export function Jugadores() {
       <div className='contenido_jugadores'>
         <BarraOpciones onSelect={setOpcion} />  
         {renderContenido()}
-        <BarraBusqueda jugadores={jugadores} onSelect={(jugador) => navigate(`/jugador/${jugador.nombre}`)}/>
+        <BarraBusqueda width={'ancho'} jugadores={jugadores} onSelect={(jugador) => navigate(`/jugador/${jugador.nombre}`)}/>
       </div>
-
   </div>
   );
 }

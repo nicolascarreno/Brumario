@@ -1,13 +1,15 @@
 import React from "react";
-import { Jugador } from "../services/service_utils";
 import "../styles/barra_busqueda.css"
 
+type Width = "ancho" | "angosto";
+
 interface BarraBusquedaProps {
-  jugadores: Jugador[];
-  onSelect: (jugador: Jugador) => void;
+  jugadores: { nombre: string }[];
+  onSelect: (jugador: { nombre: string }) => void;
+  width: Width;
 }
 
-export function BarraBusqueda({ jugadores, onSelect }: BarraBusquedaProps) {
+export function BarraBusqueda({ jugadores, onSelect, width }: BarraBusquedaProps) {
   const [query, setQuery] = React.useState("");
 
   const jugadoresFiltrados =
@@ -19,17 +21,17 @@ export function BarraBusqueda({ jugadores, onSelect }: BarraBusquedaProps) {
         .slice(0, 6);
 
   return (
-    <div className="contenedor_busqueda">
+    <div className={`contenedor_busqueda_${width}`}>
     <input
       type="text"
       placeholder="Buscar jugador..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
-      className="buscar"
+      className={`buscar_${width}`}
     />
 
       {query.trim() !== "" && (
-        <div className="contenedor_jugadores" >
+        <div className={`contenedor_jugadores_${width}`} >
         <div style={{
             position: 'absolute',
             width: 300,
@@ -44,7 +46,11 @@ export function BarraBusqueda({ jugadores, onSelect }: BarraBusquedaProps) {
           {jugadoresFiltrados.map((j) => (
             <div
               key={j.nombre}
-              onClick={() => onSelect(j)}
+              onClick={() => {
+                onSelect(j);
+                window.scrollTo(0, 0);
+                setQuery("");
+              }}
               className="nombre_jugador"
             >
               {j.nombre}
